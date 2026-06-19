@@ -21,7 +21,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "The chocolate truffle cake for our corporate event was a showstopper. Our clients kept asking where we ordered from. Velvet Crumb never disappoints.",
+      "The chocolate truffle cake for our corporate event was a showstopper. Our clients kept asking where we ordered from. Bakes by Mom never disappoints.",
     author: "Vikram Sharma, CEO",
   },
 ];
@@ -84,6 +84,14 @@ export default function Testimonials() {
             />
           ))}
         </div>
+
+        <a
+          href="/reviews"
+          data-cursor-hover
+          className="inline-block mt-10 text-xs uppercase tracking-[0.2em] text-champagne hover:text-cream transition-colors"
+        >
+          Read all reviews · leave yours →
+        </a>
       </div>
     </section>
   );

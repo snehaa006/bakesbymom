@@ -7,16 +7,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cream: "#F8F4EE",
-        ivory: "#F5F0E8",
-        champagne: "#C9A96E",
-        gold: "#B8935A",
-        beige: "#E8DDD0",
-        cocoa: "#6B4226",
-        choco: "#2C1810",
-        rose: "#D4A5A0",
-        dark: "#16100A",
-        muted: "#8B6E5A",
+        // Logo-derived palette: cream vanilla, caramel tan, milk + dark chocolate
+        cream: "#F3E5CE",
+        ivory: "#EFE0C9",
+        vanilla: "#F3E5CE",
+        beige: "#EAD7B7",
+        champagne: "#C9A074",
+        tan: "#C9A074",
+        gold: "#B07D4E",
+        caramel: "#B07D4E",
+        mocha: "#8A5A33",
+        cocoa: "#6E4B2A",
+        choco: "#3A2418",
+        espresso: "#2A1A12",
+        rose: "#C98A6A",
+        muted: "#9B7B5E",
+        dark: "#1A120B",
       },
       fontFamily: {
         serif: ["Cormorant Garamond", "serif"],

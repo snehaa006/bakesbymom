@@ -3,11 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --champagne: #c9a96e;
-  --gold: #b8935a;
-  --cream: #f8f4ee;
-  --dark: #16100a;
-  --choco: #2c1810;
+  --champagne: #c9a074;
+  --gold: #b07d4e;
+  --cream: #f3e5ce;
+  --dark: #1a120b;
+  --choco: #3a2418;
+  /* logo "instagram ring" gradient — used sparingly as a brand accent */
+  --brand-gradient: linear-gradient(
+    135deg,
+    #feda75 0%,
+    #fa7e1e 25%,
+    #d62976 55%,
+    #962fbf 80%,
+    #4f5bd5 100%
+  );
 }
 
 * {
@@ -133,4 +142,88 @@ body {
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
+}
+
+/* ---- Brand gradient accents (echo of the logo's instagram ring) ---- */
+.brand-gradient {
+  background: var(--brand-gradient);
+}
+.brand-text {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* gradient ring used around the logo mark */
+.brand-ring {
+  background: var(--brand-gradient);
+  padding: 2px;
+  border-radius: 9999px;
+}
+.brand-ring > * {
+  background: var(--dark);
+  border-radius: 9999px;
+}
+
+/* ---- Lightweight ambient backdrop for non-3D pages (fast, no WebGL) ---- */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 75% 15%, rgba(201, 160, 116, 0.16), transparent 70%),
+    radial-gradient(55% 45% at 15% 85%, rgba(138, 90, 51, 0.14), transparent 70%),
+    var(--dark);
+}
+.ambient-bg::before,
+.ambient-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  will-change: transform;
+}
+.ambient-bg::before {
+  width: 38vw;
+  height: 38vw;
+  top: -8vw;
+  right: -6vw;
+  background: radial-gradient(circle, rgba(201, 160, 116, 0.5), transparent 65%);
+  animation: drift1 26s ease-in-out infinite;
+}
+.ambient-bg::after {
+  width: 32vw;
+  height: 32vw;
+  bottom: -10vw;
+  left: -6vw;
+  background: radial-gradient(circle, rgba(110, 75, 42, 0.55), transparent 65%);
+  animation: drift2 32s ease-in-out infinite;
+}
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-4vw, 4vw); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(4vw, -3vw); }
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Respect users who prefer less motion — kills heavy animations everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

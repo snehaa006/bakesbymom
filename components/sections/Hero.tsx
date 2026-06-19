@@ -58,7 +58,7 @@ export default function Hero() {
             <span>Explore Collection</span>
           </a>
           <a
-            href="#order"
+            href="/orders"
             data-cursor-hover
             className="border border-cream/35 text-cream px-9 py-4 text-xs uppercase tracking-[0.18em] hover:bg-cream/8 hover:border-champagne transition-all"
           >
