@@ -34,7 +34,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       }`}
     >
       <div className="font-serif text-3xl text-cream tracking-wide mb-8">
-        Velvet <span className="text-champagne">Crumb</span>
+        Bakes by <span className="text-champagne italic">Mom</span>
       </div>
       <div className="w-48 h-px bg-champagne/20 relative overflow-hidden">
         <div

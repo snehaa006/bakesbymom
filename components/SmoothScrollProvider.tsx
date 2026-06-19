@@ -16,10 +16,15 @@ export default function SmoothScrollProvider({
   const progressRef = useRef({ value: 0 });
 
   useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
     const lenis = new Lenis({
-      duration: 1.2,
+      // Slightly tighter than before — feels responsive without losing the glide.
+      duration: prefersReduced ? 0 : 1.05,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
+      smoothWheel: !prefersReduced,
       wheelMultiplier: 1,
       touchMultiplier: 1.5,
     });
@@ -29,11 +34,27 @@ export default function SmoothScrollProvider({
       ScrollTrigger.update();
     });
 
+    // One cancellable RAF loop that we can pause when the tab is hidden, so the
+    // scroll engine isn't churning in the background and janking on return.
+    let rafId = 0;
+    let running = true;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      if (running) rafId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
+
+    function onVisibility() {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(rafId);
+      } else if (!running) {
+        running = true;
+        rafId = requestAnimationFrame(raf);
+        ScrollTrigger.refresh();
+      }
+    }
+    document.addEventListener("visibilitychange", onVisibility);
 
     ScrollTrigger.defaults({ scroller: document.body });
 
@@ -55,12 +76,16 @@ export default function SmoothScrollProvider({
       },
     });
 
-    ScrollTrigger.addEventListener("refresh", () => lenis.resize());
+    const onRefresh = () => lenis.resize();
+    ScrollTrigger.addEventListener("refresh", onRefresh);
     ScrollTrigger.refresh();
 
     return () => {
+      running = false;
+      cancelAnimationFrame(rafId);
+      document.removeEventListener("visibilitychange", onVisibility);
+      ScrollTrigger.removeEventListener("refresh", onRefresh);
       lenis.destroy();
-      ScrollTrigger.removeEventListener("refresh", () => lenis.resize());
     };
   }, []);
 

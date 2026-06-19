@@ -1,66 +1,58 @@
-# Velvet Crumb — Immersive 3D Bakery Website
+# Bakes by Mom — Immersive 3D Bakery Website
 
-A fully immersive luxury bakery experience built with Next.js 15, React Three Fiber,
-and GSAP. A persistent 3D scene sits behind the entire page; the camera travels
-through it as you scroll, passing a rotating centerpiece cake, floating macarons,
-donuts, cookies, and gift boxes, with bloom/depth-of-field post-processing for a
-premium cinematic look.
+A luxury bakery portfolio + storefront built with Next.js 15, React Three Fiber,
+and GSAP. The home page runs a persistent 3D scene behind the content; the camera
+travels through it as you scroll. Customers can browse portfolio modules, order
+online, and leave reviews — orders and reviews are stored in **Supabase**.
 
 ## Stack
 
-- Next.js 15 (App Router) + TypeScript
+- Next.js 15 (App Router) + React 19 + TypeScript
 - React Three Fiber + drei + postprocessing (Three.js)
-- GSAP + ScrollTrigger (scroll-driven camera waypoints)
-- Lenis (buttery smooth scrolling)
-- Tailwind CSS (UI layer, glassmorphic cards over the 3D scene)
+- GSAP + ScrollTrigger (scroll-driven camera waypoints) + Lenis (smooth scroll)
+- Tailwind CSS (UI layer, glassmorphic cards)
+- Supabase (orders + reviews)
+
+## Pages
+
+- `/` — immersive 3D home (hero, portfolio modules, story, reviews teaser, enquiry).
+- `/orders` — e-commerce-style menu with category filter and an **Order Now** modal
+  that writes to the Supabase `orders` table.
+- `/reviews` — reads reviews from Supabase and lets customers post their own.
+- `/collections/[slug]` — a dedicated portfolio module page per category
+  (wedding-cakes, birthday-cakes, anniversary-cakes, treats). Defined in
+  `lib/products.ts`.
 
 ## Getting Started
 
 ```bash
 npm install
+cp .env.example .env.local   # then fill in your Supabase URL + anon key
 npm run dev
 ```
 
 Open http://localhost:3000.
 
-For production:
+### Supabase setup
 
-```bash
-npm run build
-npm run start
-```
+1. In your Supabase project, open **SQL Editor** and run `supabase/schema.sql`
+   (creates the `orders` and `reviews` tables with Row Level Security).
+2. Set these env vars locally (`.env.local`) **and** in Vercel
+   (Settings → Environment Variables):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-## How the 3D works
+   These are public client keys — safe to expose, protected by RLS.
 
-- `components/three/Scene.tsx` — the persistent `<Canvas>`, lighting rig, fog,
-  and post-processing stack (Bloom, DepthOfField, Vignette).
-- `components/three/CameraRig.tsx` — reads scroll progress (via Lenis, exposed
-  through `lib/scroll-context.tsx`) and smoothly interpolates the camera along
-  waypoints defined in `lib/camera-path.ts`. Mouse position adds a subtle parallax
-  offset on top of the scroll-driven path.
-- `components/three/Cake.tsx` — the procedural hero centerpiece (layered tiers,
-  frosting drips, sugar pearls, candle with flickering flame + point light, flowers).
-- `components/three/FloatingDesserts.tsx` — macarons, donuts, cookies, cherries,
-  and star sprinkles drifting with idle physics, reacting gently to the cursor.
-- `components/three/SetPieces.tsx` — macaron tower, cookie stack, gift boxes
-  placed at different points along the camera path so they reveal as you scroll.
-- `components/three/AmbientParticles.tsx` — soft gold dust filling the air.
+## Editing the catalogue
 
-To add real product photography instead of/alongside the procedural geometry,
-drop `.glb` models in `/public/models` and load them with `useGLTF` from drei
-inside new components following the same pattern as `Cake.tsx`.
+All products and portfolio modules live in `lib/products.ts`. Add a module or a
+product there and it automatically appears on `/orders`, the relevant
+`/collections/[slug]` page, and the home "Collections" grid.
 
-## Editing the camera journey
+## Performance
 
-Open `lib/camera-path.ts` — each waypoint has a scroll `progress` (0–1), a camera
-`position`, a `lookAt` target, and an optional `fov`. Add/move waypoints to match
-your section order; the rig eases between them automatically.
-
-## Notes
-
-- The cursor is fully custom (`components/CustomCursor.tsx`) — hidden on touch
-  devices automatically via a `(hover: none)` media query.
-- All scroll-reveal text/cards use a shared `useReveal` hook
-  (`hooks/useReveal.ts`) — IntersectionObserver-based, no extra dependency.
-- Replace the Google Fonts `<link>` tags in `app/layout.tsx` with self-hosted
-  fonts if you want zero external requests.
+The 3D scene pauses rendering when the tab is hidden, auto-scales resolution on
+weaker machines, and respects `prefers-reduced-motion` (falling back to a static
+gradient). Content pages (orders/reviews/modules) skip WebGL entirely and use a
+lightweight CSS ambient background.

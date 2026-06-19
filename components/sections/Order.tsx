@@ -1,6 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useReveal } from "@/hooks/useReveal";
+import { submitOrder } from "@/lib/supabase";
+import { CONTACT } from "@/lib/products";
 
 export default function Order() {
   const eyebrow = useReveal<HTMLParagraphElement>();
@@ -8,6 +11,38 @@ export default function Order() {
   const sub = useReveal<HTMLParagraphElement>();
   const contact = useReveal<HTMLDivElement>();
   const form = useReveal<HTMLFormElement>();
+
+  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">(
+    "idle"
+  );
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const el = e.currentTarget;
+    const fd = new FormData(el);
+    setStatus("sending");
+    try {
+      await submitOrder({
+        name: String(fd.get("name") || "").trim(),
+        phone: String(fd.get("phone") || "").trim(),
+        email: String(fd.get("email") || "").trim() || null,
+        product: String(fd.get("product") || "") || "Custom enquiry",
+        category: null,
+        occasion: String(fd.get("occasion") || "") || null,
+        event_date: String(fd.get("event_date") || "") || null,
+        servings: String(fd.get("servings") || "") || null,
+        message: String(fd.get("message") || "").trim() || null,
+      });
+      setStatus("done");
+      el.reset();
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+    }
+  }
 
   return (
     <section id="order" className="relative px-6 md:px-16 py-32">
@@ -32,37 +67,39 @@ export default function Order() {
               Contact
             </p>
             <p className="text-sm leading-loose text-cream/55">
-              velvetcrumb@gmail.com
+              {CONTACT.email}
               <br />
-              +91 99999 00000
+              <a href={CONTACT.instagram} className="hover:text-champagne transition-colors">
+                @bakesbymom on Instagram
+              </a>
               <br />
-              Panipat, Haryana
+              {CONTACT.city}
             </p>
           </div>
         </div>
 
         <form
           ref={form}
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="reveal flex flex-col gap-5"
         >
           <div className="grid grid-cols-2 gap-5">
             <Field label="Your Name">
-              <input type="text" placeholder="Full name" className="field-input" />
+              <input name="name" required type="text" placeholder="Full name" className="field-input" />
             </Field>
             <Field label="Phone">
-              <input type="tel" placeholder="+91 00000 00000" className="field-input" />
+              <input name="phone" required type="tel" placeholder="+91 00000 00000" className="field-input" />
             </Field>
           </div>
           <Field label="Email Address">
-            <input type="email" placeholder="your@email.com" className="field-input" />
+            <input name="email" type="email" placeholder="your@email.com" className="field-input" />
           </Field>
           <div className="grid grid-cols-2 gap-5">
             <Field label="Event Date">
-              <input type="date" className="field-input" />
+              <input name="event_date" type="date" className="field-input" />
             </Field>
             <Field label="Occasion">
-              <select className="field-input">
+              <select name="occasion" className="field-input" defaultValue="">
                 <option value="">Select occasion</option>
                 <option>Birthday</option>
                 <option>Wedding</option>
@@ -75,10 +112,11 @@ export default function Order() {
           </div>
           <div className="grid grid-cols-2 gap-5">
             <Field label="Product Type">
-              <select className="field-input">
+              <select name="product" className="field-input" defaultValue="">
                 <option value="">Select product</option>
-                <option>Custom Cake</option>
                 <option>Wedding Cake</option>
+                <option>Birthday Cake</option>
+                <option>Anniversary Cake</option>
                 <option>Cupcakes</option>
                 <option>Brownies</option>
                 <option>Cookies</option>
@@ -86,7 +124,7 @@ export default function Order() {
               </select>
             </Field>
             <Field label="Serves (approx.)">
-              <select className="field-input">
+              <select name="servings" className="field-input" defaultValue="">
                 <option value="">Select size</option>
                 <option>1–10 people</option>
                 <option>10–25 people</option>
@@ -98,29 +136,26 @@ export default function Order() {
           </div>
           <Field label="Design Ideas / Message">
             <textarea
+              name="message"
               placeholder="Describe your vision, favourite flavours, colour palette..."
               className="field-input min-h-[100px] resize-y"
             />
           </Field>
-          <label
-            htmlFor="refImg"
-            data-cursor-hover
-            className="border border-dashed border-champagne/30 hover:border-champagne hover:bg-champagne/5 transition-all p-6 text-center cursor-none block"
-          >
-            <span className="text-[0.7rem] uppercase tracking-[0.2em] text-champagne">
-              Upload Reference Images
-            </span>
-            <input type="file" id="refImg" accept="image/*" multiple className="hidden" />
-            <p className="text-xs text-cream/35 mt-1.5">
-              JPG, PNG, PDF — up to 10MB each
+
+          {status === "error" && <p className="text-xs text-rose">{errorMsg}</p>}
+          {status === "done" && (
+            <p className="text-xs text-champagne">
+              Thank you! Your enquiry has been received — we&rsquo;ll be in touch soon. ✦
             </p>
-          </label>
+          )}
+
           <button
             type="submit"
+            disabled={status === "sending"}
             data-cursor-hover
-            className="btn-shine bg-champagne text-dark py-4 text-xs font-medium uppercase tracking-[0.2em] mt-2"
+            className="btn-shine bg-champagne text-dark py-4 text-xs font-medium uppercase tracking-[0.2em] mt-2 disabled:opacity-60"
           >
-            <span>Send My Enquiry →</span>
+            <span>{status === "sending" ? "Sending…" : "Send My Enquiry →"}</span>
           </button>
         </form>
       </div>
@@ -128,8 +163,8 @@ export default function Order() {
       <style jsx global>{`
         .field-input {
           background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(201, 169, 110, 0.2);
-          color: #f8f4ee;
+          border: 1px solid rgba(201, 160, 116, 0.2);
+          color: #f3e5ce;
           padding: 0.85rem 1rem;
           font-size: 0.88rem;
           font-weight: 300;
@@ -138,11 +173,11 @@ export default function Order() {
           transition: border-color 0.3s ease, background 0.3s ease;
         }
         .field-input:focus {
-          border-color: #c9a96e;
-          background: rgba(201, 169, 110, 0.05);
+          border-color: #c9a074;
+          background: rgba(201, 160, 116, 0.05);
         }
         .field-input option {
-          background: #16100a;
+          background: #1a120b;
         }
       `}</style>
     </section>

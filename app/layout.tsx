@@ -4,9 +4,9 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
-  title: "Velvet Crumb — Artisanal Cakes & Desserts",
+  title: "Bakes by Mom — Artisanal Cakes & Desserts",
   description:
-    "Handcrafted luxury cakes and desserts made with love for every celebration. A fully immersive 3D bakery experience.",
+    "Handcrafted cakes, brownies, cupcakes and cookies made with love for every celebration. Order online from Bakes by Mom.",
 };
 
 export default function RootLayout({
