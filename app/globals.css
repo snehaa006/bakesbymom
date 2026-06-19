@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --champagne: #c9a96e;
+  --gold: #b8935a;
+  --cream: #f8f4ee;
+  --dark: #16100a;
+  --choco: #2c1810;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--dark);
+}
+
+body {
+  background: transparent;
+  color: var(--cream);
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+#scene-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#scroll-content {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: var(--champagne);
+  color: var(--dark);
+}
+
+/* custom cursor */
+#cursor-dot,
+#cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+#cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--champagne);
+  mix-blend-mode: difference;
+  transition: width 0.25s ease, height 0.25s ease;
+}
+#cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(201, 169, 110, 0.6);
+  transition: width 0.35s ease, height 0.35s ease, opacity 0.3s ease;
+}
+
+@media (hover: none) {
+  body {
+    cursor: auto;
+  }
+  #cursor-dot,
+  #cursor-ring {
+    display: none;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mask-text {
+  overflow: hidden;
+  display: block;
+}
+.mask-text > span {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mask-text.visible > span {
+  transform: translateY(0);
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+.btn-shine:hover::before {
+  transform: scaleX(1);
+}
+.btn-shine > span {
+  position: relative;
+  z-index: 1;
+}
+
+.glass {
+  background: rgba(248, 244, 238, 0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
