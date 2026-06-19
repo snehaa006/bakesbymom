@@ -21,7 +21,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "The chocolate truffle cake for our corporate event was a showstopper. Our clients kept asking where we ordered from. Bakes by Mom never disappoints.",
+      "The chocolate truffle cake for our corporate event was a showstopper. Our clients kept asking where we ordered from. Bakesbymom never disappoints.",
     author: "Vikram Sharma, CEO",
   },
 ];

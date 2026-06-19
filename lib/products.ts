@@ -1,4 +1,4 @@
-// Catalogue for Bakes by Mom.
+// Catalogue for Bakesbymom.
 // Each "module" is a portfolio category with its own showcase page at
 // /collections/[slug]. Products are flattened into the /orders catalogue.
 
@@ -253,7 +253,7 @@ export function allProducts(): CatalogueItem[] {
 }
 
 export const CONTACT = {
-  brand: "Bakes by Mom",
+  brand: "Bakesbymom",
   email: "info@khandelwalbusar.com",
   instagram: "https://instagram.com/bakesbymom",
   city: "Panipat, Haryana",

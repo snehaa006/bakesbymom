@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 /**
- * Brand mark for Bakes by Mom — a 4-quadrant cream/chocolate disc inside the
+ * Brand mark for Bakesbymom — a 4-quadrant cream/chocolate disc inside the
  * logo's gradient ring, next to the wordmark.
  */
 export default function Logo({
@@ -19,7 +19,7 @@ export default function Logo({
       href="/"
       data-cursor-hover
       className={`flex items-center gap-3 ${className}`}
-      aria-label="Bakes by Mom — home"
+      aria-label="Bakesbymom — home"
     >
       <span className="brand-ring inline-flex shrink-0">
         <span className={`${disc} block overflow-hidden`}>
@@ -33,7 +33,7 @@ export default function Logo({
         </span>
       </span>
       <span className={`font-serif ${text} tracking-wide text-cream leading-none`}>
-        Bakes by <span className="text-champagne italic">Mom</span>
+        Bakes<span className="text-champagne italic">bymom</span>
       </span>
     </Link>
   );

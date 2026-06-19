@@ -15,9 +15,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const module = getModule(slug);
-  if (!module) return { title: "Not found — Bakes by Mom" };
+  if (!module) return { title: "Not found — Bakesbymom" };
   return {
-    title: `${module.name} — Bakes by Mom`,
+    title: `${module.name} — Bakesbymom`,
     description: module.description,
   };
 }
