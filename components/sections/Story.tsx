@@ -26,7 +26,7 @@ export default function Story() {
         <p ref={p1} className="reveal text-sm leading-relaxed text-cream/55 mb-4">
           What began as weekend experiments in a home kitchen became an
           obsession with perfecting every layer, every swirl, every flavour.
-          Bakes by Mom is the result of thousands of hours of baking,
+          Bakesbymom is the result of thousands of hours of baking,
           tasting, and falling in love with the art of dessert.
         </p>
         <p ref={p2} className="reveal text-sm leading-relaxed text-cream/55 mb-8">

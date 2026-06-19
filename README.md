@@ -1,4 +1,4 @@
-# Bakes by Mom — Immersive 3D Bakery Website
+# Bakesbymom — Immersive 3D Bakery Website
 
 A luxury bakery portfolio + storefront built with Next.js 15, React Three Fiber,
 and GSAP. The home page runs a persistent 3D scene behind the content; the camera

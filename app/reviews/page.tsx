@@ -3,7 +3,7 @@ import SiteShell from "@/components/SiteShell";
 import ReviewsClient from "@/components/ReviewsClient";
 
 export const metadata: Metadata = {
-  title: "Reviews — Bakes by Mom",
+  title: "Reviews — Bakesbymom",
   description:
     "Read what our customers say about their cakes and treats, and leave your own review.",
 };

@@ -4,9 +4,9 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
-  title: "Bakes by Mom — Artisanal Cakes & Desserts",
+  title: "Bakesbymom — Artisanal Cakes & Desserts",
   description:
-    "Handcrafted cakes, brownies, cupcakes and cookies made with love for every celebration. Order online from Bakes by Mom.",
+    "Handcrafted cakes, brownies, cupcakes and cookies made with love for every celebration. Order online from Bakesbymom.",
 };
 
 export default function RootLayout({

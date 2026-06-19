@@ -1,5 +1,5 @@
 -- ============================================================================
--- Bakes by Mom — Supabase schema
+-- Bakesbymom — Supabase schema
 -- Run this once in your Supabase project: SQL Editor → New query → paste → Run.
 -- Safe to re-run (uses IF NOT EXISTS / drops-then-creates policies).
 -- ============================================================================
