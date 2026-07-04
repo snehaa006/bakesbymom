@@ -11,7 +11,7 @@ export interface Product {
   unit: string; // e.g. "per kg", "per dozen", "each"
   serves?: string;
   tags: string[];
-  from: string; // swatch gradient start (logo palette)
+  from: string; // swatch gradient start (raspberry-macaron palette)
   to: string; // swatch gradient end
 }
 
@@ -34,8 +34,8 @@ export const MODULES: Module[] = [
     tagline: "Tiered elegance for the day you'll never forget",
     description:
       "Hand-finished multi-tier cakes designed around your theme, palette and florals. Tasting sessions available before every booking.",
-    accentFrom: "#EAD7B7",
-    accentTo: "#7A5230",
+    accentFrom: "#FBB6CE",
+    accentTo: "#8E0E3D",
     products: [
       {
         slug: "rose-champagne-tier",
@@ -47,8 +47,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "40–60 guests",
         tags: ["Tiered", "Floral", "Signature"],
-        from: "#F3E5CE",
-        to: "#C9A074",
+        from: "#FDE3EC",
+        to: "#FF5C8A",
       },
       {
         slug: "ivory-pearl",
@@ -60,8 +60,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "30–50 guests",
         tags: ["Classic", "Fondant"],
-        from: "#EFE0C9",
-        to: "#B07D4E",
+        from: "#FCEFC7",
+        to: "#EC1E5A",
       },
       {
         slug: "naked-botanical",
@@ -73,8 +73,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "25–40 guests",
         tags: ["Rustic", "Seasonal"],
-        from: "#E8D3AE",
-        to: "#8A5A33",
+        from: "#FDEFC9",
+        to: "#A7C796",
       },
     ],
   },
@@ -85,8 +85,8 @@ export const MODULES: Module[] = [
     tagline: "Themed, custom and unapologetically fun",
     description:
       "From first birthdays to milestone surprises — sculpted, themed and photo-ready cakes in any flavour you love.",
-    accentFrom: "#F3E5CE",
-    accentTo: "#B07D4E",
+    accentFrom: "#FF8FB0",
+    accentTo: "#EC1E5A",
     products: [
       {
         slug: "chocolate-truffle-celebration",
@@ -98,8 +98,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "8–12 guests",
         tags: ["Chocolate", "Bestseller"],
-        from: "#7A5230",
-        to: "#3A2418",
+        from: "#B4123E",
+        to: "#2E0A1C",
       },
       {
         slug: "custom-theme-cake",
@@ -111,8 +111,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "10–15 guests",
         tags: ["Custom", "Fondant"],
-        from: "#C9A074",
-        to: "#6E4B2A",
+        from: "#FF5C8A",
+        to: "#8E0E3D",
       },
       {
         slug: "funfetti-buttercream",
@@ -124,8 +124,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "8–12 guests",
         tags: ["Vanilla", "Kids"],
-        from: "#EFE0C9",
-        to: "#C9A074",
+        from: "#FBB6CE",
+        to: "#FF5C8A",
       },
     ],
   },
@@ -136,8 +136,8 @@ export const MODULES: Module[] = [
     tagline: "Romantic cakes for milestone moments",
     description:
       "Elegant, heartfelt cakes for anniversaries and engagements — refined florals, gold leaf and the flavours you fell in love over.",
-    accentFrom: "#EAD7B7",
-    accentTo: "#8A5A33",
+    accentFrom: "#F78FB3",
+    accentTo: "#B4123E",
     products: [
       {
         slug: "red-velvet-romance",
@@ -149,8 +149,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "8–12 guests",
         tags: ["Red Velvet", "Gold Leaf"],
-        from: "#9B5A4A",
-        to: "#3A2418",
+        from: "#EC1E5A",
+        to: "#7A0E33",
       },
       {
         slug: "floral-two-tier",
@@ -162,8 +162,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "15–25 guests",
         tags: ["Floral", "Tiered"],
-        from: "#E8D3AE",
-        to: "#B07D4E",
+        from: "#F78FB3",
+        to: "#A7C796",
       },
       {
         slug: "coffee-walnut-classic",
@@ -175,8 +175,8 @@ export const MODULES: Module[] = [
         unit: "per kg",
         serves: "8–12 guests",
         tags: ["Coffee", "Classic"],
-        from: "#6E4B2A",
-        to: "#2A1A12",
+        from: "#8E0E3D",
+        to: "#1F0713",
       },
     ],
   },
@@ -187,8 +187,8 @@ export const MODULES: Module[] = [
     tagline: "Everyday indulgence, boxed with love",
     description:
       "The little bakes that make any day better — fudgy brownies, seasonal cupcakes and hand-pressed cookies. Perfect for gifting.",
-    accentFrom: "#C9A074",
-    accentTo: "#3A2418",
+    accentFrom: "#FF5C8A",
+    accentTo: "#7A0E33",
     products: [
       {
         slug: "fudgy-brownie-box",
@@ -200,8 +200,8 @@ export const MODULES: Module[] = [
         unit: "per box of 9",
         serves: "shares 4–6",
         tags: ["Brownies", "Gift"],
-        from: "#5A3A22",
-        to: "#2A1A12",
+        from: "#8E0E3D",
+        to: "#1F0713",
       },
       {
         slug: "seasonal-cupcakes",
@@ -213,8 +213,8 @@ export const MODULES: Module[] = [
         unit: "per half dozen",
         serves: "6 treats",
         tags: ["Cupcakes", "Seasonal"],
-        from: "#EFE0C9",
-        to: "#C9A074",
+        from: "#FF8FB0",
+        to: "#EC1E5A",
       },
       {
         slug: "artisan-cookies",
@@ -226,8 +226,8 @@ export const MODULES: Module[] = [
         unit: "per box of 6",
         serves: "shares 3–4",
         tags: ["Cookies", "Gift"],
-        from: "#C9A074",
-        to: "#6E4B2A",
+        from: "#F7D9A6",
+        to: "#B4123E",
       },
     ],
   },

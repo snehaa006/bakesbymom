@@ -3,19 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --champagne: #c9a074;
-  --gold: #b07d4e;
-  --cream: #f3e5ce;
-  --dark: #1a120b;
-  --choco: #3a2418;
-  /* logo "instagram ring" gradient — used sparingly as a brand accent */
+  --champagne: #ff5c8a; /* hot raspberry pink — primary accent */
+  --gold: #ec1e5a; /* berry red — secondary accent */
+  --cream: #fcefc7; /* butter cream — primary light text */
+  --dark: #1a0710; /* deep berry-plum base */
+  --choco: #2e0a1c; /* dark plum panel */
+  --rose: #f78fb3; /* soft blossom pink */
+  /* raspberry-macaron brand gradient — cream → pink → berry, used as an accent */
   --brand-gradient: linear-gradient(
     135deg,
-    #feda75 0%,
-    #fa7e1e 25%,
-    #d62976 55%,
-    #962fbf 80%,
-    #4f5bd5 100%
+    #fdf3d6 0%,
+    #ff9ebf 22%,
+    #ff3d7f 50%,
+    #ec1e5a 76%,
+    #8e0e3d 100%
   );
 }
 
@@ -74,7 +75,7 @@ body {
 #cursor-ring {
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(201, 169, 110, 0.6);
+  border: 1px solid rgba(255, 92, 138, 0.65);
   transition: width 0.35s ease, height 0.35s ease, opacity 0.3s ease;
 }
 
@@ -134,9 +135,9 @@ body {
 }
 
 .glass {
-  background: rgba(248, 244, 238, 0.06);
+  background: rgba(255, 240, 245, 0.05);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(201, 169, 110, 0.15);
+  border: 1px solid rgba(255, 92, 138, 0.18);
 }
 
 ::-webkit-scrollbar {
@@ -154,6 +155,32 @@ body {
   background-clip: text;
   color: transparent;
 }
+/* animated raspberry shimmer for hero accent words */
+@keyframes text-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.shimmer-text {
+  background: linear-gradient(
+    100deg,
+    #ffb3cd 0%,
+    #ff5c8a 28%,
+    #ec1e5a 50%,
+    #ff5c8a 72%,
+    #ffb3cd 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 6s ease-in-out infinite;
+}
+
 /* gradient ring used around the logo mark */
 .brand-ring {
   background: var(--brand-gradient);
@@ -173,8 +200,9 @@ body {
   pointer-events: none;
   overflow: hidden;
   background:
-    radial-gradient(60% 50% at 75% 15%, rgba(201, 160, 116, 0.16), transparent 70%),
-    radial-gradient(55% 45% at 15% 85%, rgba(138, 90, 51, 0.14), transparent 70%),
+    radial-gradient(60% 50% at 75% 15%, rgba(255, 92, 138, 0.22), transparent 70%),
+    radial-gradient(55% 45% at 15% 85%, rgba(236, 30, 90, 0.18), transparent 70%),
+    radial-gradient(45% 40% at 50% 55%, rgba(247, 143, 179, 0.1), transparent 70%),
     var(--dark);
 }
 .ambient-bg::before,
@@ -191,7 +219,7 @@ body {
   height: 38vw;
   top: -8vw;
   right: -6vw;
-  background: radial-gradient(circle, rgba(201, 160, 116, 0.5), transparent 65%);
+  background: radial-gradient(circle, rgba(255, 92, 138, 0.55), transparent 65%);
   animation: drift1 26s ease-in-out infinite;
 }
 .ambient-bg::after {
@@ -199,7 +227,7 @@ body {
   height: 32vw;
   bottom: -10vw;
   left: -6vw;
-  background: radial-gradient(circle, rgba(110, 75, 42, 0.55), transparent 65%);
+  background: radial-gradient(circle, rgba(236, 30, 90, 0.5), transparent 65%);
   animation: drift2 32s ease-in-out infinite;
 }
 @keyframes drift1 {

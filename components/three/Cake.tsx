@@ -95,10 +95,11 @@ export default function Cake({
     }
   });
 
+  // Pink ombré tiers — deep raspberry base rising to a soft blush top.
   const layers = [
-    { r: 1.8, h: 0.7, y: 0, col: "#F5E6D3" },
-    { r: 1.4, h: 0.7, y: 0.75, col: "#F8EDD8" },
-    { r: 1.0, h: 0.7, y: 1.45, col: "#FDF4E7" },
+    { r: 1.8, h: 0.7, y: 0, col: "#F58BB0" },
+    { r: 1.4, h: 0.7, y: 0.75, col: "#FBB6CE" },
+    { r: 1.0, h: 0.7, y: 1.45, col: "#FDE3EC" },
   ];
 
   return (
@@ -109,7 +110,7 @@ export default function Cake({
             <cylinderGeometry args={[l.r, l.r, l.h, 64]} />
             <meshStandardMaterial color={l.col} roughness={0.5} metalness={0.05} />
           </mesh>
-          <FrostingDrips radius={l.r} y={l.y + l.h / 2 - 0.02} color="#FFFAF2" />
+          <FrostingDrips radius={l.r} y={l.y + l.h / 2 - 0.02} color="#FFF3E0" />
         </group>
       ))}
 
@@ -118,14 +119,14 @@ export default function Cake({
         return (
           <mesh key={i} position={[Math.cos(a) * 0.7, 2.2, Math.sin(a) * 0.7]}>
             <sphereGeometry args={[0.06, 16, 16]} />
-            <meshStandardMaterial color="#C9A96E" roughness={0.2} metalness={0.6} />
+            <meshStandardMaterial color="#FF477E" roughness={0.15} metalness={0.55} />
           </mesh>
         );
       })}
 
       <mesh position={[0, 2.45, 0]}>
         <cylinderGeometry args={[0.04, 0.04, 0.5, 12]} />
-        <meshStandardMaterial color="#E8D4C0" roughness={0.4} />
+        <meshStandardMaterial color="#FFE7EF" roughness={0.4} />
       </mesh>
       <mesh ref={flame} position={[0, 2.78, 0]} scale={[1, 1.8, 1]}>
         <sphereGeometry args={[0.06, 8, 8]} />
@@ -138,9 +139,9 @@ export default function Cake({
       </mesh>
       <pointLight ref={flameLight} position={[0, 2.78, 0]} color="#FF9933" intensity={2} distance={3} />
 
-      <Flower position={[-0.25, 2.12, -0.15]} color="#D4A5A0" />
-      <Flower position={[0.2, 2.12, 0.2]} color="#E8C5B0" />
-      <Flower position={[0, 2.12, 0.3]} color="#C9A0A0" />
+      <Flower position={[-0.25, 2.12, -0.15]} color="#EC1E5A" />
+      <Flower position={[0.2, 2.12, 0.2]} color="#FF5C8A" />
+      <Flower position={[0, 2.12, 0.3]} color="#F78FB3" />
 
       <mesh position={[0, -0.35, 0]} receiveShadow>
         <cylinderGeometry args={[2.2, 2.0, 0.1, 64]} />

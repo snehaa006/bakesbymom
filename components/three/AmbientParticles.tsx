@@ -30,10 +30,10 @@ export default function AmbientParticles({ count = 300, spread = 20 }) {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        color="#C9A96E"
+        color="#FF8FB0"
         size={0.035}
         transparent
-        opacity={0.55}
+        opacity={0.6}
         sizeAttenuation
       />
     </points>

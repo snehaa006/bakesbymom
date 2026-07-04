@@ -7,8 +7,8 @@ const ITEMS = [
   { title: "Dark Chocolate Truffles", h: "h-96", from: "from-cocoa/40", to: "to-dark/70" },
   { title: "Champagne Cupcakes", h: "h-64", from: "from-champagne/30", to: "to-choco/60" },
   { title: "Wedding Tier Cake", h: "h-[22rem]", from: "from-beige/30", to: "to-dark/70" },
-  { title: "Matcha Brownies", h: "h-80", from: "from-[#4A7060]/30", to: "to-dark/70" },
-  { title: "Berry Tart Collection", h: "h-[24rem]", from: "from-[#8B2050]/30", to: "to-choco/70" },
+  { title: "Matcha Brownies", h: "h-80", from: "from-[#6FA06B]/35", to: "to-dark/70" },
+  { title: "Berry Tart Collection", h: "h-[24rem]", from: "from-[#EC1E5A]/35", to: "to-choco/70" },
   { title: "Caramel Cookies", h: "h-60", from: "from-gold/30", to: "to-dark/70" },
   { title: "Floral Fondant Cake", h: "h-[26rem]", from: "from-rose/30", to: "to-choco/70" },
 ];

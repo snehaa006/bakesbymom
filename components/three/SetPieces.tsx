@@ -11,7 +11,7 @@ export function CookieStack({ position }: { position: [number, number, number] }
       group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.15;
     }
   });
-  const colors = ["#C4843A", "#B8762E", "#CC9040"];
+  const colors = ["#F58BB0", "#FF5C8A", "#FBB6CE"];
   return (
     <group ref={group} position={position}>
       {colors.map((c, i) => (
@@ -26,7 +26,7 @@ export function CookieStack({ position }: { position: [number, number, number] }
 
 export function MacaronTower({ position }: { position: [number, number, number] }) {
   const group = useRef<THREE.Group>(null);
-  const colors = ["#D4A5A0", "#C9A96E", "#E8C5B0", "#8BAA7A", "#F5D5C0"];
+  const colors = ["#EC1E5A", "#FF5C8A", "#F78FB3", "#A7C796", "#FDEFC9"];
   useFrame((state) => {
     if (group.current) {
       group.current.rotation.y = state.clock.elapsedTime * 0.08;
@@ -69,19 +69,19 @@ export function GiftBox({ position }: { position: [number, number, number] }) {
     <group ref={group} position={position}>
       <mesh castShadow receiveShadow>
         <boxGeometry args={[0.9, 0.5, 0.9]} />
-        <meshStandardMaterial color="#2C1810" roughness={0.6} />
+        <meshStandardMaterial color="#7A0E33" roughness={0.6} />
       </mesh>
       <mesh position={[0, 0.27, 0]}>
         <boxGeometry args={[1, 0.08, 1]} />
-        <meshStandardMaterial color="#3D2218" roughness={0.6} />
+        <meshStandardMaterial color="#8E0E3D" roughness={0.6} />
       </mesh>
       <mesh position={[0, 0.05, 0.46]}>
         <boxGeometry args={[0.06, 0.5, 0.02]} />
-        <meshStandardMaterial color="#C9A96E" roughness={0.3} metalness={0.4} />
+        <meshStandardMaterial color="#FDEFC9" roughness={0.3} metalness={0.4} />
       </mesh>
       <mesh position={[0, 0.32, 0.05]}>
         <sphereGeometry args={[0.08, 12, 12]} />
-        <meshStandardMaterial color="#C9A96E" roughness={0.3} metalness={0.4} />
+        <meshStandardMaterial color="#FDEFC9" roughness={0.3} metalness={0.4} />
       </mesh>
     </group>
   );

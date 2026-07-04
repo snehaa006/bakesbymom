@@ -39,18 +39,19 @@ export default function Scene({
       }}
       camera={{ position: [2.2, 1.6, 7.5], fov: 45, near: 0.1, far: 100 }}
     >
-      <color attach="background" args={["#1A120B"]} />
-      <fog attach="fog" args={["#1A120B", 8, 22]} />
+      <color attach="background" args={["#1A0710"]} />
+      <fog attach="fog" args={["#1A0710", 8, 22]} />
 
       <PerformanceMonitor
         onDecline={() => setDpr(1)}
         onIncline={() => setDpr(1.5)}
       />
 
-      <ambientLight intensity={0.6} color="#F3E5CE" />
-      <directionalLight position={[3, 6, 4]} intensity={2.1} color="#FFE4B5" />
-      <pointLight position={[-4, 3, 2]} intensity={1.3} color="#C9A074" distance={15} />
-      <pointLight position={[0, 4, -4]} intensity={0.9} color="#C98A6A" distance={10} />
+      <ambientLight intensity={0.65} color="#FDE9F0" />
+      <directionalLight position={[3, 6, 4]} intensity={2.2} color="#FFE7EF" />
+      <pointLight position={[-4, 3, 2]} intensity={1.6} color="#FF5C8A" distance={15} />
+      <pointLight position={[0, 4, -4]} intensity={1.1} color="#EC1E5A" distance={10} />
+      <pointLight position={[4, -1, 3]} intensity={0.8} color="#F78FB3" distance={12} />
 
       <Suspense fallback={null}>
         <CameraRig />
@@ -71,12 +72,12 @@ export default function Scene({
       {/* Lighter composer: bloom glow + vignette only, no MSAA, no depth-of-field. */}
       <EffectComposer multisampling={0} enableNormalPass={false}>
         <Bloom
-          intensity={0.4}
-          luminanceThreshold={0.7}
-          luminanceSmoothing={0.3}
+          intensity={0.55}
+          luminanceThreshold={0.6}
+          luminanceSmoothing={0.35}
           mipmapBlur
         />
-        <Vignette eskil={false} offset={0.18} darkness={0.62} />
+        <Vignette eskil={false} offset={0.2} darkness={0.6} />
       </EffectComposer>
 
       <AdaptiveDpr pixelated />

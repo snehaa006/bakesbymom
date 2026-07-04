@@ -106,7 +106,9 @@ function FloaterMesh({ type, color }: { type: FloaterType; color: string }) {
   }
 }
 
-const PALETTE = ["#F5D5C0", "#E8A87C", "#C9A96E", "#D4A5A0", "#F8EDD8", "#E8C5B0", "#8BAA7A"];
+// Raspberry-macaron palette: hot pink, blush, butter cream, berry red, deep
+// raspberry + a pistachio-green pop (echoing the poster's floating macaron).
+const PALETTE = ["#FF5C8A", "#FF8FB0", "#FDEFC9", "#EC1E5A", "#F78FB3", "#B4123E", "#A7C796"];
 
 function makeFloaters(count: number, spread: number, seedOffset = 0): FloaterDef[] {
   const types: FloaterType[] = ["macaron", "donut", "cookie", "cherry", "star"];

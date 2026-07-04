@@ -37,7 +37,7 @@ export default function Hero() {
         >
           Crafting Sweet
           <br />
-          <em className="italic text-champagne">Moments,</em>
+          <em className="italic shimmer-text">Moments,</em>
           <br />
           One Dessert
         </h1>

@@ -197,8 +197,8 @@ export default function ReviewsClient() {
       <style jsx global>{`
         .rv-input {
           background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(201, 160, 116, 0.25);
-          color: #f3e5ce;
+          border: 1px solid rgba(255, 92, 138, 0.28);
+          color: #fcefc7;
           padding: 0.8rem 1rem;
           font-size: 0.88rem;
           font-weight: 300;
@@ -207,11 +207,11 @@ export default function ReviewsClient() {
           transition: border-color 0.3s ease, background 0.3s ease;
         }
         .rv-input:focus {
-          border-color: #c9a074;
-          background: rgba(201, 160, 116, 0.06);
+          border-color: #ff5c8a;
+          background: rgba(255, 92, 138, 0.07);
         }
         .rv-input option {
-          background: #1a120b;
+          background: #1a0710;
         }
       `}</style>
     </section>

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 /**
- * Brand mark for Bakesbymom — a 4-quadrant cream/chocolate disc inside the
- * logo's gradient ring, next to the wordmark.
+ * Brand mark for Bakesbymom — a 4-quadrant cream/berry/pink/plum disc inside
+ * the logo's gradient ring, next to the wordmark.
  */
 export default function Logo({
   size = "md",
@@ -27,7 +27,7 @@ export default function Logo({
             className="block h-full w-full"
             style={{
               background:
-                "conic-gradient(#F3E5CE 0deg 90deg, #6E4B2A 90deg 180deg, #C9A074 180deg 270deg, #3A2418 270deg 360deg)",
+                "conic-gradient(#FDEFC9 0deg 90deg, #8E0E3D 90deg 180deg, #FF5C8A 180deg 270deg, #2E0A1C 270deg 360deg)",
             }}
           />
         </span>
