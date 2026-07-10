@@ -11,7 +11,7 @@ export const Nav = forwardRef<HTMLElement>((_props, ref) => {
     <nav ref={ref} className="nav">
       <div className="nav__inner">
         <a href="#top" className="nav__logo">
-          Maison Levain
+          Bakesbymom
         </a>
         <ul className="nav__links">
           {LINKS.map((link) => (

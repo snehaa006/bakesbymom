@@ -39,7 +39,7 @@ export function Visit() {
 
       <p className="visit__tagline">Baked Fresh Every Morning • Crafted With Love</p>
 
-      <p className="visit__footer">© 2026 Maison Levain · Bakesbymom · Panipat, Haryana</p>
+      <p className="visit__footer">© 2026 Bakesbymom · Panipat, Haryana</p>
     </section>
   );
 }

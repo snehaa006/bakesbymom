@@ -1,13 +1,17 @@
 import { useRef } from "react";
 import { Reveal } from "./Reveal";
-import { useArchPointerParallax, useNoteParallax } from "../hooks/useScrollEffects";
+import { Hearth } from "./Hearth";
+import { useNoteParallax } from "../hooks/useScrollEffects";
+import { useSceneTilt } from "../hooks/useTilt";
 
 export function Hero() {
-  const archRef = useRef<HTMLDivElement>(null);
+  const mixerRef = useRef<HTMLDivElement>(null);
+  const ovenRef = useRef<HTMLDivElement>(null);
   const noteRef = useRef<HTMLDivElement>(null);
 
-  useArchPointerParallax(archRef);
-  useNoteParallax(noteRef, 0.14, "rotate(2deg)");
+  useSceneTilt(mixerRef, 6, 10);
+  useSceneTilt(ovenRef, 7, 12);
+  useNoteParallax(noteRef, 0.1, "rotate(2.5deg)");
 
   return (
     <section className="hero">
@@ -23,19 +27,42 @@ export function Hero() {
         </p>
       </Reveal>
 
-      <div className="hero__oven-wrap">
-        <div className="oven">
-          <div className="oven__vent oven__vent--left" />
-          <div className="oven__vent oven__vent--right" />
-          <div className="oven__heat-wash" />
-          <div ref={archRef} className="oven__arch">
-            <div className="oven__arch-inner" />
-            <div className="oven__ember" />
-            <div className="oven__ember oven__ember--small" />
+      <div className="kitchen">
+        {/* LEFT — stand mixer folding the dough */}
+        <div className="scene scene--mixer">
+          <div className="scene__pedestal" />
+          <div className="scene__float">
+            <div ref={mixerRef} className="mixer">
+              <div className="mixer__drop mixer__drop--1" />
+              <div className="mixer__drop mixer__drop--2" />
+              <div className="mixer__drop mixer__drop--3" />
+              <div className="mixer__column" />
+              <div className="mixer__head">
+                <div className="mixer__dial" />
+                <div className="mixer__badge" />
+              </div>
+              <div className="mixer__beater">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="mixer__bowl">
+                <div className="mixer__batter" />
+                <div className="mixer__bowl-shine" />
+              </div>
+              <div className="mixer__foot" />
+            </div>
           </div>
-          <div className="oven__base" />
-          <div className="oven__steam oven__steam--left" />
-          <div className="oven__steam oven__steam--right" />
+          <p className="scene__label">Butter, sugar &amp; flour, folded to silk</p>
+        </div>
+
+        {/* RIGHT — wood-fired hearth */}
+        <div className="scene scene--hearth">
+          <div className="scene__pedestal" />
+          <div className="scene__float scene__float--slow">
+            <Hearth ref={ovenRef} />
+          </div>
+          <p className="scene__label">Into the wood-fired hearth</p>
         </div>
 
         <div ref={noteRef} className="note-card">
