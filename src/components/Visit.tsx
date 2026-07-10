@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
 import { BagIcon, CupIcon, FlowerIcon, LoafIcon, PinIcon } from "./icons";
 
@@ -27,10 +28,10 @@ export function Visit() {
       </Reveal>
 
       <Reveal className="visit__actions">
-        <a href="#breads" className="btn btn--filled">
+        <Link to="/catalog" className="btn btn--filled">
           <BagIcon />
-          Explore the menu
-        </a>
+          Explore the catalog
+        </Link>
         <a href="#top" className="btn btn--outline">
           <PinIcon />
           Visit at sunrise
@@ -39,7 +40,12 @@ export function Visit() {
 
       <p className="visit__tagline">Baked Fresh Every Morning • Crafted With Love</p>
 
-      <p className="visit__footer">© 2026 Bakesbymom · Panipat, Haryana</p>
+      <div className="visit__footer">
+        <p className="visit__copyright">© 2026 Bakesbymom · Panipat, Haryana</p>
+        <Link to="/admin" className="visit__admin-link">
+          Admin
+        </Link>
+      </div>
     </section>
   );
 }

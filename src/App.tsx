@@ -1,35 +1,30 @@
-import { useRef } from "react";
-import { FlourLayer } from "./components/FlourLayer";
-import { Seal } from "./components/Seal";
-import { Nav } from "./components/Nav";
-import { Hero } from "./components/Hero";
-import { Ritual } from "./components/Ritual";
-import { Breads } from "./components/Breads";
-import { Timeline } from "./components/Timeline";
-import { Visit } from "./components/Visit";
-import { useNavAndSealScroll } from "./hooks/useScrollEffects";
+import { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { Landing } from "./Landing";
+import { Catalog } from "./components/Catalog";
+import { CakeDetail } from "./components/CakeDetail";
+import { AdminPanel } from "./components/admin/AdminPanel";
+
+// Start each route at the top of the page instead of keeping the old scroll.
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 function App() {
-  const navRef = useRef<HTMLElement>(null);
-  const sealRef = useRef<HTMLDivElement>(null);
-
-  useNavAndSealScroll(navRef, sealRef);
-
   return (
-    <div className="page">
-      <FlourLayer />
-      <div className="ambient-glow" />
-      <Seal ref={sealRef} />
-      <Nav ref={navRef} />
-
-      <main id="top">
-        <Hero />
-        <Ritual />
-        <Breads />
-        <Timeline />
-        <Visit />
-      </main>
-    </div>
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/catalog/:cakeId" element={<CakeDetail />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </>
   );
 }
 
