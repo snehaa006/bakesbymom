@@ -1,0 +1,1269 @@
+/* ============================================================================
+   3D scenes — hand-built with CSS perspective / preserve-3d.
+   Geometry is expressed in a single fluid unit (--u) so every prop scales
+   together across breakpoints.
+   ============================================================================ */
+
+/* ------------------------------- scene keyframes ------------------------------- */
+
+@keyframes sceneBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes beaterSpin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes batterSwirl {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.94);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes dropFall {
+  0% {
+    transform: translate3d(0, calc(var(--u) * -6), var(--dz, 0)) scale(0.6);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  55% {
+    transform: translate3d(0, calc(var(--u) * 3.4), var(--dz, 0)) scale(1);
+    opacity: 1;
+  }
+  70%,
+  100% {
+    transform: translate3d(0, calc(var(--u) * 3.8), var(--dz, 0)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes headKnead {
+  0%,
+  100% {
+    transform: translateZ(var(--tz, 0)) rotate(0deg);
+  }
+  50% {
+    transform: translateZ(var(--tz, 0)) rotate(-1.4deg);
+  }
+}
+
+@keyframes flameFlicker {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: translateX(-50%) scaleY(1) scaleX(1);
+  }
+  35% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1.12) scaleX(0.94);
+  }
+  70% {
+    opacity: 0.72;
+    transform: translateX(-50%) scaleY(0.92) scaleX(1.06);
+  }
+}
+
+@keyframes smokeRise {
+  0% {
+    transform: translate(-50%, 0) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, calc(var(--u) * -7)) scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes heatWaver {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateX(-50%) scaleY(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(-50%) scaleY(1.15);
+  }
+}
+
+@keyframes bakeBreathe {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-6%) scale(1.04);
+  }
+}
+
+/* ------------------------------- kitchen layout ------------------------------- */
+
+.kitchen {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, 100%);
+  margin: clamp(6px, 3vw, 40px) auto 0;
+  padding: 30px 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(20px, 8vw, 130px);
+  perspective: 1500px;
+  perspective-origin: 50% 42%;
+}
+
+.scene {
+  --u: clamp(6.5px, 1.2vw, 15px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+.scene__pedestal {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 3.4);
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 2.2);
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(60, 24, 16, 0.4), transparent 68%);
+  filter: blur(6px);
+  z-index: 0;
+}
+
+.scene__float {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: sceneBob 6.5s ease-in-out infinite;
+}
+
+.scene__float--slow {
+  animation-duration: 7.8s;
+  animation-delay: -1.6s;
+}
+
+.scene__label {
+  margin-top: calc(var(--u) * 1.6);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: #8a2140;
+  text-align: center;
+  max-width: 15em;
+  font-weight: 500;
+}
+
+/* =============================================================================
+   STAND MIXER — folds the dough
+   ============================================================================= */
+
+.mixer {
+  position: relative;
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 19);
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease-out;
+}
+
+.mixer__foot {
+  position: absolute;
+  left: calc(var(--u) * 0.6);
+  bottom: 0;
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 3.2);
+  transform: translateZ(calc(var(--u) * 0.4));
+  border-radius: calc(var(--u) * 1.4) calc(var(--u) * 1.4) calc(var(--u) * 2.2) calc(var(--u) * 2.2);
+  background: linear-gradient(165deg, #d4506e 0%, #b0284a 55%, #7f1234 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * 0.3) calc(var(--u) * 0.5) rgba(255, 210, 220, 0.4),
+    inset 0 calc(var(--u) * -0.4) calc(var(--u) * 0.6) rgba(70, 10, 25, 0.5),
+    0 calc(var(--u) * 0.8) calc(var(--u) * 1.4) rgba(80, 12, 30, 0.35);
+}
+
+.mixer__column {
+  position: absolute;
+  left: calc(var(--u) * 1);
+  bottom: calc(var(--u) * 2.4);
+  width: calc(var(--u) * 3.4);
+  height: calc(var(--u) * 12);
+  transform: translateZ(calc(var(--u) * -0.6));
+  border-radius: calc(var(--u) * 1.6);
+  background: linear-gradient(100deg, #b02a4c 0%, #922040 60%, #6f1030 100%);
+  box-shadow: inset 0 0 calc(var(--u) * 0.8) rgba(60, 8, 24, 0.5);
+}
+
+.mixer__head {
+  position: absolute;
+  left: calc(var(--u) * 0.8);
+  top: calc(var(--u) * 0.4);
+  width: calc(var(--u) * 12.6);
+  height: calc(var(--u) * 4.8);
+  --tz: calc(var(--u) * 0.2);
+  transform: translateZ(var(--tz));
+  transform-origin: calc(var(--u) * 2.4) 60%;
+  border-radius: calc(var(--u) * 2.4) calc(var(--u) * 2.6) calc(var(--u) * 1.4) calc(var(--u) * 2.4);
+  background: linear-gradient(160deg, #e46b86 0%, #c53a5c 42%, #9a1c40 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * 0.5) calc(var(--u) * 0.7) rgba(255, 214, 224, 0.55),
+    inset 0 calc(var(--u) * -0.5) calc(var(--u) * 0.8) rgba(70, 10, 28, 0.5),
+    0 calc(var(--u) * 0.9) calc(var(--u) * 1.6) rgba(80, 12, 30, 0.3);
+  animation: headKnead 0.9s ease-in-out infinite;
+}
+
+.mixer__dial {
+  position: absolute;
+  right: calc(var(--u) * 0.9);
+  top: 50%;
+  width: calc(var(--u) * 1.5);
+  height: calc(var(--u) * 1.5);
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #ffe6c0 0%, #d79a5a 55%, #8a4f24 100%);
+  box-shadow: 0 calc(var(--u) * 0.2) calc(var(--u) * 0.4) rgba(50, 12, 20, 0.5);
+}
+
+.mixer__badge {
+  position: absolute;
+  left: calc(var(--u) * 1.4);
+  top: 50%;
+  width: calc(var(--u) * 2.4);
+  height: calc(var(--u) * 1);
+  transform: translateY(-50%);
+  border-radius: calc(var(--u) * 0.6);
+  background: linear-gradient(90deg, rgba(255, 228, 200, 0.9), rgba(255, 210, 175, 0.4));
+  opacity: 0.85;
+}
+
+.mixer__beater {
+  position: absolute;
+  left: calc(var(--u) * 8.4);
+  top: calc(var(--u) * 4.6);
+  width: calc(var(--u) * 2.6);
+  height: calc(var(--u) * 6.6);
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--u) * 1.4));
+  animation: beaterSpin 1.1s linear infinite;
+}
+
+.mixer__beater::before {
+  /* shaft */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: calc(var(--u) * 0.7);
+  height: calc(var(--u) * 2);
+  transform: translateX(-50%);
+  border-radius: calc(var(--u) * 0.4);
+  background: linear-gradient(180deg, #cfc8bd, #8f887d);
+}
+
+.mixer__beater span {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: calc(var(--u) * 2.4);
+  height: calc(var(--u) * 3.8);
+  transform: translateX(-50%);
+  border: calc(var(--u) * 0.3) solid transparent;
+  border-top: none;
+  border-radius: 0 0 50% 50%;
+  border-bottom-color: #c8c1b6;
+  border-left-color: #b3aca1;
+  border-right-color: #b3aca1;
+}
+
+.mixer__beater span:nth-child(2) {
+  transform: translateX(-50%) rotateY(60deg);
+}
+
+.mixer__beater span:nth-child(3) {
+  transform: translateX(-50%) rotateY(120deg);
+}
+
+.mixer__bowl {
+  position: absolute;
+  left: calc(var(--u) * 4.4);
+  bottom: calc(var(--u) * 1.6);
+  width: calc(var(--u) * 9.2);
+  height: calc(var(--u) * 6.6);
+  transform: translateZ(calc(var(--u) * 2));
+  border-radius: calc(var(--u) * 2.6) calc(var(--u) * 2.6) calc(var(--u) * 4.8) calc(var(--u) * 4.8);
+  overflow: hidden;
+  background: linear-gradient(
+    102deg,
+    #e7e1d8 0%,
+    #cdc6bc 26%,
+    #a59d92 50%,
+    #ddd6cc 66%,
+    #ada596 84%,
+    #8f8880 100%
+  );
+  box-shadow:
+    inset 0 calc(var(--u) * -0.8) calc(var(--u) * 1.4) rgba(50, 40, 34, 0.4),
+    0 calc(var(--u) * 1) calc(var(--u) * 1.8) rgba(70, 40, 30, 0.35);
+}
+
+.mixer__batter {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 0.35);
+  width: calc(var(--u) * 8.4);
+  height: calc(var(--u) * 2.8);
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #f7e2b6 0%, #e8c489 45%, #cf9f59 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * 0.4) calc(var(--u) * 0.6) rgba(255, 246, 220, 0.6),
+    0 calc(var(--u) * 0.3) calc(var(--u) * 0.5) rgba(90, 60, 30, 0.35);
+  animation: batterSwirl 3.4s linear infinite;
+}
+
+.mixer__batter::after {
+  /* swirl streak so the rotation reads */
+  content: "";
+  position: absolute;
+  inset: 22% 18%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(180, 130, 60, 0.5), transparent 40%, rgba(255, 245, 220, 0.6) 70%, transparent);
+  opacity: 0.7;
+}
+
+.mixer__bowl-shine {
+  position: absolute;
+  left: 12%;
+  top: 6%;
+  width: 22%;
+  height: 82%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.mixer__drop {
+  position: absolute;
+  left: calc(var(--u) * 8.4);
+  top: calc(var(--u) * 5);
+  --dz: calc(var(--u) * 2);
+  border-radius: 50%;
+  animation: dropFall 2.4s ease-in infinite;
+}
+
+.mixer__drop--1 {
+  width: calc(var(--u) * 0.9);
+  height: calc(var(--u) * 0.9);
+  background: radial-gradient(circle at 35% 30%, #7a4a2a, #3c2213);
+  animation-delay: 0s;
+}
+
+.mixer__drop--2 {
+  left: calc(var(--u) * 7);
+  width: calc(var(--u) * 1);
+  height: calc(var(--u) * 1);
+  border-radius: calc(var(--u) * 0.2);
+  background: linear-gradient(150deg, #ffe9a8, #e7bf62);
+  animation-delay: 0.8s;
+}
+
+.mixer__drop--3 {
+  left: calc(var(--u) * 9.6);
+  width: calc(var(--u) * 1.2);
+  height: calc(var(--u) * 1.2);
+  background: radial-gradient(circle, rgba(255, 252, 244, 0.95), rgba(255, 250, 238, 0.1));
+  filter: blur(1px);
+  animation-delay: 1.5s;
+}
+
+/* =============================================================================
+   WOOD-FIRED HEARTH — bakes the loaf
+   ============================================================================= */
+
+.hearth {
+  position: relative;
+  width: calc(var(--u) * 18);
+  height: calc(var(--u) * 19);
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease-out;
+}
+
+.hearth__stand {
+  position: absolute;
+  left: calc(var(--u) * 1.5);
+  bottom: 0;
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 3.4);
+  transform: translateZ(calc(var(--u) * 0.6));
+  border-radius: calc(var(--u) * 1) calc(var(--u) * 1) calc(var(--u) * 1.4) calc(var(--u) * 1.4);
+  background: linear-gradient(180deg, #6b4030 0%, #4a2718 60%, #35190f 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * 0.4) calc(var(--u) * 0.4) rgba(180, 120, 80, 0.35),
+    0 calc(var(--u) * 1) calc(var(--u) * 1.6) rgba(40, 16, 10, 0.4);
+}
+
+.hearth__dome {
+  position: absolute;
+  left: calc(var(--u) * 1);
+  bottom: calc(var(--u) * 2.6);
+  width: calc(var(--u) * 16);
+  height: calc(var(--u) * 13);
+  transform-style: preserve-3d;
+  border-radius: calc(var(--u) * 8) calc(var(--u) * 8) calc(var(--u) * 1.6) calc(var(--u) * 1.6);
+  background:
+    repeating-linear-gradient(
+      118deg,
+      rgba(30, 14, 8, 0) 0,
+      rgba(30, 14, 8, 0) calc(var(--u) * 1.7),
+      rgba(30, 14, 8, 0.22) calc(var(--u) * 1.7),
+      rgba(30, 14, 8, 0.22) calc(var(--u) * 1.85)
+    ),
+    radial-gradient(64% 66% at 36% 26%, #895230 0%, #653420 40%, #3f2015 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * 0.6) calc(var(--u) * 1.2) rgba(210, 150, 100, 0.35),
+    inset 0 calc(var(--u) * -1) calc(var(--u) * 1.6) rgba(30, 12, 8, 0.6),
+    0 calc(var(--u) * 1.4) calc(var(--u) * 2.4) rgba(40, 16, 10, 0.4);
+}
+
+.hearth__dome-light {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(40% 34% at 32% 22%, rgba(255, 224, 180, 0.5), transparent 70%);
+  pointer-events: none;
+}
+
+.hearth__rim {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: calc(var(--u) * 9.4);
+  height: calc(var(--u) * 8.4);
+  transform: translateX(-50%) translateZ(calc(var(--u) * 1.2));
+  transform-style: preserve-3d;
+  border-radius: calc(var(--u) * 4.7) calc(var(--u) * 4.7) calc(var(--u) * 1) calc(var(--u) * 1);
+  background: linear-gradient(180deg, #7a4630 0%, #57301e 55%, #3a1d11 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * 0.4) calc(var(--u) * 0.5) rgba(220, 160, 110, 0.4),
+    0 calc(var(--u) * 0.4) calc(var(--u) * 0.9) rgba(30, 12, 8, 0.5);
+}
+
+.hearth__mouth {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: calc(var(--u) * 7.2);
+  height: calc(var(--u) * 6.6);
+  transform: translateX(-50%) translateZ(calc(var(--u) * 0.2));
+  border-radius: calc(var(--u) * 3.6) calc(var(--u) * 3.6) calc(var(--u) * 0.8) calc(var(--u) * 0.8);
+  overflow: hidden;
+  background: radial-gradient(78% 96% at 50% 96%, #ffcf7e 0%, #ff9a3c 24%, #d1571a 46%, #7a2410 72%, #2a0d06 100%);
+  box-shadow: inset 0 calc(var(--u) * 0.8) calc(var(--u) * 1.4) rgba(50, 18, 8, 0.6);
+}
+
+.hearth__fire {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * -0.6);
+  width: calc(var(--u) * 6);
+  height: calc(var(--u) * 4.2);
+  transform: translateX(-50%);
+  border-radius: 50%;
+  filter: blur(calc(var(--u) * 0.5));
+  background: radial-gradient(circle at 50% 74%, #fff2c4 0%, #ffd166 24%, #ff9d3c 46%, #ec5a1e 68%, rgba(180, 40, 22, 0) 84%);
+  animation: flameFlicker 1.5s ease-in-out infinite;
+}
+
+.hearth__logs {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 0.2);
+  width: calc(var(--u) * 4.6);
+  height: calc(var(--u) * 1);
+  transform: translateX(-50%);
+  border-radius: calc(var(--u) * 0.5);
+  background: linear-gradient(180deg, #3a1c10, #23100a);
+  box-shadow: 0 calc(var(--u) * -0.3) calc(var(--u) * 0.6) rgba(255, 150, 60, 0.6);
+}
+
+.hearth__loaf {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 1);
+  width: calc(var(--u) * 4);
+  height: calc(var(--u) * 2.2);
+  transform: translateX(-50%);
+  border-radius: 50% 50% 46% 46%;
+  background: radial-gradient(66% 96% at 50% 84%, #ffe6a8 0%, #f0b45e 34%, #c47a34 70%, #7f4a20 100%);
+  box-shadow:
+    0 calc(var(--u) * 0.3) calc(var(--u) * 0.9) rgba(255, 170, 80, 0.85),
+    inset 0 calc(var(--u) * 0.4) calc(var(--u) * 0.4) rgba(255, 240, 200, 0.5);
+  animation: bakeBreathe 3s ease-in-out infinite;
+}
+
+.hearth__hatch {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 1.6);
+  width: calc(var(--u) * 3.4);
+  height: calc(var(--u) * 0.7);
+  transform: translateX(-50%) translateZ(calc(var(--u) * 0.4));
+  border-radius: calc(var(--u) * 0.4);
+  background: linear-gradient(180deg, rgba(40, 18, 10, 0.8), rgba(90, 52, 30, 0.3));
+  box-shadow: inset 0 calc(var(--u) * 0.2) calc(var(--u) * 0.3) rgba(0, 0, 0, 0.5);
+}
+
+.hearth__chimney {
+  position: absolute;
+  left: calc(var(--u) * 11.4);
+  top: calc(var(--u) * -0.4);
+  width: calc(var(--u) * 2.4);
+  height: calc(var(--u) * 4);
+  transform: translateZ(calc(var(--u) * -0.4));
+  border-radius: calc(var(--u) * 0.5) calc(var(--u) * 0.5) 0 0;
+  background: linear-gradient(100deg, #6b4030 0%, #4a2718 70%, #35190f 100%);
+  box-shadow: inset 0 calc(var(--u) * 0.3) calc(var(--u) * 0.3) rgba(200, 140, 90, 0.3);
+}
+
+.hearth__smoke {
+  position: absolute;
+  left: calc(var(--u) * 12.6);
+  top: calc(var(--u) * -1);
+  width: calc(var(--u) * 1.8);
+  height: calc(var(--u) * 1.8);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(214, 198, 180, 0.55), rgba(214, 198, 180, 0));
+  filter: blur(calc(var(--u) * 0.3));
+  animation: smokeRise 4.4s ease-out infinite;
+}
+
+.hearth__smoke--2 {
+  animation-delay: 1.4s;
+}
+
+.hearth__smoke--3 {
+  animation-delay: 2.8s;
+}
+
+.hearth__heat {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 2.4);
+  width: calc(var(--u) * 8);
+  height: calc(var(--u) * 5);
+  transform: translateX(-50%) translateZ(calc(var(--u) * 2.4));
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 80%, rgba(255, 170, 90, 0.4), rgba(255, 150, 70, 0) 70%);
+  filter: blur(calc(var(--u) * 0.4));
+  pointer-events: none;
+  animation: heatWaver 2.6s ease-in-out infinite;
+}
+
+/* ------------------------------- note card ------------------------------- */
+
+.note-card {
+  position: absolute;
+  right: calc(var(--u, 12px) * -1);
+  bottom: calc(var(--u, 12px) * 9);
+  z-index: 6;
+  max-width: 290px;
+  background: #fbf2d4;
+  border-radius: 18px;
+  padding: 22px 24px;
+  box-shadow: 0 22px 50px rgba(90, 20, 30, 0.24);
+  transform: rotate(2.5deg);
+}
+
+.note-card__title {
+  font-family: "Satisfy", cursive;
+  font-size: 1.42rem;
+  line-height: 1.2;
+  color: #9e1134;
+  margin: 0 0 10px;
+}
+
+.note-card__body {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #6a3a2e;
+  margin: 0;
+}
+
+/* On narrow screens let the note settle below the mixer + oven instead of
+   floating over them. */
+@media (max-width: 640px) {
+  .kitchen {
+    flex-wrap: wrap;
+    gap: 16px clamp(16px, 6vw, 40px);
+  }
+
+  .note-card {
+    position: static;
+    order: 3;
+    flex-basis: 100%;
+    max-width: 330px;
+    margin: 6px auto 0;
+    transform: rotate(-1.4deg);
+  }
+}
+
+/* ------------------------------- reduced motion ------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .scene__float,
+  .mixer__head,
+  .mixer__beater,
+  .mixer__batter,
+  .mixer__drop,
+  .hearth__fire,
+  .hearth__smoke,
+  .hearth__loaf,
+  .hearth__heat {
+    animation: none !important;
+  }
+}
+
+/* ============================================================================
+   COOKIE JOURNEY — the mix → shape → bake → done flow (Chapter I)
+   ============================================================================ */
+
+/* ------------------------------- flow keyframes ------------------------------- */
+
+@keyframes spoonStir {
+  0%,
+  100% {
+    transform: translateZ(calc(var(--u) * 1.8)) rotate(-17deg);
+  }
+  50% {
+    transform: translateZ(calc(var(--u) * 1.8)) rotate(17deg);
+  }
+}
+
+@keyframes mixDrop {
+  0% {
+    transform: translateY(calc(var(--u) * -1.4)) scale(0.7);
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(calc(var(--u) * 3.4)) scale(1);
+    opacity: 1;
+  }
+  74%,
+  100% {
+    transform: translateY(calc(var(--u) * 3.9)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes pinRoll {
+  0%,
+  100% {
+    transform: translate3d(calc(-50% - var(--u) * 2.6), 0, calc(var(--u) * 2.4));
+  }
+  50% {
+    transform: translate3d(calc(-50% + var(--u) * 2.6), 0, calc(var(--u) * 2.4));
+  }
+}
+
+@keyframes cookieSquish {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scaleX(1.05) scaleY(0.9);
+  }
+}
+
+@keyframes cookieWobble {
+  0%,
+  100% {
+    transform: rotateX(8deg) rotateY(-13deg);
+  }
+  50% {
+    transform: rotateX(13deg) rotateY(13deg);
+  }
+}
+
+@keyframes flowTravel {
+  0% {
+    left: 2%;
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  100% {
+    left: 98%;
+    opacity: 0;
+  }
+}
+
+@keyframes puff {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translate(-50%, 0) scale(0.7);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(-50%, calc(var(--u) * -1.4)) scale(1.15);
+  }
+}
+
+/* ------------------------------- flow layout ------------------------------- */
+
+.flow {
+  --u: clamp(6px, 0.86vw, 9px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(4px, 1vw, 16px);
+  flex-wrap: nowrap;
+  perspective: 1300px;
+  perspective-origin: 50% 40%;
+}
+
+.flow__stage {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+.flow__scene {
+  position: relative;
+  width: calc(var(--u) * 17);
+  height: calc(var(--u) * 15);
+  transform-style: preserve-3d;
+}
+
+.flow__pedestal {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 0.4);
+  width: calc(var(--u) * 12);
+  height: calc(var(--u) * 2);
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(60, 24, 16, 0.3), transparent 68%);
+  filter: blur(4px);
+}
+
+.flow__object {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 1);
+  width: calc(var(--u) * 15);
+  height: calc(var(--u) * 13.5);
+  transform-style: preserve-3d;
+  transform: translateX(-50%) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+    scale(calc(1 + var(--lift, 0) * 0.04));
+  transition: transform 0.3s ease-out;
+}
+
+.flow__object > * {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.flow__meta {
+  margin-top: calc(var(--u) * 1.2);
+  text-align: center;
+  max-width: 16em;
+}
+
+.flow__step {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: #bf152f;
+  font-weight: 600;
+}
+
+.flow__title {
+  font-family: "Zilla Slab", serif;
+  font-size: 1.24rem;
+  font-weight: 700;
+  color: #9e1134;
+  margin: 4px 0 6px;
+}
+
+.flow__caption {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #6a3a2e;
+  margin: 0;
+}
+
+/* ------------------------------- connectors ------------------------------- */
+
+.flow__arrow {
+  position: relative;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin-top: calc(var(--u) * 6.4);
+  width: clamp(22px, 3.2vw, 58px);
+  height: calc(var(--u) * 2);
+}
+
+.flow__track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: calc(var(--u) * 1);
+  height: 2px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(158, 17, 52, 0.2), rgba(191, 21, 47, 0.55));
+}
+
+.flow__head {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: calc(var(--u) * 1.1);
+  height: calc(var(--u) * 1.1);
+  transform: translateY(-50%) rotate(45deg);
+  border-top: 2px solid #bf152f;
+  border-right: 2px solid #bf152f;
+}
+
+.flow__travel {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: calc(var(--u) * 1.5);
+  height: calc(var(--u) * 1.5);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #ffd98a 0%, #f0892e 55%, #bf152f 100%);
+  box-shadow: 0 0 calc(var(--u) * 1) rgba(240, 140, 60, 0.7);
+  animation: flowTravel 2.8s ease-in-out infinite;
+}
+
+.flow__stage:nth-child(3) + .flow__arrow .flow__travel {
+  animation-delay: 0.9s;
+}
+
+.flow__stage:nth-child(5) + .flow__arrow .flow__travel {
+  animation-delay: 1.8s;
+}
+
+/* ============================================================================
+   REUSABLE 3D COOKIE
+   ============================================================================ */
+
+.cookie {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 2.6);
+  width: calc(var(--u) * 10.5);
+  height: calc(var(--u) * 10.5);
+  transform: translateX(-50%);
+  transform-style: preserve-3d;
+}
+
+.cookie__body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  background: radial-gradient(circle at 50% 40%, #f2c877 0%, #e0a555 42%, #bd7c33 74%, #9a5f26 100%);
+  box-shadow:
+    0 calc(var(--u) * 0.4) 0 #b3742e,
+    0 calc(var(--u) * 0.8) 0 #9c6127,
+    0 calc(var(--u) * 1.1) 0 #85501f,
+    0 calc(var(--u) * 1.9) calc(var(--u) * 1.4) rgba(60, 30, 12, 0.42);
+}
+
+.cookie__gloss {
+  position: absolute;
+  left: 16%;
+  top: 12%;
+  width: 44%;
+  height: 30%;
+  border-radius: 50%;
+  transform: translateZ(calc(var(--u) * 0.9));
+  background: radial-gradient(circle at 42% 40%, rgba(255, 244, 214, 0.8), rgba(255, 244, 214, 0));
+  pointer-events: none;
+}
+
+.cookie__chip {
+  position: absolute;
+  width: calc(var(--u) * 1.5);
+  height: calc(var(--u) * 1.25);
+  transform: translate(-50%, -50%) translateZ(calc(var(--u) * 0.75));
+  border-radius: 46% 54% 50% 50% / 56% 44% 56% 44%;
+  background: radial-gradient(circle at 36% 30%, #6f4325 0%, #3c2011 72%);
+  box-shadow: 0 calc(var(--u) * 0.2) calc(var(--u) * 0.3) rgba(30, 14, 6, 0.5);
+}
+
+.cookie__chip::after {
+  content: "";
+  position: absolute;
+  left: 26%;
+  top: 20%;
+  width: 26%;
+  height: 26%;
+  border-radius: 50%;
+  background: rgba(255, 222, 180, 0.55);
+}
+
+/* raw dough — pale, matte, chips barely sunk in */
+.cookie--raw .cookie__body {
+  background: radial-gradient(circle at 50% 40%, #f7eccf 0%, #ecdcb0 46%, #dcc487 82%, #cbb072 100%);
+  box-shadow:
+    0 calc(var(--u) * 0.3) 0 #d3bd86,
+    0 calc(var(--u) * 0.7) 0 #c3a86e,
+    0 calc(var(--u) * 1.4) calc(var(--u) * 1.1) rgba(120, 90, 40, 0.32);
+}
+
+.cookie--raw .cookie__chip {
+  transform: translate(-50%, -50%) translateZ(calc(var(--u) * 0.35));
+  background: radial-gradient(circle at 36% 30%, #b79a5e 0%, #8a6a34 74%);
+}
+
+.cookie--raw .cookie__chip::after {
+  opacity: 0.4;
+}
+
+.cookie--raw .cookie__gloss {
+  opacity: 0.25;
+}
+
+.cookie--raw {
+  animation: cookieSquish 3.4s ease-in-out infinite;
+}
+
+/* baking — mid golden, a warm cast */
+.cookie--baking {
+  width: calc(var(--u) * 4);
+  height: calc(var(--u) * 4);
+  bottom: calc(var(--u) * 1);
+  animation: bakeBreathe 3s ease-in-out infinite;
+}
+
+.cookie--baking .cookie__body {
+  background: radial-gradient(circle at 50% 42%, #e7ac57 0%, #c5842f 52%, #9a5f23 88%, #6f4218 100%);
+  box-shadow:
+    0 calc(var(--u) * 0.3) 0 #6f4218,
+    0 calc(var(--u) * 0.6) calc(var(--u) * 0.7) rgba(40, 18, 8, 0.55),
+    0 0 calc(var(--u) * 2.2) rgba(255, 170, 80, 0.75);
+}
+
+.cookie--baking .cookie__gloss {
+  opacity: 0.5;
+}
+
+/* done — deep golden, glossy, chips proud and melty */
+.cookie--done .cookie__body {
+  background: radial-gradient(circle at 48% 38%, #f6cf84 0%, #e3a94f 40%, #c07d31 74%, #97591f 100%);
+}
+
+.cookie--done {
+  animation: cookieWobble 5s ease-in-out infinite;
+}
+
+/* ============================================================================
+   STAGE 1 — MIX
+   ============================================================================ */
+
+.mix__bowl {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 1);
+  width: calc(var(--u) * 12);
+  height: calc(var(--u) * 7.4);
+  transform: translateX(-50%) translateZ(calc(var(--u) * 1.6));
+  border-radius: calc(var(--u) * 1.6) calc(var(--u) * 1.6) calc(var(--u) * 5.4) calc(var(--u) * 5.4);
+  overflow: hidden;
+  background: linear-gradient(102deg, #f4ece0 0%, #e6d6bd 40%, #cdb493 72%, #b89b78 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * -0.9) calc(var(--u) * 1.4) rgba(90, 60, 34, 0.35),
+    0 calc(var(--u) * 1) calc(var(--u) * 1.6) rgba(70, 40, 24, 0.34);
+}
+
+.mix__dough {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 0.5);
+  width: calc(var(--u) * 10.2);
+  height: calc(var(--u) * 3);
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #f6e6be 0%, #eccf92 48%, #d8b16a 100%);
+  box-shadow: inset 0 calc(var(--u) * 0.4) calc(var(--u) * 0.6) rgba(255, 246, 214, 0.6);
+  animation: batterSwirl 3.6s linear infinite;
+}
+
+.mix__dough::after {
+  content: "";
+  position: absolute;
+  inset: 20% 16%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(170, 120, 54, 0.5), transparent 42%, rgba(255, 244, 214, 0.6) 72%, transparent);
+  opacity: 0.7;
+}
+
+.mix__shine {
+  position: absolute;
+  left: 14%;
+  top: 22%;
+  width: 22%;
+  height: 54%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+  filter: blur(1px);
+}
+
+.mix__spoon {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 3.4);
+  width: calc(var(--u) * 1);
+  height: calc(var(--u) * 8.5);
+  transform-origin: 50% 92%;
+  border-radius: calc(var(--u) * 0.5);
+  background: linear-gradient(96deg, #d59a58 0%, #b3803f 55%, #8f6330 100%);
+  box-shadow: 0 calc(var(--u) * 0.3) calc(var(--u) * 0.5) rgba(60, 34, 14, 0.4);
+  animation: spoonStir 2.8s ease-in-out infinite;
+}
+
+.mix__spoon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * -0.4);
+  width: calc(var(--u) * 2.4);
+  height: calc(var(--u) * 1.8);
+  transform: translateX(-50%);
+  border-radius: 50% 50% 46% 46%;
+  background: linear-gradient(180deg, #d59a58, #9c6c34);
+}
+
+.mix__drop {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 0.4);
+  border-radius: 50%;
+  animation: mixDrop 2.6s ease-in infinite;
+}
+
+.mix__drop--1 {
+  margin-left: calc(var(--u) * -2);
+  width: calc(var(--u) * 1);
+  height: calc(var(--u) * 1);
+  background: radial-gradient(circle at 34% 30%, #7a4a2a, #3c2213);
+}
+
+.mix__drop--2 {
+  margin-left: calc(var(--u) * 0.4);
+  width: calc(var(--u) * 1.1);
+  height: calc(var(--u) * 1.1);
+  border-radius: calc(var(--u) * 0.2);
+  background: linear-gradient(150deg, #ffe9a8, #e7bf62);
+  animation-delay: 0.9s;
+}
+
+.mix__drop--3 {
+  margin-left: calc(var(--u) * 2.2);
+  width: calc(var(--u) * 1.3);
+  height: calc(var(--u) * 1.3);
+  background: radial-gradient(circle, rgba(255, 252, 244, 0.95), rgba(255, 250, 238, 0.1));
+  filter: blur(1px);
+  animation-delay: 1.7s;
+}
+
+/* ============================================================================
+   STAGE 2 — SHAPE
+   ============================================================================ */
+
+.shape__board {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 1.9);
+  width: calc(var(--u) * 9);
+  height: calc(var(--u) * 2);
+  transform: translateX(-50%) rotateX(66deg);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, #f6ecd4 0%, #e7d6b2 62%, rgba(205, 182, 132, 0) 100%);
+  box-shadow: 0 calc(var(--u) * 0.6) calc(var(--u) * 0.8) rgba(90, 60, 30, 0.18);
+}
+
+.shape .cookie--raw {
+  bottom: calc(var(--u) * 2.4);
+}
+
+.shape__pin {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 1.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--u) * 0.2);
+  transform: translate3d(-50%, 0, calc(var(--u) * 2.4));
+  animation: pinRoll 3.4s ease-in-out infinite;
+}
+
+.shape__pin-barrel {
+  width: calc(var(--u) * 7);
+  height: calc(var(--u) * 2);
+  border-radius: calc(var(--u) * 1);
+  background: linear-gradient(180deg, #f0d49a 0%, #d9ad63 55%, #b6893f 100%);
+  box-shadow:
+    inset 0 calc(var(--u) * 0.3) calc(var(--u) * 0.3) rgba(255, 246, 214, 0.6),
+    0 calc(var(--u) * 0.5) calc(var(--u) * 0.6) rgba(70, 44, 18, 0.35);
+}
+
+.shape__pin-handle {
+  width: calc(var(--u) * 2);
+  height: calc(var(--u) * 0.95);
+  border-radius: calc(var(--u) * 0.5);
+  background: linear-gradient(180deg, #c9974f, #9a6c33);
+}
+
+.shape__flour {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--u) * 4.6);
+  width: calc(var(--u) * 1.4);
+  height: calc(var(--u) * 1.4);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 252, 244, 0.9), rgba(255, 250, 238, 0));
+  filter: blur(1px);
+  animation: puff 2.4s ease-in-out infinite;
+}
+
+.shape__flour--1 {
+  margin-left: calc(var(--u) * -3.4);
+}
+
+.shape__flour--2 {
+  margin-left: calc(var(--u) * 3.2);
+  animation-delay: 1.2s;
+}
+
+/* ============================================================================
+   STAGE 3 — BAKE  (the shared hearth, shrunk + centred into the flow slot)
+   ============================================================================ */
+
+.hearth--compact {
+  --u: clamp(4.6px, 0.66vw, 7px);
+}
+
+.flow__object > .hearth {
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+/* ============================================================================
+   STAGE 4 — DONE
+   ============================================================================ */
+
+.done .cookie--done {
+  bottom: calc(var(--u) * 2.4);
+}
+
+.done__plate {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 1.2);
+  width: calc(var(--u) * 13);
+  height: calc(var(--u) * 3.2);
+  transform: translateX(-50%) rotateX(62deg);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, #fdf5da 0%, #f0e0b6 58%, #dcc48c 100%);
+  box-shadow: 0 calc(var(--u) * 1.4) calc(var(--u) * 1.6) rgba(90, 50, 26, 0.32);
+}
+
+.done__steam {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--u) * 7);
+  width: calc(var(--u) * 1.8);
+  height: calc(var(--u) * 1.8);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 246, 226, 0.6), rgba(255, 246, 226, 0));
+  filter: blur(calc(var(--u) * 0.3));
+  animation: smokeRise 4s ease-out infinite;
+}
+
+.done__steam--1 {
+  margin-left: calc(var(--u) * -2.4);
+}
+
+.done__steam--2 {
+  animation-delay: 1.3s;
+}
+
+.done__steam--3 {
+  margin-left: calc(var(--u) * 2.6);
+  animation-delay: 2.5s;
+}
+
+/* ------------------------------- flow responsive ------------------------------- */
+
+@media (max-width: 860px) {
+  .flow {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .flow__arrow {
+    align-self: center;
+    margin-top: 0;
+    width: calc(var(--u) * 2);
+    height: clamp(20px, 5vw, 34px);
+    transform: rotate(90deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mix__spoon,
+  .mix__dough,
+  .mix__drop,
+  .shape__pin,
+  .cookie--raw,
+  .cookie--baking,
+  .cookie--done,
+  .shape__flour,
+  .done__steam,
+  .flow__travel {
+    animation: none !important;
+  }
+}
