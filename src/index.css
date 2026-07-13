@@ -848,9 +848,49 @@ main {
 }
 
 .visit__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 46px 0 0;
+}
+
+.visit__copyright {
   font-size: 0.74rem;
   color: rgba(247, 233, 196, 0.45);
-  margin: 46px 0 0;
+  margin: 0;
+}
+
+.visit__admin-link {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(247, 233, 196, 0.5);
+  border: 1px solid rgba(247, 233, 196, 0.22);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.visit__admin-link:hover {
+  color: #f7e9c4;
+  border-color: rgba(247, 233, 196, 0.5);
+}
+
+.nav__link--cta {
+  padding: 7px 18px;
+  border-radius: 9999px;
+  background: #9e1134;
+  color: #f7e9c4 !important;
+  letter-spacing: 0.16em;
+}
+
+.nav__link--cta:hover {
+  background: #bf152f;
+  color: #fff !important;
 }
 
 /* ---------------------------------- responsive ---------------------------------- */

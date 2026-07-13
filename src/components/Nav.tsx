@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { Link } from "react-router-dom";
 
 const LINKS = [
   { href: "#ritual", label: "Ritual" },
@@ -21,6 +22,11 @@ export const Nav = forwardRef<HTMLElement>((_props, ref) => {
               </a>
             </li>
           ))}
+          <li>
+            <Link to="/catalog" className="nav__link nav__link--cta">
+              Catalog
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
