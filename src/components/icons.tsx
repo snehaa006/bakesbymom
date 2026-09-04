@@ -75,3 +75,12 @@ export function FlowerIcon({ size = 42, color = "currentColor" }: IconProps) {
     </svg>
   );
 }
+
+export function ArrowIcon({ size = 18, color = "currentColor", strokeWidth = 1.8 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12h15" />
+      <path d="M13 6l6 6-6 6" />
+    </svg>
+  );
+}

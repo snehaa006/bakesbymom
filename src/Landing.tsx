@@ -3,6 +3,7 @@ import { FlourLayer } from "./components/FlourLayer";
 import { Seal } from "./components/Seal";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
+import { About } from "./components/About";
 import { Ritual } from "./components/Ritual";
 import { Breads } from "./components/Breads";
 import { Timeline } from "./components/Timeline";
@@ -24,6 +25,7 @@ export function Landing() {
 
       <main id="top">
         <Hero />
+        <About />
         <Ritual />
         <Breads />
         <Timeline />

@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import { Link } from "react-router-dom";
 
 const LINKS = [
+  { href: "#about", label: "About" },
   { href: "#ritual", label: "Ritual" },
   { href: "#breads", label: "Breads" },
   { href: "#visit", label: "Visit" },
