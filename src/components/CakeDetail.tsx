@@ -7,7 +7,7 @@ import {
   type CakeDetail as CakeDetailType,
 } from "../lib/catalog";
 import { formatPrice } from "../lib/format";
-import { isSupabaseConfigured } from "../lib/supabase";
+import { isApiConfigured } from "../lib/api";
 import { PageHeader } from "./PageHeader";
 
 export function CakeDetail() {
@@ -21,7 +21,7 @@ export function CakeDetail() {
   const [addonIds, setAddonIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    if (!cakeId || !isSupabaseConfigured) {
+    if (!cakeId || !isApiConfigured) {
       setLoading(false);
       return;
     }
