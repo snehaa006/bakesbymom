@@ -28,7 +28,11 @@ export function Landing() {
 
       {/* Pinned to the viewport, so it rides along the whole page — top to bottom
           and back up — and always paints over the sections it passes. */}
-      <RotatingBadge className="spin-badge--float" text="order your cakes and cookies now" />
+      <RotatingBadge
+        className="spin-badge--float"
+        text="order your cakes and cookies now"
+        src="/badge-tart.png"
+      />
 
       <main id="top">
         <Hero />
