@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
-import { RotatingBadge } from "./RotatingBadge";
 import { LogoCard } from "./LogoCard";
 
 export function HowToOrder() {
@@ -9,10 +8,6 @@ export function HowToOrder() {
       <div className="order__blob-mark" aria-hidden="true" />
 
       <div className="order__inner">
-        <div className="order__rail">
-          <RotatingBadge className="spin-badge--rail" text="eggless custom cakes • baked to order" />
-        </div>
-
         <Reveal className="order__panel">
           <div className="order__panel-inner">
             <h2 className="order__title rise">

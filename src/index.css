@@ -550,6 +550,13 @@ main {
   font-size: 22px;
   letter-spacing: 0.02em;
   fill: #9e1134;
+  /* The badge now travels over the whole page, cream at the top through to the
+     deep crimson at the bottom, so the ring carries a soft cream halo to stay
+     readable on both ends. Invisible against the light sections. */
+  paint-order: stroke fill;
+  stroke: rgba(251, 240, 205, 0.92);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
 }
 
 .spin-badge__center {
@@ -578,33 +585,26 @@ main {
   color: #9e1134;
 }
 
-/* Sticks and rides along while its zone is on screen. */
-.sticky-zone {
-  position: relative;
-}
-
+/* Pinned to the viewport, so it rides along for the whole page - scrolling down
+   or back up - instead of being bounded by one section. z-index sits above every
+   section (max 6) and above the seal (40) so nothing can ever cover it; the nav
+   pill (50) still wins, and the badge never reaches it anyway. */
 .spin-badge--float {
-  position: sticky;
-  top: 38vh;
-  z-index: 4;
+  position: fixed;
+  /* left gutter, part of it off the edge like the reference */
+  left: clamp(-54px, -3vw, -24px);
+  /* clear of the seal, which is parked at the bottom-left corner */
+  bottom: clamp(200px, 26vh, 330px);
+  z-index: 45;
   width: clamp(120px, 13vw, 180px);
-  /* rides in the left gutter, part of it off the edge like the reference */
-  margin-left: -42px;
-  /* pulled back up so the badge overlays the sections instead of spacing them */
-  margin-bottom: calc(-1 * clamp(120px, 13vw, 180px));
 }
 
 @media (max-width: 1200px) {
   .spin-badge--float {
     width: 130px;
-    margin-left: -56px;
-    margin-bottom: -130px;
+    left: -34px;
+    bottom: clamp(190px, 24vh, 250px);
   }
-}
-
-.spin-badge--rail {
-  position: sticky;
-  top: 42vh;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -684,15 +684,9 @@ main {
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 40px);
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
   align-items: center;
   gap: clamp(20px, 3vw, 48px);
-}
-
-.order__rail {
-  align-self: stretch;
-  display: flex;
-  align-items: center;
 }
 
 /* The blob that carries the heading, as in the reference. */
@@ -1559,20 +1553,10 @@ main {
     gap: 36px;
   }
 
-  .order__rail {
-    justify-content: center;
-  }
-
-  .spin-badge--rail {
-    /* relative, not static: the ring is absolutely positioned inside it */
-    position: relative;
-    top: auto;
-    margin: 0 auto;
-  }
-
   .spin-badge--float {
-    top: 30vh;
-    margin-left: 12px;
+    width: 108px;
+    left: -28px;
+    bottom: clamp(150px, 20vh, 210px);
   }
 
   .order__logo {
