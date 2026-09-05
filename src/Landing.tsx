@@ -5,6 +5,8 @@ import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { Acclaim } from "./components/Acclaim";
 import { About } from "./components/About";
+import { HowToOrder } from "./components/HowToOrder";
+import { RotatingBadge } from "./components/RotatingBadge";
 import { Ritual } from "./components/Ritual";
 import { Breads } from "./components/Breads";
 import { Timeline } from "./components/Timeline";
@@ -26,8 +28,13 @@ export function Landing() {
 
       <main id="top">
         <Hero />
-        <Acclaim />
-        <About />
+        {/* the badge sticks and travels alongside these sections */}
+        <div className="sticky-zone">
+          <RotatingBadge className="spin-badge--float" text="order your cakes and cookies now" />
+          <Acclaim />
+          <About />
+        </div>
+        <HowToOrder />
         <Ritual />
         <Breads />
         <Timeline />

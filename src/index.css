@@ -159,7 +159,9 @@ a:hover {
 
 .page {
   position: relative;
-  overflow: hidden;
+  /* clip (not hidden) so position: sticky still works inside the page */
+  overflow-x: clip;
+  overflow-y: visible;
   background: linear-gradient(
     180deg,
     #f7e9be 0%,
@@ -526,12 +528,260 @@ main {
   background: rgba(249, 238, 193, 0.45);
 }
 
+/* ---------------------------------- rotating badge ---------------------------------- */
+
+.spin-badge {
+  position: relative;
+  width: clamp(140px, 15vw, 210px);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+
+.spin-badge__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: spinSlow 24s linear infinite;
+}
+
+.spin-badge__text {
+  font-family: "Satisfy", cursive;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  fill: #9e1134;
+}
+
+.spin-badge__center {
+  position: absolute;
+  inset: 26%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(251, 242, 212, 0.7);
+  border: 1px dashed rgba(158, 17, 52, 0.32);
+}
+
+.spin-badge__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spin-badge__slot {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9e1134;
+}
+
+/* Sticks and rides along while its zone is on screen. */
+.sticky-zone {
+  position: relative;
+}
+
+.spin-badge--float {
+  position: sticky;
+  top: 38vh;
+  z-index: 4;
+  width: clamp(120px, 13vw, 180px);
+  /* rides in the left gutter, part of it off the edge like the reference */
+  margin-left: -42px;
+  /* pulled back up so the badge overlays the sections instead of spacing them */
+  margin-bottom: calc(-1 * clamp(120px, 13vw, 180px));
+}
+
+@media (max-width: 1200px) {
+  .spin-badge--float {
+    width: 130px;
+    margin-left: -56px;
+    margin-bottom: -130px;
+  }
+}
+
+.spin-badge--rail {
+  position: sticky;
+  top: 42vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin-badge__ring {
+    animation: none;
+  }
+}
+
+/* ---------------------------------- rise-in text ---------------------------------- */
+
+.rise {
+  display: flex;
+  flex-direction: column;
+}
+
+.rise__line {
+  display: block;
+  transform: translateY(120%);
+  opacity: 0;
+  transition:
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.7s ease;
+}
+
+.reveal.is-visible .rise__line {
+  transform: none;
+  opacity: 1;
+}
+
+.reveal.is-visible .rise__line:nth-child(2) {
+  transition-delay: 0.12s;
+}
+
+.reveal.is-visible .order__link.rise__line {
+  transition-delay: 0.26s;
+}
+
+/* the lines slide up from behind their own edge */
+.order__panel-inner .rise,
+.order__panel-inner .order__link {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise__line {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------- how to order ---------------------------------- */
+
+.order {
+  position: relative;
+  z-index: 5;
+  padding: clamp(40px, 6vw, 90px) 0 clamp(60px, 8vw, 110px);
+}
+
+.order__blob-mark {
+  position: absolute;
+  top: 12%;
+  left: -14%;
+  width: clamp(320px, 40vw, 600px);
+  aspect-ratio: 1.4 / 1;
+  background: #f1a5a9;
+  border-radius: 58% 42% 46% 54% / 60% 40% 60% 40%;
+  transform: rotate(6deg);
+  opacity: 0.42;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.order__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 40px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(20px, 3vw, 48px);
+}
+
+.order__rail {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+
+/* The blob that carries the heading, as in the reference. */
+.order__panel {
+  justify-self: center;
+}
+
+.order__panel-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  width: clamp(300px, 34vw, 460px);
+  aspect-ratio: 1.06 / 1;
+  padding: clamp(30px, 4vw, 56px);
+  justify-content: center;
+  background: #9e1134;
+  border-radius: 62% 38% 52% 48% / 48% 60% 40% 52%;
+  box-shadow: 0 26px 60px rgba(122, 15, 42, 0.24);
+}
+
+.order__title {
+  font-family: "Zilla Slab", serif;
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
+  line-height: 1.05;
+  font-weight: 700;
+  color: #f9eec1;
+  margin: 0;
+}
+
+.order__link {
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #f9eec1;
+  border-bottom: 1px solid rgba(249, 238, 193, 0.55);
+  padding-bottom: 4px;
+}
+
+.order__link:hover {
+  color: #f7e9c4;
+  border-bottom-color: #f7e9c4;
+}
+
+.order__logo {
+  justify-self: end;
+  width: clamp(260px, 30vw, 420px);
+  transform: rotate(4deg);
+}
+
+.logo-card {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 30px 64px rgba(120, 30, 40, 0.26);
+}
+
+.logo-card svg,
+.logo-card__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.logo-card__arc {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+
+.logo-card__word {
+  font-family: "Satisfy", cursive;
+  font-size: 56px;
+}
+
+.logo-card__meta {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
 /* ---------------------------------- acclaim ---------------------------------- */
 
 .acclaim {
   position: relative;
   z-index: 5;
-  overflow: hidden;
+  /* clip, not hidden, so the sticky badge can travel */
+  overflow-x: clip;
+  overflow-y: visible;
   padding: clamp(28px, 4vw, 60px) 0 clamp(50px, 6vw, 96px);
 }
 
@@ -555,7 +805,7 @@ main {
 
 .acclaim__blob--blush {
   right: -16%;
-  bottom: -20%;
+  bottom: -8%;
   width: clamp(330px, 42vw, 620px);
   aspect-ratio: 1.3 / 1;
   background: #f1a5a9;
@@ -1301,6 +1551,33 @@ main {
 
   .hero__wave {
     height: 30%;
+  }
+
+  .order__inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 36px;
+  }
+
+  .order__rail {
+    justify-content: center;
+  }
+
+  .spin-badge--rail {
+    /* relative, not static: the ring is absolutely positioned inside it */
+    position: relative;
+    top: auto;
+    margin: 0 auto;
+  }
+
+  .spin-badge--float {
+    top: 30vh;
+    margin-left: 12px;
+  }
+
+  .order__logo {
+    justify-self: center;
+    width: min(420px, 88%);
   }
 
   .acclaim__inner {
