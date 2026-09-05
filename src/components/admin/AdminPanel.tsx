@@ -11,7 +11,7 @@ import {
   type CategoryWithCakes,
 } from "../../lib/catalog";
 import { formatPrice } from "../../lib/format";
-import { isSupabaseConfigured } from "../../lib/supabase";
+import { clearAdminPassword, isApiConfigured, setAdminPassword } from "../../lib/api";
 import { PageHeader } from "../PageHeader";
 import { CakeEditor } from "./CakeEditor";
 
@@ -49,13 +49,16 @@ export function AdminPanel() {
   }
 
   useEffect(() => {
-    if (authed && isSupabaseConfigured) reload();
+    if (authed && isApiConfigured) reload();
   }, [authed]);
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
       sessionStorage.setItem(SESSION_KEY, "1");
+      // The Worker checks this against its own ADMIN_PASSWORD secret on every
+      // write, so keep it around for the rest of the tab session.
+      setAdminPassword(password);
       setAuthed(true);
       setLoginError("");
     } else {
@@ -182,6 +185,7 @@ export function AdminPanel() {
           className="pagehead__link pagehead__link--btn"
           onClick={() => {
             sessionStorage.removeItem(SESSION_KEY);
+            clearAdminPassword();
             setAuthed(false);
           }}
         >
@@ -192,10 +196,10 @@ export function AdminPanel() {
       <main className="admin">
         <h1 className="admin__title">Catalog admin</h1>
 
-        {!isSupabaseConfigured && (
+        {!isApiConfigured && (
           <div className="catalog__notice catalog__notice--error">
-            Supabase isn&apos;t connected. Add your keys to <code>.env</code> and run
-            <code> supabase/schema.sql</code> first.
+            The catalog API isn&apos;t reachable. Check <code>VITE_API_BASE_URL</code> in
+            <code> .env</code> and make sure the Worker is deployed.
           </div>
         )}
         {error && <div className="catalog__notice catalog__notice--error">{error}</div>}

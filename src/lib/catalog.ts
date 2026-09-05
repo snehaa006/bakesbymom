@@ -1,7 +1,7 @@
-import { PHOTO_BUCKET, supabase } from "./supabase";
+import { apiGet, apiUpload, apiWrite } from "./api";
 
 // ---------------------------------------------------------------------------
-//  Types (mirror the tables in supabase/schema.sql)
+//  Types (mirror the tables in db/schema.sql)
 // ---------------------------------------------------------------------------
 
 export interface Category {
@@ -61,66 +61,18 @@ export interface CategoryWithCakes extends Category {
   cakes: (Cake & { cover_url: string | null })[];
 }
 
-// Small helper so every call surfaces a readable error.
-function unwrap<T>(data: T | null, error: { message: string } | null): T {
-  if (error) throw new Error(error.message);
-  return data as T;
-}
-
 // ---------------------------------------------------------------------------
 //  Reads (public site)
 // ---------------------------------------------------------------------------
 
 /** Everything the Catalog page needs: categories → cakes → cover photo. */
-export async function fetchCatalog(): Promise<CategoryWithCakes[]> {
-  const categories = unwrap(
-    ...toTuple(
-      await supabase.from("categories").select("*").order("sort_order").order("name"),
-    ),
-  ) as Category[];
-
-  const cakes = unwrap(
-    ...toTuple(await supabase.from("cakes").select("*").order("sort_order").order("name")),
-  ) as Cake[];
-
-  const photos = unwrap(
-    ...toTuple(await supabase.from("cake_photos").select("*").order("sort_order")),
-  ) as CakePhoto[];
-
-  const coverByCake = new Map<string, string>();
-  for (const p of photos) {
-    if (!coverByCake.has(p.cake_id)) coverByCake.set(p.cake_id, p.url);
-  }
-
-  return categories.map((cat) => ({
-    ...cat,
-    cakes: cakes
-      .filter((c) => c.category_id === cat.id)
-      .map((c) => ({ ...c, cover_url: coverByCake.get(c.id) ?? null })),
-  }));
+export function fetchCatalog(): Promise<CategoryWithCakes[]> {
+  return apiGet<CategoryWithCakes[]>("/catalog");
 }
 
 /** A single cake with photos, flavours, add-ons and its category. */
-export async function fetchCakeDetail(cakeId: string): Promise<CakeDetail | null> {
-  const cake = unwrap(
-    ...toTuple(await supabase.from("cakes").select("*").eq("id", cakeId).maybeSingle()),
-  ) as Cake | null;
-  if (!cake) return null;
-
-  const [category, photos, flavours, addons] = await Promise.all([
-    supabase.from("categories").select("*").eq("id", cake.category_id).maybeSingle(),
-    supabase.from("cake_photos").select("*").eq("cake_id", cakeId).order("sort_order"),
-    supabase.from("cake_flavours").select("*").eq("cake_id", cakeId).order("sort_order"),
-    supabase.from("cake_addons").select("*").eq("cake_id", cakeId).order("sort_order"),
-  ]);
-
-  return {
-    ...cake,
-    category: unwrap(...toTuple(category)) as Category | null,
-    photos: (unwrap(...toTuple(photos)) as CakePhoto[]) ?? [],
-    flavours: (unwrap(...toTuple(flavours)) as CakeFlavour[]) ?? [],
-    addons: (unwrap(...toTuple(addons)) as CakeAddon[]) ?? [],
-  };
+export function fetchCakeDetail(cakeId: string): Promise<CakeDetail | null> {
+  return apiGet<CakeDetail | null>(`/cakes/${encodeURIComponent(cakeId)}`);
 }
 
 /**
@@ -139,96 +91,70 @@ export function computeFinalPrice(
 }
 
 // ---------------------------------------------------------------------------
-//  Writes (admin panel)
+//  Writes (admin panel) — each one sends the admin password to the Worker.
 // ---------------------------------------------------------------------------
 
 // Categories -----------------------------------------------------------------
-export async function createCategory(input: Partial<Category>) {
-  return unwrap(...toTuple(await supabase.from("categories").insert(input).select().single()));
+export function createCategory(input: Partial<Category>) {
+  return apiWrite<Category>("/categories", "POST", input);
 }
-export async function updateCategory(id: string, input: Partial<Category>) {
-  return unwrap(
-    ...toTuple(await supabase.from("categories").update(input).eq("id", id).select().single()),
-  );
+export function updateCategory(id: string, input: Partial<Category>) {
+  return apiWrite<Category>(`/categories/${encodeURIComponent(id)}`, "PATCH", input);
 }
-export async function deleteCategory(id: string) {
-  const { error } = await supabase.from("categories").delete().eq("id", id);
-  if (error) throw new Error(error.message);
+export function deleteCategory(id: string) {
+  return apiWrite<void>(`/categories/${encodeURIComponent(id)}`, "DELETE");
 }
 
 // Cakes ----------------------------------------------------------------------
-export async function createCake(input: Partial<Cake>) {
-  return unwrap(...toTuple(await supabase.from("cakes").insert(input).select().single()));
+export function createCake(input: Partial<Cake>) {
+  return apiWrite<Cake>("/cakes", "POST", input);
 }
-export async function updateCake(id: string, input: Partial<Cake>) {
-  return unwrap(
-    ...toTuple(await supabase.from("cakes").update(input).eq("id", id).select().single()),
-  );
+export function updateCake(id: string, input: Partial<Cake>) {
+  return apiWrite<Cake>(`/cakes/${encodeURIComponent(id)}`, "PATCH", input);
 }
-export async function deleteCake(id: string) {
-  const { error } = await supabase.from("cakes").delete().eq("id", id);
-  if (error) throw new Error(error.message);
+export function deleteCake(id: string) {
+  return apiWrite<void>(`/cakes/${encodeURIComponent(id)}`, "DELETE");
 }
 
 // Photos ---------------------------------------------------------------------
-/** Upload an image file to Storage and return its public URL. */
+/** Upload an image to R2 and return the URL it is served from. */
 export async function uploadPhoto(cakeId: string, file: File): Promise<string> {
-  const ext = file.name.split(".").pop() || "jpg";
-  const path = `${cakeId}/${crypto.randomUUID()}.${ext}`;
-  const { error } = await supabase.storage.from(PHOTO_BUCKET).upload(path, file, {
-    cacheControl: "3600",
-    upsert: false,
-  });
-  if (error) throw new Error(error.message);
-  const { data } = supabase.storage.from(PHOTO_BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+  const form = new FormData();
+  form.append("cakeId", cakeId);
+  form.append("file", file);
+  const { url } = await apiUpload<{ url: string }>("/photos", form);
+  return url;
 }
 
-export async function addPhoto(cakeId: string, url: string, sortOrder = 0) {
-  return unwrap(
-    ...toTuple(
-      await supabase
-        .from("cake_photos")
-        .insert({ cake_id: cakeId, url, sort_order: sortOrder })
-        .select()
-        .single(),
-    ),
-  );
+export function addPhoto(cakeId: string, url: string, sortOrder = 0) {
+  return apiWrite<CakePhoto>("/cake_photos", "POST", {
+    cake_id: cakeId,
+    url,
+    sort_order: sortOrder,
+  });
 }
-export async function deletePhoto(id: string) {
-  const { error } = await supabase.from("cake_photos").delete().eq("id", id);
-  if (error) throw new Error(error.message);
+export function deletePhoto(id: string) {
+  return apiWrite<void>(`/cake_photos/${encodeURIComponent(id)}`, "DELETE");
 }
 
 // Flavours -------------------------------------------------------------------
-export async function addFlavour(input: Partial<CakeFlavour>) {
-  return unwrap(...toTuple(await supabase.from("cake_flavours").insert(input).select().single()));
+export function addFlavour(input: Partial<CakeFlavour>) {
+  return apiWrite<CakeFlavour>("/cake_flavours", "POST", input);
 }
-export async function updateFlavour(id: string, input: Partial<CakeFlavour>) {
-  return unwrap(
-    ...toTuple(await supabase.from("cake_flavours").update(input).eq("id", id).select().single()),
-  );
+export function updateFlavour(id: string, input: Partial<CakeFlavour>) {
+  return apiWrite<CakeFlavour>(`/cake_flavours/${encodeURIComponent(id)}`, "PATCH", input);
 }
-export async function deleteFlavour(id: string) {
-  const { error } = await supabase.from("cake_flavours").delete().eq("id", id);
-  if (error) throw new Error(error.message);
+export function deleteFlavour(id: string) {
+  return apiWrite<void>(`/cake_flavours/${encodeURIComponent(id)}`, "DELETE");
 }
 
 // Add-ons --------------------------------------------------------------------
-export async function addAddon(input: Partial<CakeAddon>) {
-  return unwrap(...toTuple(await supabase.from("cake_addons").insert(input).select().single()));
+export function addAddon(input: Partial<CakeAddon>) {
+  return apiWrite<CakeAddon>("/cake_addons", "POST", input);
 }
-export async function updateAddon(id: string, input: Partial<CakeAddon>) {
-  return unwrap(
-    ...toTuple(await supabase.from("cake_addons").update(input).eq("id", id).select().single()),
-  );
+export function updateAddon(id: string, input: Partial<CakeAddon>) {
+  return apiWrite<CakeAddon>(`/cake_addons/${encodeURIComponent(id)}`, "PATCH", input);
 }
-export async function deleteAddon(id: string) {
-  const { error } = await supabase.from("cake_addons").delete().eq("id", id);
-  if (error) throw new Error(error.message);
-}
-
-// Supabase returns { data, error }; spread it into unwrap(data, error).
-function toTuple<T>(res: { data: T; error: { message: string } | null }): [T, { message: string } | null] {
-  return [res.data, res.error];
+export function deleteAddon(id: string) {
+  return apiWrite<void>(`/cake_addons/${encodeURIComponent(id)}`, "DELETE");
 }

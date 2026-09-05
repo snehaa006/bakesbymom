@@ -1,0 +1,25 @@
+# Cloudflare Worker that serves the built SPA and the /api/* catalog endpoints.
+#
+#   npm run build && npx wrangler deploy
+#   npx wrangler secret put ADMIN_PASSWORD   # required before any write works
+name = "bakesbymom"
+main = "worker/index.ts"
+compatibility_date = "2025-09-01"
+
+# The Vite build output is served for every non-/api/ request; unknown paths
+# fall back to index.html so client-side routing keeps working.
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+# The cake catalog.
+[[d1_databases]]
+binding = "DB"
+database_name = "bakesbymom"
+database_id = "b5999126-bffc-4889-976d-4698ba64879a"
+
+# Uploaded cake photos, streamed back through /api/photos/<key>.
+[[r2_buckets]]
+binding = "PHOTOS"
+bucket_name = "bakesbymom-photos"

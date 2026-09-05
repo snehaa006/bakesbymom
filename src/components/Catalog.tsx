@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchCatalog, type CategoryWithCakes } from "../lib/catalog";
 import { formatPrice } from "../lib/format";
-import { isSupabaseConfigured } from "../lib/supabase";
+import { isApiConfigured } from "../lib/api";
 import { PageHeader } from "./PageHeader";
 
 export function Catalog() {
@@ -11,7 +11,7 @@ export function Catalog() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isSupabaseConfigured) {
+    if (!isApiConfigured) {
       setLoading(false);
       return;
     }
@@ -35,18 +35,18 @@ export function Catalog() {
           </p>
         </header>
 
-        {!isSupabaseConfigured && (
+        {!isApiConfigured && (
           <div className="catalog__notice">
-            The catalog database isn&apos;t connected yet. Add your Supabase keys to a
-            <code> .env </code> file (see <code>.env.example</code>) and run the SQL in
-            <code> supabase/schema.sql</code>.
+            The catalog API isn&apos;t reachable. Point <code>VITE_API_BASE_URL</code> at your
+            Worker in a <code>.env</code> file (see <code>.env.example</code>), and make sure
+            <code> db/schema.sql</code> has been applied to the D1 database.
           </div>
         )}
 
         {loading && <div className="catalog__status">Loading the catalog…</div>}
         {error && <div className="catalog__notice catalog__notice--error">{error}</div>}
 
-        {!loading && !error && isSupabaseConfigured && categories.length === 0 && (
+        {!loading && !error && isApiConfigured && categories.length === 0 && (
           <div className="catalog__status">
             No categories yet — add some from the Admin panel (button in the footer).
           </div>
