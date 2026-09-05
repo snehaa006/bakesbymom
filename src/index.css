@@ -591,8 +591,8 @@ main {
    pill (50) still wins, and the badge never reaches it anyway. */
 .spin-badge--float {
   position: fixed;
-  /* left gutter, part of it off the edge like the reference */
-  left: clamp(-54px, -3vw, -24px);
+  /* sits in the left gutter with a small margin off the window edge */
+  left: clamp(14px, 1.6vw, 26px);
   /* clear of the seal, which is parked at the bottom-left corner */
   bottom: clamp(200px, 26vh, 330px);
   z-index: 45;
@@ -602,7 +602,7 @@ main {
 @media (max-width: 1200px) {
   .spin-badge--float {
     width: 130px;
-    left: -34px;
+    left: 16px;
     bottom: clamp(190px, 24vh, 250px);
   }
 }
@@ -1555,7 +1555,7 @@ main {
 
   .spin-badge--float {
     width: 108px;
-    left: -28px;
+    left: 12px;
     bottom: clamp(150px, 20vh, 210px);
   }
 
