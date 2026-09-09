@@ -9,15 +9,22 @@ const FOV = 30;
    perspective brings the near side closer as the model sways. */
 const FIT_MARGIN = 1.08;
 
-/* Half-amplitude of the idle sway, in radians. The fit has to account for it:
-   turning the model presents a wider silhouette than its resting one. */
-const SWAY = 0.36;
+/* Total scroll-driven swing, in radians. The fit has to account for half of it
+   either side of the resting angle: turning a model presents a wider
+   silhouette than its resting one. */
+const SWING = 0.8;
 
 interface FlowModelProps {
   /** Path under public/, e.g. "/mixer.glb". */
   src: string;
   /** Describes the prop for assistive tech, e.g. "Stand mixer". */
   label: string;
+  /**
+   * Y rotation in degrees that turns the model's real front to the camera.
+   * None of these props are authored facing forward — the oven's door is at
+   * 270, so at 0 it shows a blank back panel — so each one carries its own.
+   */
+  front: number;
 }
 
 /**
@@ -27,7 +34,7 @@ interface FlowModelProps {
  * nothing is fetched until the stage nears the viewport, and the render loop
  * only runs while it is on screen.
  */
-export function FlowModel({ src, label }: FlowModelProps) {
+export function FlowModel({ src, label, front }: FlowModelProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
 
@@ -72,6 +79,22 @@ export function FlowModel({ src, label }: FlowModelProps) {
     let radius = 1;
     const clock = new THREE.Clock();
 
+    /* Scrolling drives the turn, like the hero: 0 with the stage low in the
+       viewport, 1 with it high, so moving up and down swings the prop either
+       way around its front, which it faces when centred. */
+    let scrollTarget = 0.5;
+    let scrollCurrent = 0.5;
+
+    const readScroll = () => {
+      const rect = host.getBoundingClientRect();
+      const centre = rect.top + rect.height / 2;
+      scrollTarget = THREE.MathUtils.clamp(1 - centre / (window.innerHeight || 1), 0, 1);
+    };
+
+    readScroll();
+    scrollCurrent = scrollTarget;
+    window.addEventListener("scroll", readScroll, { passive: true });
+
     /* Fit to the bounding box, not the bounding sphere: these props are tall and
        thin, so a sphere fit wastes a third of the stage on empty margin. The
        horizontal term takes the wider of the resting and fully-swayed
@@ -82,8 +105,16 @@ export function FlowModel({ src, label }: FlowModelProps) {
       if (!width || !height) return;
       const aspect = width / height;
       const halfFov = (FOV * Math.PI) / 360;
-      const swayed = half.x * Math.cos(SWAY) + half.z * Math.sin(SWAY);
-      const horizontal = Math.max(half.x, swayed);
+      /* Widest silhouette anywhere in the swing around the resting angle. */
+      const base = (front * Math.PI) / 180;
+      let horizontal = 0;
+      for (let i = 0; i <= 8; i++) {
+        const angle = base + (i / 8 - 0.5) * SWING;
+        horizontal = Math.max(
+          horizontal,
+          Math.abs(half.x * Math.cos(angle)) + Math.abs(half.z * Math.sin(angle)),
+        );
+      }
       const forHeight = half.y / Math.tan(halfFov);
       const forWidth = horizontal / (Math.tan(halfFov) * aspect);
       const distance = Math.max(forHeight, forWidth) * FIT_MARGIN;
@@ -123,12 +154,12 @@ export function FlowModel({ src, label }: FlowModelProps) {
     };
 
     const render = () => {
-      if (model && !reduceMotion) {
-        /* Sway around the authored front rather than spinning: in a box this
-           small a full rotation shows the model's back half the time. */
-        const elapsed = clock.getElapsedTime();
-        model.rotation.y = Math.sin(elapsed * 0.5) * 0.36;
-        model.position.y = Math.sin(elapsed * 1.05) * radius * 0.02;
+      scrollCurrent = THREE.MathUtils.lerp(scrollCurrent, scrollTarget, 0.08);
+      if (model) {
+        model.rotation.y = (front * Math.PI) / 180 + (scrollCurrent - 0.5) * SWING;
+        if (!reduceMotion) {
+          model.position.y = Math.sin(clock.getElapsedTime() * 1.05) * radius * 0.02;
+        }
       }
       renderer.render(scene, camera);
       animationFrame = onScreen ? window.requestAnimationFrame(render) : 0;
@@ -157,6 +188,7 @@ export function FlowModel({ src, label }: FlowModelProps) {
       window.cancelAnimationFrame(animationFrame);
       observer.disconnect();
       resizeObserver.disconnect();
+      window.removeEventListener("scroll", readScroll);
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
@@ -174,7 +206,7 @@ export function FlowModel({ src, label }: FlowModelProps) {
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [src]);
+  }, [src, front]);
 
   return (
     <div
