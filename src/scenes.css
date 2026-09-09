@@ -800,7 +800,7 @@
   transform-style: preserve-3d;
 }
 
-/* glb props (stages 1, 2 and 4) fill their stage box; the canvas is sized in
+/* glb props (every stage) fill their stage box; the canvas is sized in
    CSS pixels by the renderer, so it just needs to sit at the origin. */
 .flow-model {
   position: absolute;

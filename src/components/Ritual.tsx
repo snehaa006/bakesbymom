@@ -1,45 +1,8 @@
 import { useRef } from "react";
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
-import { Hearth } from "./Hearth";
 import { FlowModel } from "./FlowModel";
 import { useHoverTilt } from "../hooks/useTilt";
-
-/* Chip layout shared by every cookie (percent coordinates inside the disc). */
-const CHIPS = [
-  { x: 30, y: 26 },
-  { x: 62, y: 22 },
-  { x: 46, y: 44 },
-  { x: 22, y: 56 },
-  { x: 70, y: 52 },
-  { x: 38, y: 70 },
-  { x: 60, y: 74 },
-  { x: 78, y: 36 },
-];
-
-type CookieVariant = "raw" | "baking" | "done";
-
-function Cookie({ variant }: { variant: CookieVariant }) {
-  return (
-    <div className={`cookie cookie--${variant}`}>
-      <div className="cookie__body">
-        <div className="cookie__gloss" />
-        {CHIPS.map((c, i) => (
-          <span key={i} className="cookie__chip" style={{ left: `${c.x}%`, top: `${c.y}%` }} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* Stage 3 — baking in the same hearth from the hero, shrunk to fit the row. */
-function BakeScene() {
-  return (
-    <Hearth compact>
-      <Cookie variant="baking" />
-    </Hearth>
-  );
-}
 
 interface StageProps {
   index: number;
@@ -100,8 +63,8 @@ export function Ritual() {
           <FlowModel src="/oven.glb" label="Oven with a cake baking inside" front={270} />
         </FlowStage>
         <FlowArrow />
-        <FlowStage index={3} title="Bake" caption="Into the wood-fired hearth until golden.">
-          <BakeScene />
+        <FlowStage index={3} title="Pipe" caption="Buttercream roses piped on by hand.">
+          <FlowModel src="/piping.glb" label="Baker piping roses onto a tiered cake" front={282} />
         </FlowStage>
         <FlowArrow />
         <FlowStage index={4} title="Done" caption="Crispy edges, gooey centre, melting chips.">
