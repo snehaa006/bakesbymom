@@ -9,6 +9,16 @@ type SceneStatus = "loading" | "ready" | "error";
    scaled to this height and re-grounded once the bounding box is known. */
 const TARGET_HEIGHT = 2.2;
 
+/* Camera distance is what sets how much of the frame she fills: the vertical
+   span visible at her plane is 2 * dist * tan(fov / 2), so 4.0 leaves just
+   over 10% headroom above TARGET_HEIGHT. */
+const CAMERA_DISTANCE = 4;
+
+/* Scroll travel, as a fraction of the viewport, over which her turn plays out.
+   She sits at the top of the page and is mostly scrolled away by half a
+   viewport, so the turn has to finish inside that or it plays off-screen. */
+const SCROLL_RANGE = 0.45;
+
 export function AuntyScene() {
   const hostRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<SceneStatus>("loading");
@@ -24,8 +34,8 @@ export function AuntyScene() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-    camera.position.set(0, 1.18, 4.2);
-    camera.lookAt(0, 1.05, 0);
+    camera.position.set(0, TARGET_HEIGHT / 2, CAMERA_DISTANCE);
+    camera.lookAt(0, TARGET_HEIGHT / 2, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -71,20 +81,23 @@ export function AuntyScene() {
     let aunty: THREE.Object3D | undefined;
     let restingY = 0;
     const clock = new THREE.Clock();
-    const pointerTarget = new THREE.Vector2();
-    const pointerCurrent = new THREE.Vector2();
 
-    const moveAunty = (event: PointerEvent) => {
-      const bounds = host.getBoundingClientRect();
-      pointerTarget.set(
-        THREE.MathUtils.clamp(((event.clientX - bounds.left) / bounds.width - 0.5) * 2, -1, 1),
-        THREE.MathUtils.clamp(((event.clientY - bounds.top) / bounds.height - 0.5) * 2, -1, 1),
+    /* She is driven entirely by scroll position, not by the pointer: 0 with the
+       page at rest, 1 once the hero has scrolled away. The rendered value is
+       eased towards the target so a jumpy wheel still reads as a smooth turn. */
+    let scrollTarget = 0;
+    let scrollCurrent = 0;
+
+    const readScroll = () => {
+      scrollTarget = THREE.MathUtils.clamp(
+        window.scrollY / (window.innerHeight * SCROLL_RANGE || 1),
+        0,
+        1,
       );
     };
 
-    const resetAunty = () => pointerTarget.set(0, 0);
-    host.addEventListener("pointermove", moveAunty);
-    host.addEventListener("pointerleave", resetAunty);
+    readScroll();
+    window.addEventListener("scroll", readScroll, { passive: true });
 
     new GLTFLoader().load(
       "/aunty.glb",
@@ -133,12 +146,16 @@ export function AuntyScene() {
 
     const render = () => {
       const elapsed = clock.getElapsedTime();
-      pointerCurrent.lerp(pointerTarget, 0.06);
+      scrollCurrent = THREE.MathUtils.lerp(scrollCurrent, scrollTarget, 0.07);
       if (aunty) {
-        aunty.rotation.y = pointerCurrent.x * 0.3;
+        /* Scroll scrubs the turn: she pivots to face the page and settles down
+           a touch, as if leaning over the counter. */
+        aunty.rotation.y = scrollCurrent * 0.62;
+        aunty.rotation.z = scrollCurrent * -0.045;
+        aunty.position.y = restingY - scrollCurrent * 0.075;
         if (!reduceMotion) {
-          aunty.position.y = restingY + Math.sin(elapsed * 1.1) * 0.018;
-          aunty.rotation.z = Math.sin(elapsed * 0.85) * 0.008;
+          aunty.position.y += Math.sin(elapsed * 1.1) * 0.018;
+          aunty.rotation.z += Math.sin(elapsed * 0.85) * 0.008;
         }
       }
       renderer.render(scene, camera);
@@ -150,8 +167,7 @@ export function AuntyScene() {
       disposed = true;
       window.cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
-      host.removeEventListener("pointermove", moveAunty);
-      host.removeEventListener("pointerleave", resetAunty);
+      window.removeEventListener("scroll", readScroll);
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
@@ -172,7 +188,7 @@ export function AuntyScene() {
   }, []);
 
   return (
-    <div className="aunty-3d" aria-label="Interactive 3D model of the baker behind Bakesbymom">
+    <div className="aunty-3d" aria-label="3D model of the baker behind Bakesbymom">
       <div ref={hostRef} className="aunty-3d__canvas" />
       {status === "loading" && (
         <span className="aunty-3d__status">
