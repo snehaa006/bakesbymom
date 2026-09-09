@@ -16,14 +16,14 @@ export function Visit() {
 
       <Reveal className="visit__orbs">
         <div className="orb orb--wheat">
-          <LoafIcon size={42} color="#F7E9C4" strokeWidth={1.4} />
+          <LoafIcon size={42} color="#7A0F2A" strokeWidth={1.4} />
         </div>
         <div className="orb orb--coffee">
           <div className="orb__steam" />
-          <CupIcon size={40} color="#F7E9C4" />
+          <CupIcon size={40} color="#7A0F2A" />
         </div>
         <div className="orb orb--berry">
-          <FlowerIcon size={42} color="#F7E9C4" />
+          <FlowerIcon size={42} color="#7A0F2A" />
         </div>
       </Reveal>
 
