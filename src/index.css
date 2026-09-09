@@ -452,28 +452,25 @@ main {
   min-height: 100vh;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
   align-items: center;
   gap: clamp(24px, 4vw, 60px);
-  padding: 150px clamp(28px, 5vw, 76px) 96px 0;
-}
-
-/* Photo bleeds off the left edge and tilts slightly, like the reference. */
-.hero__media {
-  position: relative;
-  margin-left: clamp(-110px, -6vw, -40px);
-  margin-bottom: -6vh;
-}
-
-/* Tilt lives on the frame — .reveal owns the transform on the wrapper. */
-.hero__media .photo-slot {
-  transform: rotate(-3.5deg);
+  /* Left padding clears .spin-badge--float, which is fixed in the left gutter
+     and used to sit over the hero photo rather than over the copy. */
+  padding: 150px clamp(28px, 5vw, 76px) 96px clamp(180px, 16vw, 232px);
 }
 
 .hero__copy {
-  text-align: center;
+  text-align: left;
   max-width: 620px;
-  margin: 0 auto;
+}
+
+/* The 3D scene bleeds a little past the right padding so aunty reads as
+   standing in the band rather than inside a box. */
+.hero__scene {
+  position: relative;
+  margin-right: clamp(-56px, -3vw, -16px);
+  margin-bottom: -4vh;
 }
 
 .hero__title {
@@ -496,7 +493,7 @@ main {
   font-size: 1.02rem;
   line-height: 1.75;
   color: #5a362b;
-  margin: 0 auto 36px;
+  margin: 0 0 36px;
   max-width: 520px;
 }
 
@@ -1046,6 +1043,61 @@ main {
   letter-spacing: 0.08em;
 }
 
+/* ---------------------------------- aunty 3D scene ---------------------------------- */
+
+.aunty-3d {
+  position: relative;
+  height: clamp(460px, 60vh, 720px);
+  isolation: isolate;
+}
+
+/* Soft warm glows behind the model, same treatment as the baker scene. */
+.aunty-3d::before,
+.aunty-3d::after {
+  position: absolute;
+  z-index: -1;
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  content: "";
+  filter: blur(10px);
+}
+
+.aunty-3d::before {
+  top: 14%;
+  left: 12%;
+  background: radial-gradient(circle, rgba(243, 158, 175, 0.32), rgba(243, 158, 175, 0));
+}
+
+.aunty-3d::after {
+  right: 8%;
+  bottom: 6%;
+  background: radial-gradient(circle, rgba(238, 187, 92, 0.28), rgba(238, 187, 92, 0));
+}
+
+.aunty-3d__canvas {
+  position: absolute;
+  inset: 0;
+  cursor: default;
+}
+
+.aunty-3d__status {
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  padding: 9px 13px;
+  border: 1px solid rgba(158, 17, 52, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 247, 227, 0.48);
+  color: #8a2140;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translate(50%, 50%);
+  backdrop-filter: blur(8px);
+}
+
 /* ---------------------------------- scroll cue ---------------------------------- */
 
 .scroll-cue {
@@ -1532,25 +1584,30 @@ main {
 
 /* ---------------------------------- responsive ---------------------------------- */
 
-@media (max-width: 900px) {
+/* The hero stacks earlier than the rest of the page: side-by-side copy and 3D
+   scene need more width than a single column of text does. */
+@media (max-width: 1100px) {
   .hero__grid {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;
-    padding: 132px 28px 96px 0;
+    padding: 132px 28px 96px;
     gap: 40px;
   }
 
-  .hero__media {
+  .hero__scene {
+    margin-right: 0;
     margin-bottom: 0;
   }
 
+  .aunty-3d {
+    height: clamp(340px, 58vw, 460px);
+  }
+}
+
+
+@media (max-width: 900px) {
   .hero__copy {
     padding: 0 8px;
-  }
-
-  .photo-slot--hero {
-    aspect-ratio: 4 / 3;
-    max-height: 46vh;
   }
 
   .hero__wave {

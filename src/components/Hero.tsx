@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
-import { PhotoSlot } from "./PhotoSlot";
+import { AuntyScene } from "./AuntyScene";
 import { ArrowIcon } from "./icons";
-
-/* The 3D baker scene still lives in ./BakerScene.tsx — it is intentionally
-   not rendered here, but the code is kept so it can be dropped back in. */
 
 export function Hero() {
   return (
@@ -20,14 +17,6 @@ export function Hero() {
         </div>
 
         <div className="hero__grid">
-          <Reveal className="hero__media">
-            <PhotoSlot
-              className="photo-slot--hero"
-              label="Hero photo"
-              hint="A box of cakes, brownies & cookies"
-            />
-          </Reveal>
-
           <Reveal className="hero__copy">
             <h1 className="hero__title">
               We're <em className="hero__title-script">Bakesbymom</em>
@@ -42,6 +31,10 @@ export function Hero() {
               <span className="hero__cta-divider" aria-hidden="true" />
               <ArrowIcon />
             </Link>
+          </Reveal>
+
+          <Reveal className="hero__scene">
+            <AuntyScene />
           </Reveal>
         </div>
       </div>
