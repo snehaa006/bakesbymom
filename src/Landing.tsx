@@ -11,13 +11,15 @@ import { Ritual } from "./components/Ritual";
 import { Breads } from "./components/Breads";
 import { Timeline } from "./components/Timeline";
 import { Visit } from "./components/Visit";
-import { useNavAndSealScroll } from "./hooks/useScrollEffects";
+import { useNavAndSealScroll, useScrolledPast } from "./hooks/useScrollEffects";
 
 export function Landing() {
   const navRef = useRef<HTMLElement>(null);
   const sealRef = useRef<HTMLDivElement>(null);
 
   useNavAndSealScroll(navRef, sealRef);
+  // The badge is not painted on the first screen — it pops in on the first scroll.
+  const badgeIn = useScrolledPast(40);
 
   return (
     <div className="page">
@@ -27,9 +29,10 @@ export function Landing() {
       <Nav ref={navRef} />
 
       {/* Pinned to the viewport, so it rides along the whole page — top to bottom
-          and back up — and always paints over the sections it passes. */}
+          and back up — and always paints over the sections it passes. It jumps
+          in out of a butter-yellow flare the first time the page is scrolled. */}
       <RotatingBadge
-        className="spin-badge--float"
+        className={`spin-badge--float ${badgeIn ? "spin-badge--in" : ""}`.trim()}
         text="order your cakes and cookies now"
         src="/badge-tart.png"
       />

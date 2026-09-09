@@ -2,6 +2,35 @@
 
 :root {
   color-scheme: light;
+
+  /* One warm, yellow-led palette for the whole site. Every section is built
+     from these, so the page reads as a single tone from top to bottom instead
+     of drifting from cream to pink to near-black. */
+  --cream-100: #fdf7e6;
+  --cream-200: #fbf2d4;
+  --cream-300: #f9eec1;
+  --butter-400: #f7e9be;
+  --butter-500: #f6e2b0;
+  --honey-600: #f3d9ae;
+  --honey-700: #eecb96;
+  --apricot: #f6d3bd;
+  --blush-300: #f3bfb5;
+  --blush: #f1a5a9;
+  --rose: #e0748f;
+  --amber: #f0a93a;
+  --amber-deep: #d97a2b;
+  --crimson: #bf152f;
+  /* Sampled off the original final chapter: the maroon it settles on, the cream
+     of the pill button, and the blush the script tagline reads as. */
+  --maroon: #40171b;
+  --maroon-deep: #3c1519;
+  --pill-cream: #f4e9c8;
+  --script-blush: #e9beb6;
+  --wine: #9e1134;
+  --wine-deep: #7a0f2a;
+  --cocoa: #5a362b;
+  --cocoa-soft: #8a5a48;
+  --hairline: rgba(158, 17, 52, 0.14);
 }
 
 html,
@@ -117,6 +146,42 @@ a:hover {
   }
 }
 
+/* The tart badge is off-stage until the first scroll, then jumps in. */
+@keyframes badgePop {
+  0% {
+    opacity: 0;
+    transform: translateY(34px) scale(0.3) rotate(-16deg);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1.16) rotate(5deg);
+  }
+  76% {
+    opacity: 1;
+    transform: translateY(3px) scale(0.95) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A butter-yellow flare bursts with it and settles into a soft halo. */
+@keyframes badgeFlare {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+}
+
 @keyframes shimmer {
   0% {
     background-position: 0% 50%;
@@ -162,17 +227,27 @@ a:hover {
   /* clip (not hidden) so position: sticky still works inside the page */
   overflow-x: clip;
   overflow-y: visible;
+  /* Yellow and pink alternate the way the hero band does — cream through
+     acclaim and about, a pink crest over order and ritual, cream again through
+     breads — and then the final chapter goes down through the blush into the
+     maroon it used to end on. The descent is spread over the timeline/visit
+     boundary so it sweeps rather than cuts. */
   background: linear-gradient(
     180deg,
-    #f7e9be 0%,
-    #f6e7b4 15%,
-    #f3d9ae 30%,
-    #eec3b8 44%,
-    #e19da1 56%,
-    #c25269 66%,
-    #9e1134 76%,
-    #7a0f2a 86%,
-    #2e1512 100%
+    var(--cream-300) 0%,
+    var(--butter-400) 13%,
+    #f8e4bc 21%,
+    var(--apricot) 31%,
+    var(--blush) 45%,
+    var(--apricot) 55%,
+    var(--cream-300) 64%,
+    var(--butter-400) 71%,
+    var(--apricot) 77%,
+    var(--blush) 80%,
+    #a02d45 84%,
+    #5c1a25 88%,
+    var(--maroon) 94%,
+    var(--maroon-deep) 100%
   );
 }
 
@@ -188,8 +263,10 @@ a:hover {
   position: absolute;
   top: 0;
   border-radius: 50%;
-  background: rgba(255, 246, 222, 0.85);
-  box-shadow: 0 0 6px rgba(255, 240, 210, 0.6);
+  background: rgba(255, 251, 235, 0.5);
+  box-shadow: 0 0 7px rgba(255, 238, 196, 0.38);
+  /* Softened to a haze so it never reads as a scatter of hard dots on cream. */
+  filter: blur(1px);
   animation-name: flour;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -201,8 +278,8 @@ a:hover {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(60% 45% at 50% 8%, rgba(255, 236, 190, 0.5), transparent 70%),
-    radial-gradient(50% 40% at 88% 92%, rgba(158, 17, 52, 0.28), transparent 70%);
+    radial-gradient(60% 45% at 50% 8%, rgba(255, 241, 202, 0.55), transparent 70%),
+    radial-gradient(52% 40% at 88% 92%, rgba(240, 169, 58, 0.08), transparent 70%);
 }
 
 /* ---------------------------------- seal ---------------------------------- */
@@ -254,10 +331,10 @@ a:hover {
   width: min(1180px, calc(100% - 48px));
   border-radius: 9999px;
   padding: 14px 30px;
-  background: rgba(250, 240, 206, 0.62);
+  background: rgba(255, 250, 232, 0.82);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(158, 17, 52, 0.16);
-  box-shadow: 0 10px 34px rgba(120, 20, 40, 0.1);
+  border: 1px solid rgba(158, 17, 52, 0.2);
+  box-shadow: 0 10px 34px rgba(120, 20, 40, 0.12);
   transition:
     background 0.5s ease,
     box-shadow 0.5s ease;
@@ -546,13 +623,12 @@ main {
   font-family: "Satisfy", cursive;
   font-size: 22px;
   letter-spacing: 0.02em;
-  fill: #9e1134;
-  /* The badge now travels over the whole page, cream at the top through to the
-     deep crimson at the bottom, so the ring carries a soft cream halo to stay
-     readable on both ends. Invisible against the light sections. */
+  fill: var(--wine);
+  /* The ring rides over every section, so it carries its own butter-yellow
+     halo — that halo is what the badge is read as, warm side first. */
   paint-order: stroke fill;
-  stroke: rgba(251, 240, 205, 0.92);
-  stroke-width: 2.4;
+  stroke: rgba(253, 236, 176, 0.95);
+  stroke-width: 2.6;
   stroke-linejoin: round;
 }
 
@@ -604,6 +680,35 @@ main {
   bottom: clamp(200px, 26vh, 330px);
   z-index: 45;
   width: clamp(120px, 13vw, 180px);
+  /* Nothing on stage while the hero is still full-screen: the badge jumps in
+     on the first scroll (.spin-badge--in) and then rides along as before. */
+  opacity: 0;
+  transform: translateY(34px) scale(0.3);
+}
+
+/* The yellow burst it arrives out of; it stays as a soft halo behind the tart.
+   First in the box, so the ring and the photo always paint over it. */
+.spin-badge--float::before {
+  content: "";
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    rgba(255, 219, 128, 0.72) 0%,
+    rgba(250, 232, 168, 0.34) 46%,
+    rgba(249, 238, 193, 0) 72%
+  );
+}
+
+.spin-badge--float.spin-badge--in {
+  animation: badgePop 0.78s cubic-bezier(0.2, 1.5, 0.42, 1) both;
+}
+
+.spin-badge--float.spin-badge--in::before {
+  animation: badgeFlare 1.1s ease-out 0.06s both;
 }
 
 @media (max-width: 1200px) {
@@ -617,6 +722,23 @@ main {
 @media (prefers-reduced-motion: reduce) {
   .spin-badge__ring {
     animation: none;
+  }
+
+  /* No jump — the badge simply fades in on the first scroll. */
+  .spin-badge--float {
+    transform: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .spin-badge--float.spin-badge--in,
+  .spin-badge--float.spin-badge--in::before {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .spin-badge--float.spin-badge--in::before {
+    opacity: 0.2;
   }
 }
 
@@ -965,8 +1087,8 @@ main {
 .about__value {
   padding: 30px 28px;
   border-radius: 24px;
-  background: rgba(251, 242, 212, 0.72);
-  border: 1px solid rgba(158, 17, 52, 0.14);
+  background: rgba(253, 247, 230, 0.86);
+  border: 1px solid var(--hairline);
   box-shadow: 0 18px 44px rgba(120, 30, 40, 0.1);
 }
 
@@ -1141,7 +1263,7 @@ main {
 /* ---------------------------------- shared story panel (chapters I & III) ---------------------------------- */
 
 .story-panel {
-  background: #fbf2d4;
+  background: var(--cream-100);
   border-radius: 26px;
   padding: 52px;
   box-shadow: 0 26px 60px rgba(120, 30, 40, 0.1);
@@ -1250,16 +1372,11 @@ main {
   box-shadow: 0 40px 80px rgba(120, 30, 40, 0.2);
 }
 
-.card--sourdough {
-  background: #fbf2d4;
-}
-
-.card--brioche {
-  background: #fcefea;
-}
-
+.card--sourdough,
+.card--brioche,
 .card--croissant {
-  background: #fbf2d4;
+  background: var(--cream-100);
+  border: 1px solid var(--hairline);
 }
 
 .card__glow {
@@ -1273,15 +1390,15 @@ main {
 }
 
 .card--sourdough .card__glow {
-  background: radial-gradient(60% 65% at 50% 45%, #f6b84a 0%, #c0264c 58%, #6e0e2b 100%);
+  background: radial-gradient(62% 66% at 50% 42%, #ffeab4 0%, var(--amber) 54%, var(--amber-deep) 100%);
 }
 
 .card--brioche .card__glow {
-  background: radial-gradient(60% 65% at 50% 42%, #f7c9d2 0%, #bf152f 60%, #7a1030 100%);
+  background: radial-gradient(62% 66% at 50% 42%, #ffe3d8 0%, var(--blush) 54%, #d4718a 100%);
 }
 
 .card--croissant .card__glow {
-  background: radial-gradient(60% 65% at 50% 45%, #f0b44e 0%, #6b3a1e 62%, #2e1512 100%);
+  background: radial-gradient(62% 66% at 50% 42%, #fdf1c8 0%, #e9c06a 54%, #c98f42 100%);
 }
 
 .card__body {
@@ -1335,7 +1452,9 @@ main {
 }
 
 .timeline__item {
-  background: rgba(158, 17, 52, 0.16);
+  background: var(--cream-100);
+  border: 1px solid var(--hairline);
+  box-shadow: 0 14px 34px rgba(120, 30, 40, 0.08);
   border-radius: 18px;
   padding: 24px 28px;
   transition:
@@ -1348,7 +1467,7 @@ main {
 }
 
 .timeline__item--now {
-  background: linear-gradient(90deg, rgba(240, 169, 58, 0.3), rgba(191, 21, 47, 0.2));
+  background: linear-gradient(90deg, rgba(240, 169, 58, 0.32), rgba(241, 165, 169, 0.3));
 }
 
 .timeline__year {
@@ -1383,7 +1502,7 @@ main {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.26em;
-  color: #f1a5a9;
+  color: var(--script-blush);
   font-weight: 600;
   margin: 0 0 22px;
 }
@@ -1392,7 +1511,7 @@ main {
   font-family: "Zilla Slab", serif;
   font-size: clamp(2.8rem, 6.4vw, 5.4rem);
   line-height: 1.02;
-  color: #f7e9c4;
+  color: var(--pill-cream);
   margin: 0 0 26px;
   font-weight: 700;
 }
@@ -1400,7 +1519,7 @@ main {
 .visit__subtitle {
   font-size: 1.04rem;
   line-height: 1.7;
-  color: rgba(247, 233, 196, 0.82);
+  color: rgba(244, 233, 200, 0.82);
   max-width: 620px;
   margin: 0 auto 56px;
 }
@@ -1408,8 +1527,8 @@ main {
 .visit__orbs {
   max-width: 1000px;
   margin: 0 auto 56px;
-  background: rgba(247, 233, 196, 0.06);
-  border: 1px solid rgba(247, 233, 196, 0.14);
+  background: rgba(244, 233, 200, 0.06);
+  border: 1px solid rgba(244, 233, 200, 0.14);
   border-radius: 30px;
   padding: 56px;
   display: flex;
@@ -1447,7 +1566,7 @@ main {
 
 .orb--coffee {
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 35%, #c9a98f 0%, #5a2a22 62%, #2e1512 100%);
+  background: radial-gradient(circle at 50% 35%, #c9a98f 0%, #5a2a22 62%, var(--maroon-deep) 100%);
   box-shadow: 0 0 40px rgba(90, 40, 30, 0.5);
   animation-duration: 6.6s;
   animation-delay: 0.6s;
@@ -1507,28 +1626,28 @@ main {
 }
 
 .btn--filled {
-  background: #f7e9c4;
-  color: #9e1134;
+  background: var(--pill-cream);
+  color: var(--wine);
 }
 
 .btn--filled:hover {
-  box-shadow: 0 16px 34px rgba(247, 233, 196, 0.3);
+  box-shadow: 0 16px 34px rgba(244, 233, 200, 0.3);
 }
 
 .btn--outline {
   background: transparent;
-  color: #f7e9c4;
-  border: 1px solid rgba(247, 233, 196, 0.5);
+  color: var(--pill-cream);
+  border: 1px solid rgba(244, 233, 200, 0.5);
 }
 
 .btn--outline:hover {
-  background: rgba(247, 233, 196, 0.12);
+  background: rgba(244, 233, 200, 0.12);
 }
 
 .visit__tagline {
   font-family: "Satisfy", cursive;
   font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-  background: linear-gradient(90deg, #f7e9c4, #f1a5a9, #f7e9c4);
+  background: linear-gradient(90deg, var(--pill-cream), var(--script-blush), var(--pill-cream));
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1548,7 +1667,7 @@ main {
 
 .visit__copyright {
   font-size: 0.74rem;
-  color: rgba(247, 233, 196, 0.45);
+  color: rgba(244, 233, 200, 0.45);
   margin: 0;
 }
 
@@ -1556,8 +1675,8 @@ main {
   font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  color: rgba(247, 233, 196, 0.5);
-  border: 1px solid rgba(247, 233, 196, 0.22);
+  color: rgba(244, 233, 200, 0.5);
+  border: 1px solid rgba(244, 233, 200, 0.22);
   border-radius: 9999px;
   padding: 6px 16px;
   transition:
@@ -1566,8 +1685,8 @@ main {
 }
 
 .visit__admin-link:hover {
-  color: #f7e9c4;
-  border-color: rgba(247, 233, 196, 0.5);
+  color: var(--pill-cream);
+  border-color: rgba(244, 233, 200, 0.5);
 }
 
 .nav__link--cta {

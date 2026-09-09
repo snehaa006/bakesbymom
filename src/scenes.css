@@ -709,20 +709,13 @@
   }
 }
 
-@keyframes flowTravel {
-  0% {
-    left: 2%;
-    opacity: 0;
-  }
-  22% {
-    opacity: 1;
-  }
-  78% {
-    opacity: 1;
-  }
+@keyframes arrowNudge {
+  0%,
   100% {
-    left: 98%;
-    opacity: 0;
+    transform: translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(16%) rotate(-3deg);
   }
 }
 
@@ -860,52 +853,42 @@
   position: relative;
   flex: 0 0 auto;
   align-self: flex-start;
-  margin-top: calc(var(--u) * 6.4);
-  width: clamp(18px, 2vw, 34px);
-  height: calc(var(--u) * 2);
+  margin-top: calc(var(--u) * 5.9);
+  width: clamp(34px, 4vw, 64px);
+  height: calc(var(--u) * 3);
+  /* The whole arrow leans towards the next stage and settles back — no bead
+     running along a rail. */
+  animation: arrowNudge 2.8s ease-in-out infinite;
 }
 
-.flow__track {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: calc(var(--u) * 1);
-  height: 2px;
-  transform: translateY(-50%);
-  border-radius: 2px;
-  background: linear-gradient(90deg, rgba(158, 17, 52, 0.2), rgba(191, 21, 47, 0.55));
+.flow__arrow svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.flow__head {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: calc(var(--u) * 1.1);
-  height: calc(var(--u) * 1.1);
-  transform: translateY(-50%) rotate(45deg);
-  border-top: 2px solid #bf152f;
-  border-right: 2px solid #bf152f;
+.flow__arrow path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3.4;
 }
 
-.flow__travel {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: calc(var(--u) * 1.5);
-  height: calc(var(--u) * 1.5);
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 34%, #ffd98a 0%, #f0892e 55%, #bf152f 100%);
-  box-shadow: 0 0 calc(var(--u) * 1) rgba(240, 140, 60, 0.7);
-  animation: flowTravel 2.8s ease-in-out infinite;
+.flow__arrow-shaft {
+  stroke: rgba(240, 169, 58, 0.85);
 }
 
-.flow__stage:nth-child(3) + .flow__arrow .flow__travel {
-  animation-delay: 0.9s;
+.flow__arrow-head {
+  stroke: #bf152f;
 }
 
-.flow__stage:nth-child(5) + .flow__arrow .flow__travel {
-  animation-delay: 1.8s;
+.flow__stage:nth-child(3) + .flow__arrow {
+  animation-delay: 0.5s;
+}
+
+.flow__stage:nth-child(5) + .flow__arrow {
+  animation-delay: 1s;
 }
 
 /* ============================================================================
@@ -1282,9 +1265,9 @@
   .flow__arrow {
     align-self: center;
     margin-top: 0;
-    width: calc(var(--u) * 2);
-    height: clamp(20px, 5vw, 34px);
-    transform: rotate(90deg);
+    width: clamp(34px, 9vw, 64px);
+    height: calc(var(--u) * 3);
+    rotate: 90deg;
   }
 }
 
@@ -1298,7 +1281,7 @@
   .cookie--done,
   .shape__flour,
   .done__steam,
-  .flow__travel {
+  .flow__arrow {
     animation: none !important;
   }
 }

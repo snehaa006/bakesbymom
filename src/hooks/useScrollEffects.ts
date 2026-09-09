@@ -1,5 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { RefObject } from "react";
+
+/**
+ * True once the page has been scrolled past `threshold`, and true from then on.
+ * Used to hold an element off-stage until the reader actually starts moving.
+ */
+export function useScrolledPast(threshold = 40) {
+  const [past, setPast] = useState(false);
+
+  useEffect(() => {
+    if (past) return;
+
+    const onScroll = () => {
+      if (window.scrollY > threshold) setPast(true);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Covers a reload that restores the scroll position mid-page.
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [past, threshold]);
+
+  return past;
+}
 
 export function useNavAndSealScroll(
   navRef: RefObject<HTMLElement | null>,
@@ -11,11 +34,11 @@ export function useNavAndSealScroll(
       const nav = navRef.current;
       if (nav) {
         if (y > 60) {
-          nav.style.background = "rgba(250,240,206,0.9)";
-          nav.style.boxShadow = "0 12px 40px rgba(120,20,40,0.16)";
+          nav.style.background = "rgba(255,251,236,0.94)";
+          nav.style.boxShadow = "0 12px 40px rgba(120,20,40,0.18)";
         } else {
-          nav.style.background = "rgba(250,240,206,0.62)";
-          nav.style.boxShadow = "0 10px 34px rgba(120,20,40,0.10)";
+          nav.style.background = "rgba(255,250,232,0.82)";
+          nav.style.boxShadow = "0 10px 34px rgba(120,20,40,0.12)";
         }
       }
 

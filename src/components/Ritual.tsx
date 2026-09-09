@@ -32,12 +32,14 @@ function FlowStage({ index, title, caption, children }: StageProps) {
   );
 }
 
+/** A soft doodled arrow between two stages: one curved stroke, a rounded head. */
 function FlowArrow() {
   return (
     <div className="flow__arrow" aria-hidden="true">
-      <span className="flow__track" />
-      <span className="flow__travel" />
-      <span className="flow__head" />
+      <svg viewBox="0 0 52 30" fill="none">
+        <path className="flow__arrow-shaft" d="M5 24C11 11 22 6 44 13" />
+        <path className="flow__arrow-head" d="M33.5 16.1 44 13 37.2 4.4" />
+      </svg>
     </div>
   );
 }
