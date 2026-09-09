@@ -741,11 +741,15 @@
 /* ------------------------------- flow layout ------------------------------- */
 
 .flow {
-  --u: clamp(6px, 0.86vw, 9px);
+  --u: clamp(9px, 1.2vw, 18px);
+  /* Doubling the props outgrows .ritual's 1240px text column, so the row alone
+     breaks out and re-centres itself. */
+  width: min(1400px, 96vw);
+  margin-inline: calc((100% - min(1400px, 96vw)) / 2);
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: clamp(4px, 1vw, 16px);
+  gap: clamp(3px, 0.5vw, 8px);
   flex-wrap: nowrap;
   perspective: 1300px;
   perspective-origin: 50% 40%;
@@ -761,7 +765,7 @@
 
 .flow__scene {
   position: relative;
-  width: calc(var(--u) * 17);
+  width: calc(var(--u) * 16);
   height: calc(var(--u) * 15);
   transform-style: preserve-3d;
 }
@@ -847,7 +851,7 @@
   flex: 0 0 auto;
   align-self: flex-start;
   margin-top: calc(var(--u) * 6.4);
-  width: clamp(22px, 3.2vw, 58px);
+  width: clamp(18px, 2vw, 34px);
   height: calc(var(--u) * 2);
 }
 
@@ -1194,7 +1198,7 @@
    ============================================================================ */
 
 .hearth--compact {
-  --u: clamp(4.6px, 0.66vw, 7px);
+  --u: clamp(7px, 0.95vw, 13.5px);
 }
 
 .flow__object > .hearth {

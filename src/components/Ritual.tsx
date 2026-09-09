@@ -93,11 +93,11 @@ export function Ritual() {
 
       <Reveal className="flow">
         <FlowStage index={1} title="Mix" caption="Butter, sugar & flour folded into silky dough.">
-          <FlowModel src="/mixer.glb" label="Stand mixer" />
+          <FlowModel src="/mixer.glb" label="Stand mixer" front={30} />
         </FlowStage>
         <FlowArrow />
         <FlowStage index={2} title="Shape" caption="Rolled and pressed into soft, raw rounds.">
-          <FlowModel src="/oven.glb" label="Oven" />
+          <FlowModel src="/oven.glb" label="Oven with a cake baking inside" front={270} />
         </FlowStage>
         <FlowArrow />
         <FlowStage index={3} title="Bake" caption="Into the wood-fired hearth until golden.">
@@ -105,7 +105,7 @@ export function Ritual() {
         </FlowStage>
         <FlowArrow />
         <FlowStage index={4} title="Done" caption="Crispy edges, gooey centre, melting chips.">
-          <FlowModel src="/cake2.2.glb" label="Finished cake" />
+          <FlowModel src="/cake2.2.glb" label="Finished cake" front={300} />
         </FlowStage>
       </Reveal>
     </section>
