@@ -800,11 +800,21 @@
   transform-style: preserve-3d;
 }
 
-/* glb props (every stage) fill their stage box; the canvas is sized in
-   CSS pixels by the renderer, so it just needs to sit at the origin. */
-.flow-model {
+/* glb props (every stage) fill their stage box; the canvas is sized in CSS
+   pixels by the renderer, so it just needs to sit at the origin. A prop that
+   asks for more than the shared size (--flow-model-scale) grows up and out
+   from the same footing instead of being cropped — the row has slack either
+   side, and the canvas is transparent where the prop is not. Beat
+   `.flow__object > *`, which pins every child to the box. */
+.flow__object > .flow-model {
   position: absolute;
-  inset: 0;
+  inset: auto auto 0 50%;
+  width: calc(100% * var(--flow-model-scale, 1));
+  height: calc(100% * var(--flow-model-scale, 1));
+  transform: translateX(-50%);
+  /* An overhanging canvas must not swallow the hover of the stage beside it;
+     the stage box under it still picks the pointer up. */
+  pointer-events: none;
 }
 
 .flow-model canvas {
@@ -1260,7 +1270,10 @@
   .flow {
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    /* Stacked, a prop that overhangs its box (--flow-model-scale) grows into
+       the arrow above it rather than into empty row, so the gap has to cover
+       the tallest overhang instead of just parting the stages. */
+    gap: calc(var(--u) * 2.5);
   }
 
   .flow__arrow {

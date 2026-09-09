@@ -64,7 +64,13 @@ export function Ritual() {
         </FlowStage>
         <FlowArrow />
         <FlowStage index={3} title="Pipe" caption="Buttercream roses piped on by hand.">
-          <FlowModel src="/piping.glb" label="Baker piping roses onto a tiered cake" front={282} />
+          <FlowModel
+            src="/piping.glb"
+            label="Baker piping roses onto a tiered cake"
+            front={282}
+            scale={1.5}
+            tilt={8}
+          />
         </FlowStage>
         <FlowArrow />
         <FlowStage index={4} title="Done" caption="Crispy edges, gooey centre, melting chips.">
