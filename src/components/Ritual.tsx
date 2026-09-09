@@ -67,7 +67,7 @@ export function Ritual() {
           <FlowModel
             src="/piping.glb"
             label="Baker piping roses onto a tiered cake"
-            front={282}
+            front={325}
             scale={1.5}
             tilt={8}
           />
