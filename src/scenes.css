@@ -796,6 +796,21 @@
   transform-style: preserve-3d;
 }
 
+/* glb props (stages 1, 2 and 4) fill their stage box; the canvas is sized in
+   CSS pixels by the renderer, so it just needs to sit at the origin. */
+.flow-model {
+  position: absolute;
+  inset: 0;
+}
+
+.flow-model canvas {
+  display: block;
+}
+
+.flow-model--failed {
+  display: none;
+}
+
 .flow__meta {
   margin-top: calc(var(--u) * 1.2);
   text-align: center;

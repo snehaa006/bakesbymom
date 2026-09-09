@@ -2,6 +2,7 @@ import { useRef } from "react";
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 import { Hearth } from "./Hearth";
+import { FlowModel } from "./FlowModel";
 import { useHoverTilt } from "../hooks/useTilt";
 
 /* Chip layout shared by every cookie (percent coordinates inside the disc). */
@@ -31,58 +32,12 @@ function Cookie({ variant }: { variant: CookieVariant }) {
   );
 }
 
-/* Stage 1 — creaming butter, sugar & flour into dough. */
-function MixScene() {
-  return (
-    <div className="mix">
-      <div className="mix__drop mix__drop--1" />
-      <div className="mix__drop mix__drop--2" />
-      <div className="mix__drop mix__drop--3" />
-      <div className="mix__spoon" />
-      <div className="mix__bowl">
-        <div className="mix__dough" />
-        <div className="mix__shine" />
-      </div>
-    </div>
-  );
-}
-
-/* Stage 2 — shaping the raw dough under a rolling pin. */
-function ShapeScene() {
-  return (
-    <div className="shape">
-      <div className="shape__board" />
-      <Cookie variant="raw" />
-      <div className="shape__pin">
-        <span className="shape__pin-handle shape__pin-handle--l" />
-        <span className="shape__pin-barrel" />
-        <span className="shape__pin-handle shape__pin-handle--r" />
-      </div>
-      <div className="shape__flour shape__flour--1" />
-      <div className="shape__flour shape__flour--2" />
-    </div>
-  );
-}
-
 /* Stage 3 — baking in the same hearth from the hero, shrunk to fit the row. */
 function BakeScene() {
   return (
     <Hearth compact>
       <Cookie variant="baking" />
     </Hearth>
-  );
-}
-
-/* Stage 4 — the finished cookie, golden and glossy. */
-function DoneScene() {
-  return (
-    <div className="done">
-      <div className="done__steam done__steam--1" />
-      <div className="done__steam done__steam--2" />
-      <div className="done__steam done__steam--3" />
-      <Cookie variant="done" />
-      <div className="done__plate" />
-    </div>
   );
 }
 
@@ -138,11 +93,11 @@ export function Ritual() {
 
       <Reveal className="flow">
         <FlowStage index={1} title="Mix" caption="Butter, sugar & flour folded into silky dough.">
-          <MixScene />
+          <FlowModel src="/mixer.glb" label="Stand mixer" />
         </FlowStage>
         <FlowArrow />
         <FlowStage index={2} title="Shape" caption="Rolled and pressed into soft, raw rounds.">
-          <ShapeScene />
+          <FlowModel src="/oven.glb" label="Oven" />
         </FlowStage>
         <FlowArrow />
         <FlowStage index={3} title="Bake" caption="Into the wood-fired hearth until golden.">
@@ -150,7 +105,7 @@ export function Ritual() {
         </FlowStage>
         <FlowArrow />
         <FlowStage index={4} title="Done" caption="Crispy edges, gooey centre, melting chips.">
-          <DoneScene />
+          <FlowModel src="/cake2.2.glb" label="Finished cake" />
         </FlowStage>
       </Reveal>
     </section>
