@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
@@ -25,6 +26,14 @@ interface FlowModelProps {
    * 270, so at 0 it shows a blank back panel — so each one carries its own.
    */
   front: number;
+  /**
+   * How much room the prop takes relative to its stage box. Above 1 it grows
+   * up and out past the box rather than being cropped, for a prop whose scene
+   * holds more than one object and so reads small at the shared size.
+   */
+  scale?: number;
+  /** Degrees the prop leans to the right, in the plane of the screen. */
+  tilt?: number;
 }
 
 /**
@@ -34,7 +43,7 @@ interface FlowModelProps {
  * nothing is fetched until the stage nears the viewport, and the render loop
  * only runs while it is on screen.
  */
-export function FlowModel({ src, label, front }: FlowModelProps) {
+export function FlowModel({ src, label, front, scale = 1, tilt = 0 }: FlowModelProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
 
@@ -115,8 +124,13 @@ export function FlowModel({ src, label, front }: FlowModelProps) {
           Math.abs(half.x * Math.cos(angle)) + Math.abs(half.z * Math.sin(angle)),
         );
       }
-      const forHeight = half.y / Math.tan(halfFov);
-      const forWidth = horizontal / (Math.tan(halfFov) * aspect);
+      /* Leaning the prop trades width for height: bound the rotated silhouette
+         rather than the upright one, or a tilted prop clips at the corners. */
+      const lean = Math.abs((tilt * Math.PI) / 180);
+      const leanedWidth = horizontal * Math.cos(lean) + half.y * Math.sin(lean);
+      const leanedHeight = horizontal * Math.sin(lean) + half.y * Math.cos(lean);
+      const forHeight = leanedHeight / Math.tan(halfFov);
+      const forWidth = leanedWidth / (Math.tan(halfFov) * aspect);
       const distance = Math.max(forHeight, forWidth) * FIT_MARGIN;
 
       camera.aspect = aspect;
@@ -134,6 +148,10 @@ export function FlowModel({ src, label, front }: FlowModelProps) {
         (gltf) => {
           if (disposed) return;
           model = gltf.scene;
+          /* The lean is a screen-plane turn, so it has to sit outside the
+             scroll-driven yaw: ZYX applies z last, in the camera's frame. */
+          model.rotation.order = "ZYX";
+          model.rotation.z = -(tilt * Math.PI) / 180;
 
           /* Every prop ships normalised to a unit cube on the origin, but centre
              and re-fit from the real bounds rather than trusting that. */
@@ -206,12 +224,13 @@ export function FlowModel({ src, label, front }: FlowModelProps) {
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [src, front]);
+  }, [src, front, tilt]);
 
   return (
     <div
       ref={hostRef}
       className={`flow-model ${failed ? "flow-model--failed" : ""}`.trim()}
+      style={{ "--flow-model-scale": scale } as CSSProperties}
       role="img"
       aria-label={label}
     />
