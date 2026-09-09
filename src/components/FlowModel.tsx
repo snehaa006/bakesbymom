@@ -5,9 +5,13 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const FOV = 30;
 
-/* Padding around the model's bounding sphere, so nothing clips as the stage
-   auto-rotates and the box is re-fitted on resize. */
-const FIT_MARGIN = 1.18;
+/* Padding on the fitted distance, covering the idle bob and the fact that
+   perspective brings the near side closer as the model sways. */
+const FIT_MARGIN = 1.08;
+
+/* Half-amplitude of the idle sway, in radians. The fit has to account for it:
+   turning the model presents a wider silhouette than its resting one. */
+const SWAY = 0.36;
 
 interface FlowModelProps {
   /** Path under public/, e.g. "/mixer.glb". */
@@ -64,22 +68,28 @@ export function FlowModel({ src, label }: FlowModelProps) {
     scene.add(new THREE.HemisphereLight(0xffefd1, 0x6b1735, 1.5));
 
     let model: THREE.Object3D | undefined;
+    const half = new THREE.Vector3(0.5, 0.5, 0.5);
     let radius = 1;
     const clock = new THREE.Clock();
 
-    /* Distance depends on aspect: a stage narrower than it is tall has to pull
-       back further or the model overflows sideways. */
+    /* Fit to the bounding box, not the bounding sphere: these props are tall and
+       thin, so a sphere fit wastes a third of the stage on empty margin. The
+       horizontal term takes the wider of the resting and fully-swayed
+       silhouettes, and a stage narrower than it is tall has to pull back
+       further or the model overflows sideways. */
     const fit = () => {
       const { clientWidth: width, clientHeight: height } = host;
       if (!width || !height) return;
       const aspect = width / height;
-      const half = (FOV * Math.PI) / 360;
-      const forHeight = radius / Math.sin(half);
-      const forWidth = radius / Math.sin(Math.atan(Math.tan(half) * aspect));
+      const halfFov = (FOV * Math.PI) / 360;
+      const swayed = half.x * Math.cos(SWAY) + half.z * Math.sin(SWAY);
+      const horizontal = Math.max(half.x, swayed);
+      const forHeight = half.y / Math.tan(halfFov);
+      const forWidth = horizontal / (Math.tan(halfFov) * aspect);
       const distance = Math.max(forHeight, forWidth) * FIT_MARGIN;
 
       camera.aspect = aspect;
-      camera.position.set(0, radius * 0.3, distance);
+      camera.position.set(0, half.y * 0.22, distance);
       camera.lookAt(0, 0, 0);
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
@@ -99,6 +109,7 @@ export function FlowModel({ src, label }: FlowModelProps) {
           const box = new THREE.Box3().setFromObject(model);
           const center = box.getCenter(new THREE.Vector3());
           model.position.sub(center);
+          box.getSize(half).multiplyScalar(0.5);
           radius = box.getBoundingSphere(new THREE.Sphere()).radius || 1;
 
           scene.add(model);
