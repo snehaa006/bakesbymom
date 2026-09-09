@@ -1206,7 +1206,10 @@
   inset: auto;
   left: 50%;
   bottom: 0;
-  transform: translateX(-50%);
+  /* Turned slightly right so the Bake stage reads as three-quarter like the
+     glb props either side of it. Scoped to the flow — the hero hearth is
+     unchanged. */
+  transform: translateX(-50%) rotateY(-18deg);
 }
 
 /* ============================================================================
