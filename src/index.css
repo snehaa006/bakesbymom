@@ -1419,7 +1419,16 @@ main {
 .card__glow {
   height: 240px;
   border-radius: 18px;
+  overflow: hidden;
   transition: filter 0.5s ease;
+}
+
+/* The gradient stays behind the photo, so a missing image still looks right. */
+.card__glow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .card:hover .card__glow {

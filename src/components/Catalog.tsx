@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchCatalog, type CategoryWithCakes } from "../lib/catalog";
 import { formatPrice } from "../lib/format";
-import { isApiConfigured } from "../lib/api";
+import { isApiConfigured, resolvePhotoUrl } from "../lib/api";
 import { PageHeader } from "./PageHeader";
 
 export function Catalog() {
@@ -64,10 +64,10 @@ export function Catalog() {
             ) : (
               <div className="catalog__grid">
                 {cat.cakes.map((cake) => (
-                  <Link key={cake.id} to={`/catalog/${cake.id}`} className="cake-card">
+                  <Link key={cake.id} to={`/catalog/${cake.id}`} className="card cake-card">
                     <div className="cake-card__photo">
                       {cake.cover_url ? (
-                        <img src={cake.cover_url} alt={cake.name} loading="lazy" />
+                        <img src={resolvePhotoUrl(cake.cover_url)} alt={cake.name} loading="lazy" />
                       ) : (
                         <div className="cake-card__placeholder">No photo yet</div>
                       )}
