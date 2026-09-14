@@ -7,7 +7,7 @@ import {
   type CakeDetail as CakeDetailType,
 } from "../lib/catalog";
 import { formatPrice } from "../lib/format";
-import { isApiConfigured } from "../lib/api";
+import { isApiConfigured, resolvePhotoUrl } from "../lib/api";
 import { PageHeader } from "./PageHeader";
 
 export function CakeDetail() {
@@ -79,7 +79,7 @@ export function CakeDetail() {
             <div className="detail__gallery">
               <div className="detail__photo">
                 {cake.photos.length > 0 ? (
-                  <img src={cake.photos[activePhoto]?.url} alt={cake.name} />
+                  <img src={resolvePhotoUrl(cake.photos[activePhoto]?.url ?? "")} alt={cake.name} />
                 ) : (
                   <div className="detail__photo-placeholder">No photos yet</div>
                 )}
@@ -93,7 +93,7 @@ export function CakeDetail() {
                       onClick={() => setActivePhoto(i)}
                       type="button"
                     >
-                      <img src={p.url} alt="" />
+                      <img src={resolvePhotoUrl(p.url)} alt="" />
                     </button>
                   ))}
                 </div>

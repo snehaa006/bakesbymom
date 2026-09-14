@@ -75,3 +75,16 @@ export function apiUpload<T>(path: string, form: FormData): Promise<T> {
     body: form,
   });
 }
+
+/**
+ * Photo URLs are stored in D1 as the Worker path "/api/photos/<key>". That
+ * resolves on its own when the Worker serves the SPA, but not when the site is
+ * hosted elsewhere and points at the Worker through VITE_API_BASE_URL — so
+ * rebase the path onto the configured API origin here. Absolute URLs (what the
+ * admin upload route returns) are handed back untouched.
+ */
+export function resolvePhotoUrl(url: string): string {
+  if (/^(https?:)?\/\//i.test(url) || url.startsWith("data:")) return url;
+  const path = url.startsWith("/api/") ? url.slice("/api".length) : url;
+  return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+}

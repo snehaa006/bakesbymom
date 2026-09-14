@@ -11,6 +11,7 @@ import {
   type CakeDetail,
 } from "../../lib/catalog";
 import { formatPrice } from "../../lib/format";
+import { resolvePhotoUrl } from "../../lib/api";
 
 /** Photos + flavours + add-ons manager for one cake. */
 export function CakeEditor({ cakeId, onError }: { cakeId: string; onError: (m: string) => void }) {
@@ -98,7 +99,7 @@ export function CakeEditor({ cakeId, onError }: { cakeId: string; onError: (m: s
         <div className="admin__photos">
           {cake.photos.map((p) => (
             <div key={p.id} className="admin__photo">
-              <img src={p.url} alt="" />
+              <img src={resolvePhotoUrl(p.url)} alt="" />
               <button
                 type="button"
                 className="admin__photo-del"
