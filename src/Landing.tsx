@@ -1,9 +1,11 @@
 import { useRef } from "react";
 import { FlourLayer } from "./components/FlourLayer";
+import { Intro } from "./components/Intro";
 import { Seal } from "./components/Seal";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { Acclaim } from "./components/Acclaim";
+import { Showcase } from "./components/Showcase";
 import { About } from "./components/About";
 import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
@@ -23,6 +25,7 @@ export function Landing() {
 
   return (
     <div className="page">
+      <Intro />
       <FlourLayer />
       <div className="ambient-glow" />
       <Seal ref={sealRef} />
@@ -40,6 +43,7 @@ export function Landing() {
       <main id="top">
         <Hero />
         <Acclaim />
+        <Showcase />
         <About />
         <HowToOrder />
         <Ritual />

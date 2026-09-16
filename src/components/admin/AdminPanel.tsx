@@ -151,7 +151,7 @@ export function AdminPanel() {
   // -------- render: login gate --------
   if (!authed) {
     return (
-      <div className="catalog-page">
+      <div className="catalog-page admin-page">
         <PageHeader />
         <main className="admin admin--login">
           <form className="admin__login-card" onSubmit={handleLogin}>
@@ -178,7 +178,7 @@ export function AdminPanel() {
   const selectedCategory = catalog.find((c) => c.id === selectedCategoryId) ?? null;
 
   return (
-    <div className="catalog-page">
+    <div className="catalog-page admin-page">
       <PageHeader>
         <button
           type="button"

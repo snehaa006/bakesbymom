@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { fetchCatalog, type CategoryWithCakes } from "../lib/catalog";
-import { formatPrice } from "../lib/format";
-import { isApiConfigured, resolvePhotoUrl } from "../lib/api";
-import { PageHeader } from "./PageHeader";
+import { isApiConfigured } from "../lib/api";
+import { Nav } from "./Nav";
+import { CategoryRow } from "./CategoryRow";
+
+/** Band tints, cycled so neighbouring categories never share a background. */
+const TONES = ["blush", "cream", "rose", "ivory"] as const;
 
 export function Catalog() {
   const [categories, setCategories] = useState<CategoryWithCakes[]>([]);
@@ -23,18 +25,18 @@ export function Catalog() {
 
   return (
     <div className="catalog-page">
-      <PageHeader />
+      <Nav />
+
+      <header className="catalog__hero">
+        <p className="catalog__eyebrow">The Catalog</p>
+        <h1 className="catalog__heading">Every cake, by occasion</h1>
+        <p className="catalog__subtitle">
+          Browse a shelf, open a cake, and build your order — the final price follows the flavour,
+          the size and the finishing touches you pick.
+        </p>
+      </header>
 
       <main className="catalog">
-        <header className="catalog__intro">
-          <p className="catalog__eyebrow">The Catalog</p>
-          <h1 className="catalog__heading">Every cake, by category</h1>
-          <p className="catalog__subtitle">
-            Browse a category, open a cake, and build your order — final price adjusts to the flavour
-            and customizations you choose.
-          </p>
-        </header>
-
         {!isApiConfigured && (
           <div className="catalog__notice">
             The catalog API isn&apos;t reachable. Point <code>VITE_API_BASE_URL</code> at your
@@ -52,41 +54,12 @@ export function Catalog() {
           </div>
         )}
 
-        {categories.map((cat) => (
-          <section key={cat.id} className="catalog__category">
-            <div className="catalog__category-head">
-              <h2 className="catalog__category-name">{cat.name}</h2>
-              {cat.description && <p className="catalog__category-desc">{cat.description}</p>}
-            </div>
-
-            {cat.cakes.length === 0 ? (
-              <p className="catalog__empty">No cakes in this category yet.</p>
-            ) : (
-              <div className="catalog__grid">
-                {cat.cakes.map((cake) => (
-                  <Link key={cake.id} to={`/catalog/${cake.id}`} className="card cake-card">
-                    <div className="cake-card__photo">
-                      {cake.cover_url ? (
-                        <img src={resolvePhotoUrl(cake.cover_url)} alt={cake.name} loading="lazy" />
-                      ) : (
-                        <div className="cake-card__placeholder">No photo yet</div>
-                      )}
-                    </div>
-                    <div className="cake-card__body">
-                      <h3 className="cake-card__title">{cake.name}</h3>
-                      {cake.description && <p className="cake-card__desc">{cake.description}</p>}
-                      <div className="cake-card__meta">
-                        <span className="cake-card__price">{formatPrice(cake.fixed_price)}</span>
-                        <span className="cake-card__perlb">
-                          {formatPrice(cake.per_pound_price)}/lb · {cake.weight_kg} kg
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </section>
+        {categories.map((category, index) => (
+          <CategoryRow
+            key={category.id}
+            category={category}
+            tone={TONES[index % TONES.length]}
+          />
         ))}
       </main>
     </div>
