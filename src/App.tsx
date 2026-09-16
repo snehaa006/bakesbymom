@@ -4,13 +4,31 @@ import { Landing } from "./Landing";
 import { Catalog } from "./components/Catalog";
 import { CakeDetail } from "./components/CakeDetail";
 import { AdminPanel } from "./components/admin/AdminPanel";
+import { ChatBot } from "./components/ChatBot";
 
-// Start each route at the top of the page instead of keeping the old scroll.
+/**
+ * Start each route at the top of the page instead of keeping the old scroll —
+ * unless the link carried a hash, in which case land on that section. The
+ * navbar routes home as "/#about" from the catalog, and this is what catches it.
+ */
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    // The target section may still be mounting on a fresh route, so look for it
+    // on the next frame rather than during this render pass.
+    const frame = requestAnimationFrame(() => {
+      const target = document.querySelector(hash);
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      else window.scrollTo(0, 0);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash]);
+
   return null;
 }
 
@@ -24,6 +42,7 @@ function App() {
         <Route path="/catalog/:cakeId" element={<CakeDetail />} />
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
+      <ChatBot />
     </>
   );
 }

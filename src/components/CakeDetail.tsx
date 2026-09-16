@@ -8,7 +8,7 @@ import {
 } from "../lib/catalog";
 import { formatPrice } from "../lib/format";
 import { isApiConfigured, resolvePhotoUrl } from "../lib/api";
-import { PageHeader } from "./PageHeader";
+import { Nav } from "./Nav";
 
 export function CakeDetail() {
   const { cakeId } = useParams<{ cakeId: string }>();
@@ -60,7 +60,7 @@ export function CakeDetail() {
 
   return (
     <div className="catalog-page">
-      <PageHeader />
+      <Nav />
 
       <main className="detail">
         <Link to="/catalog" className="detail__back">
