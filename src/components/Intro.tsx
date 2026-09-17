@@ -3,8 +3,8 @@ import type { AnimationEvent } from "react";
 
 /**
  * The curtain that opens the site: the wordmark fades up small and centred,
- * then walks forward towards the reader until it overflows the screen, and the
- * whole panel dissolves to leave the landing page behind it.
+ * settles, swells a touch towards the reader, and the whole panel dissolves to
+ * leave the landing page behind it.
  *
  * It belongs to the page load, not to the route — coming back to "/" from the
  * catalog should not replay it — so a module-level flag remembers that it has

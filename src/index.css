@@ -1493,6 +1493,131 @@ main {
   margin: 0;
 }
 
+/* ---------------------------------- reviews ---------------------------------- */
+
+/* Social proof between the breads and the timeline: one blush card carrying a
+   single voice, and four cream cards around it. */
+.reviews {
+  position: relative;
+  z-index: 5;
+  scroll-margin-top: 118px;
+  padding: 20px 40px 120px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.reviews__intro {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 56px;
+}
+
+.reviews__heading {
+  font-family: "Satisfy", cursive;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  line-height: 1.16;
+  color: #9e1134;
+  font-weight: 400;
+}
+
+.reviews__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+  align-items: stretch;
+}
+
+.review {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--cream-100);
+  border: 1px solid var(--hairline);
+  border-radius: 26px;
+  padding: 30px 28px;
+  box-shadow: 0 26px 60px rgba(120, 30, 40, 0.1);
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s ease;
+}
+
+.review:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 40px 80px rgba(120, 30, 40, 0.18);
+}
+
+/* The lead card: wine ground, cream type, and it takes two of the three columns
+   so the row still closes with a regular card beside it. */
+.review--feature {
+  grid-column: span 2;
+  background: linear-gradient(140deg, var(--wine) 0%, var(--wine-deep) 100%);
+  border-color: rgba(244, 233, 200, 0.18);
+  color: var(--pill-cream);
+  overflow: hidden;
+}
+
+/* An oversized open quote, bled off the top-right corner behind the text. */
+.review__quote-mark {
+  position: absolute;
+  top: -28px;
+  right: 18px;
+  font-family: "Playfair Display", serif;
+  font-size: 11rem;
+  line-height: 1;
+  color: rgba(244, 233, 200, 0.16);
+  pointer-events: none;
+}
+
+.review__stars {
+  display: inline-flex;
+  gap: 4px;
+  color: var(--amber);
+}
+
+.review--feature .review__stars {
+  color: var(--butter-500);
+}
+
+.review__text {
+  position: relative;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #5a362b;
+  margin: 0;
+}
+
+.review--feature .review__text {
+  font-family: "Zilla Slab", serif;
+  font-size: clamp(1.2rem, 2.1vw, 1.62rem);
+  line-height: 1.45;
+  color: var(--pill-cream);
+}
+
+.review__name {
+  font-family: "Zilla Slab", serif;
+  font-size: 1.06rem;
+  font-weight: 700;
+  color: #9e1134;
+  margin: auto 0 0;
+}
+
+.review--feature .review__name {
+  color: var(--pill-cream);
+}
+
+.review__meta {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--cocoa-soft);
+  margin: 0;
+}
+
+.review--feature .review__meta {
+  color: var(--script-blush);
+}
+
 /* ---------------------------------- chapter III — timeline ---------------------------------- */
 
 .timeline {
@@ -1795,6 +1920,10 @@ main {
   .aunty-3d {
     height: clamp(400px, 74vw, 560px);
   }
+
+  .reviews__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 
@@ -1858,6 +1987,22 @@ main {
 
   .breads__grid {
     grid-template-columns: 1fr;
+  }
+
+  .reviews {
+    padding: 20px 28px 96px;
+  }
+
+  .reviews__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .review--feature {
+    grid-column: span 1;
+  }
+
+  .review__quote-mark {
+    font-size: 8rem;
   }
 
   .story-panel {
@@ -1928,12 +2073,14 @@ main {
 /* ---------------------------------- intro curtain ---------------------------------- */
 
 /* Three beats, all on one timeline so they cannot drift apart:
-   the mark fades up small, walks forward past the edges of the screen, and the
-   cream panel dissolves off the top of the landing page. */
+   the mark fades up small, settles and swells a touch towards the reader, and
+   the cream panel dissolves off the top of the landing page. The swell is
+   deliberately slight — the wordmark stays whole on screen rather than walking
+   forward past its edges. */
 @keyframes introMark {
   0% {
     opacity: 0;
-    transform: scale(0.82);
+    transform: scale(0.9);
     letter-spacing: 0.4em;
   }
   18% {
@@ -1947,9 +2094,14 @@ main {
     letter-spacing: 0.12em;
     animation-timing-function: cubic-bezier(0.62, 0.02, 0.32, 1);
   }
+  72% {
+    opacity: 1;
+    transform: scale(1.14);
+    letter-spacing: 0.11em;
+  }
   100% {
     opacity: 0;
-    transform: scale(9);
+    transform: scale(1.2);
     letter-spacing: 0.1em;
   }
 }
@@ -2021,17 +2173,16 @@ main {
   color: var(--wine-deep);
 }
 
-/* The rule and the tagline bow out before the walk forward starts, so only the
-   wordmark pushes through the screen — the way the reference does it. */
+/* The rule and the tagline hold with the wordmark through the swell and leave
+   with it, so the lockup stays whole for the whole curtain. */
 @keyframes introSupport {
   0% {
     opacity: 0;
   }
   22%,
-  46% {
+  72% {
     opacity: 1;
   }
-  62%,
   100% {
     opacity: 0;
   }
