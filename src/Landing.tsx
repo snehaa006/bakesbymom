@@ -11,6 +11,7 @@ import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
 import { Ritual } from "./components/Ritual";
 import { Breads } from "./components/Breads";
+import { Reviews } from "./components/Reviews";
 import { Timeline } from "./components/Timeline";
 import { Visit } from "./components/Visit";
 import { useNavAndSealScroll, useScrolledPast } from "./hooks/useScrollEffects";
@@ -48,6 +49,7 @@ export function Landing() {
         <HowToOrder />
         <Ritual />
         <Breads />
+        <Reviews />
         <Timeline />
         <Visit />
       </main>

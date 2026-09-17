@@ -84,3 +84,11 @@ export function ArrowIcon({ size = 18, color = "currentColor", strokeWidth = 1.8
     </svg>
   );
 }
+
+export function StarIcon({ size = 16, color = "currentColor" }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} stroke="none">
+      <path d="M12 3.2l2.6 5.5 5.9.8-4.3 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.5 9.5l5.9-.8z" />
+    </svg>
+  );
+}
