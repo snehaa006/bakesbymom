@@ -4,7 +4,7 @@ import { Intro } from "./components/Intro";
 import { Seal } from "./components/Seal";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
-import { Acclaim } from "./components/Acclaim";
+import { Products } from "./components/Products";
 import { Showcase } from "./components/Showcase";
 import { About } from "./components/About";
 import { HowToOrder } from "./components/HowToOrder";
@@ -43,7 +43,7 @@ export function Landing() {
 
       <main id="top">
         <Hero />
-        <Acclaim />
+        <Products />
         <Showcase />
         <About />
         <HowToOrder />

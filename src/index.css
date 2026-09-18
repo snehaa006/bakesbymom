@@ -260,7 +260,7 @@ a:hover {
   overflow-x: clip;
   overflow-y: visible;
   /* Yellow and pink alternate the way the hero band does — cream through
-     acclaim and about, a pink crest over order and ritual, cream again through
+     products and about, a pink crest over order and ritual, cream again through
      breads — and then the final chapter goes down through the blush into the
      maroon it used to end on. The descent is spread over the timeline/visit
      boundary so it sweeps rather than cuts. */
@@ -961,11 +961,12 @@ main {
   letter-spacing: 0.1em;
 }
 
-/* ---------------------------------- acclaim ---------------------------------- */
+/* ---------------------------------- products ---------------------------------- */
 
-.acclaim {
+.products {
   position: relative;
   z-index: 5;
+  scroll-margin-top: 118px;
   /* clip, not hidden, so the sticky badge can travel */
   overflow-x: clip;
   overflow-y: visible;
@@ -973,95 +974,208 @@ main {
 }
 
 /* Soft organic colour marks — palette only, no new hues. */
-.acclaim__blob {
+.products__blob {
   position: absolute;
   z-index: 0;
   pointer-events: none;
 }
 
-.acclaim__blob--peach {
-  top: 6%;
+.products__blob--peach {
+  top: 4%;
   left: -20%;
   width: clamp(360px, 46vw, 680px);
   aspect-ratio: 1.5 / 1;
-  background: #f6d3bd;
+  background: var(--apricot);
   border-radius: 64% 36% 52% 48% / 62% 38% 62% 38%;
   transform: rotate(-9deg);
-  opacity: 0.9;
+  opacity: 0.55;
 }
 
-.acclaim__blob--blush {
+.products__blob--blush {
   right: -16%;
   bottom: -8%;
   width: clamp(330px, 42vw, 620px);
   aspect-ratio: 1.3 / 1;
-  background: #f1a5a9;
+  background: var(--blush);
   border-radius: 42% 58% 64% 36% / 54% 40% 60% 46%;
   transform: rotate(7deg);
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
-.acclaim__inner {
+.products__inner {
   position: relative;
   z-index: 2;
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 40px);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 0.72fr);
-  align-items: center;
-  gap: clamp(24px, 4vw, 56px);
 }
 
-.acclaim__quote {
+.products__head {
   text-align: center;
 }
 
-.acclaim__quote-text {
-  display: flex;
-  flex-direction: column;
-  margin: 0 0 16px;
-  color: #9e1134;
+.products__eyebrow {
+  margin: 0 0 10px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--cocoa-soft);
 }
 
-.acclaim__quote-line {
-  font-family: "Zilla Slab", serif;
-  font-size: clamp(1.7rem, 3.2vw, 2.9rem);
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.acclaim__quote-script {
-  font-family: "Satisfy", cursive;
-  font-size: clamp(2.1rem, 4vw, 3.5rem);
-  line-height: 1.2;
-  color: #bf152f;
-}
-
-.acclaim__quote-meta {
-  font-size: 0.86rem;
-  font-style: italic;
-  line-height: 1.6;
-  color: #8a5a48;
+.products__heading {
   margin: 0;
+  font-family: "Zilla Slab", serif;
+  font-size: clamp(2.4rem, 5.6vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--wine);
 }
 
-.acclaim__badges {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(16px, 2.4vw, 28px);
-  align-items: center;
+.products__body {
+  max-width: 640px;
+  margin: 14px auto 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--cocoa);
 }
 
-.acclaim__badges .photo-slot:nth-child(2) {
-  margin-left: clamp(12px, 2vw, 28px);
-}
-
-.acclaim__cutout {
+/* The View more rule sits centred; the arrows ride the right edge beside it. */
+.products__actions {
   position: relative;
-  justify-self: end;
-  width: clamp(230px, 26vw, 360px);
-  margin-right: clamp(-70px, -4vw, -20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: clamp(20px, 3vw, 34px);
+}
+
+.products__more {
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--wine);
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--wine);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.products__more:hover {
+  color: var(--crimson);
+  border-color: var(--crimson);
+}
+
+.products__arrows {
+  position: absolute;
+  right: 0;
+  display: flex;
+  gap: 12px;
+}
+
+.products__arrow {
+  display: grid;
+  place-items: center;
+  width: clamp(38px, 4vw, 48px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--wine);
+  color: var(--cream-200);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.products__arrow:hover {
+  background: var(--crimson);
+  transform: scale(1.06);
+}
+
+.products__arrow:active {
+  transform: scale(0.96);
+}
+
+.products__arrow--prev svg {
+  transform: rotate(180deg);
+}
+
+/* The belt itself runs edge to edge, fading out into the page on both sides. */
+.products__viewport {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(26px, 3.4vw, 46px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 clamp(28px, 6vw, 110px),
+    #000 calc(100% - clamp(28px, 6vw, 110px)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 clamp(28px, 6vw, 110px),
+    #000 calc(100% - clamp(28px, 6vw, 110px)),
+    transparent 100%
+  );
+}
+
+.products__track {
+  display: flex;
+  gap: clamp(16px, 2.2vw, 30px);
+  width: max-content;
+  padding: 6px clamp(16px, 2.2vw, 30px) 6px 0;
+  will-change: transform;
+}
+
+.product-card {
+  flex: 0 0 auto;
+  width: clamp(210px, 22vw, 300px);
+  color: var(--wine);
+}
+
+.product-card__photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border-radius: 22px;
+  background: var(--cream-300);
+  box-shadow: 0 16px 36px rgba(90, 54, 43, 0.14);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.product-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.product-card:hover .product-card__photo {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 44px rgba(90, 54, 43, 0.22);
+}
+
+.product-card:hover .product-card__photo img {
+  transform: scale(1.06);
+}
+
+.product-card__name {
+  margin: 14px 2px 0;
+  font-family: "Zilla Slab", serif;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--wine);
+  transition: color 0.25s ease;
+}
+
+.product-card:hover .product-card__name {
+  color: var(--crimson);
 }
 
 /* ---------------------------------- about ---------------------------------- */
@@ -1953,23 +2067,14 @@ main {
     width: min(420px, 88%);
   }
 
-  .acclaim__inner {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 36px;
+  /* Under 900px the arrows drop below the rule rather than crowd it. */
+  .products__actions {
+    flex-direction: column;
+    gap: 22px;
   }
 
-  .acclaim__badges {
-    flex-direction: row;
-  }
-
-  .acclaim__badges .photo-slot:nth-child(2) {
-    margin-left: 0;
-  }
-
-  .acclaim__cutout {
-    width: min(340px, 78%);
-    margin-right: 0;
+  .products__arrows {
+    position: static;
   }
 
   .about__top {
@@ -2017,6 +2122,14 @@ main {
 @media (max-width: 560px) {
   .nav {
     padding: 11px 16px;
+  }
+
+  .product-card {
+    width: 62vw;
+  }
+
+  .product-card__photo {
+    border-radius: 18px;
   }
 
   .nav__logo {
