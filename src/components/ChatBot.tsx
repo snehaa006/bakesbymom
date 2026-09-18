@@ -4,6 +4,10 @@ import { fetchCatalog, type CategoryWithCakes } from "../lib/catalog";
 import { isApiConfigured, resolvePhotoUrl } from "../lib/api";
 import { formatPrice } from "../lib/format";
 import { answer, STARTER_CHIPS, type BotReply, type CakeHit } from "../lib/chat";
+import { OrderBuilder } from "./OrderBuilder";
+
+/** Chip that opens the order slip rather than asking the bot a question. */
+const ORDER_CHIP = "Place an order";
 
 interface Message {
   id: number;
@@ -18,9 +22,9 @@ const GREETING: Message = {
   from: "bot",
   text: [
     "Hello! I'm Mom's little helper.",
-    "Ask me about sizes, flavours, budgets or what to get for an occasion — or tap one of these:",
+    "Ask me about sizes, flavours, budgets or what to get for an occasion — or start an order and I'll put the whole thing together for WhatsApp:",
   ],
-  chips: STARTER_CHIPS,
+  chips: [ORDER_CHIP, ...STARTER_CHIPS],
 };
 
 /**
@@ -35,6 +39,8 @@ export function ChatBot() {
   const [draft, setDraft] = useState("");
   const [catalog, setCatalog] = useState<CategoryWithCakes[]>([]);
   const [loaded, setLoaded] = useState(false);
+  /** Null while chatting; a cake id (or "") once the order slip is open. */
+  const [ordering, setOrdering] = useState<string | null>(null);
 
   const nextId = useRef(1);
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -71,6 +77,10 @@ export function ChatBot() {
   function send(question: string) {
     const trimmed = question.trim();
     if (!trimmed) return;
+    if (trimmed === ORDER_CHIP) {
+      setOrdering("");
+      return;
+    }
 
     const reply: BotReply = answer(trimmed, catalog);
     setMessages((prev) => [
@@ -109,10 +119,24 @@ export function ChatBot() {
             <p className="chat__title">Cake assistant</p>
             <p className="chat__sub">Sizes · flavours · prices · what to gift</p>
           </div>
+          {ordering === null && (
+            <button type="button" className="chat__order" onClick={() => setOrdering("")}>
+              Order
+            </button>
+          )}
           <button type="button" className="chat__close" onClick={() => setOpen(false)} aria-label="Close">
             ×
           </button>
         </header>
+
+        {ordering !== null ? (
+          <OrderBuilder
+            catalog={catalog}
+            startCakeId={ordering || undefined}
+            onClose={() => setOrdering(null)}
+          />
+        ) : (
+        <>
 
         <div className="chat__scroll" ref={scrollerRef}>
           {messages.map((message) => (
@@ -126,24 +150,32 @@ export function ChatBot() {
               {message.cakes && message.cakes.length > 0 && (
                 <div className="chat__cakes">
                   {message.cakes.map((cake) => (
-                    <Link
-                      key={cake.id}
-                      to={`/catalog/${cake.id}`}
-                      className="chat__cake"
-                      onClick={() => setOpen(false)}
-                    >
-                      <span className="chat__cake-photo">
-                        {cake.photo ? (
-                          <img src={resolvePhotoUrl(cake.photo)} alt="" loading="lazy" />
-                        ) : null}
-                      </span>
-                      <span className="chat__cake-text">
-                        <span className="chat__cake-name">{cake.name}</span>
-                        <span className="chat__cake-meta">
-                          {formatPrice(cake.price)} · {cake.weightKg} kg · {cake.category}
+                    <div key={cake.id} className="chat__cake-row">
+                      <Link
+                        to={`/catalog/${cake.id}`}
+                        className="chat__cake"
+                        onClick={() => setOpen(false)}
+                      >
+                        <span className="chat__cake-photo">
+                          {cake.photo ? (
+                            <img src={resolvePhotoUrl(cake.photo)} alt="" loading="lazy" />
+                          ) : null}
                         </span>
-                      </span>
-                    </Link>
+                        <span className="chat__cake-text">
+                          <span className="chat__cake-name">{cake.name}</span>
+                          <span className="chat__cake-meta">
+                            {formatPrice(cake.price)} · {cake.weightKg} kg · {cake.category}
+                          </span>
+                        </span>
+                      </Link>
+                      <button
+                        type="button"
+                        className="chat__cake-order"
+                        onClick={() => setOrdering(cake.id)}
+                      >
+                        Order this
+                      </button>
+                    </div>
                   ))}
                 </div>
               )}
@@ -180,6 +212,8 @@ export function ChatBot() {
             Send
           </button>
         </form>
+        </>
+        )}
       </div>
     </>
   );

@@ -2741,6 +2741,406 @@ main {
   background: var(--crimson);
 }
 
+/* ---------------------------------- order builder ---------------------------------- */
+
+.chat__order {
+  margin-left: auto;
+  margin-right: 8px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--pill-cream);
+  color: var(--wine-deep);
+  font-family: "Inter", sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.chat__order:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.chat__cake-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.chat__cake-row .chat__cake {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat__cake-order {
+  flex: 0 0 auto;
+  padding: 0 11px;
+  border: 1px solid rgba(122, 15, 42, 0.2);
+  border-radius: 14px;
+  background: var(--cream-200);
+  color: var(--wine);
+  font-family: "Inter", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.chat__cake-order:hover {
+  background: var(--wine);
+  color: var(--cream-100);
+}
+
+.builder {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.builder__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 8px;
+}
+
+.builder__back {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--wine);
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.builder__back:hover {
+  color: var(--crimson);
+}
+
+.builder__count {
+  margin-left: auto;
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: var(--cocoa-soft);
+}
+
+.builder__progress {
+  height: 3px;
+  background: rgba(122, 15, 42, 0.12);
+}
+
+.builder__progress span {
+  display: block;
+  height: 100%;
+  background: var(--wine);
+  transition: width 0.3s ease;
+}
+
+.builder__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.builder__scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.builder__scroll::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(122, 15, 42, 0.22);
+}
+
+.builder__q {
+  margin: 0;
+  font-family: "Zilla Slab", serif;
+  font-size: 1.16rem;
+  font-weight: 700;
+  color: var(--wine);
+}
+
+.builder__hint {
+  margin: 0;
+  font-size: 0.7rem;
+  line-height: 1.55;
+  color: var(--cocoa-soft);
+}
+
+.builder__opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.builder__opt {
+  padding: 8px 13px;
+  border: 1px solid rgba(122, 15, 42, 0.2);
+  border-radius: 999px;
+  background: var(--cream-200);
+  color: var(--wine);
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.builder__opt:hover {
+  border-color: var(--wine);
+}
+
+.builder__opt.is-on {
+  background: var(--wine);
+  border-color: var(--wine);
+  color: var(--cream-100);
+}
+
+.builder__cakes {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.builder__cake {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px;
+  border: 1px solid rgba(122, 15, 42, 0.16);
+  border-radius: 14px;
+  background: var(--cream-200);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.builder__cake:hover,
+.builder__cake.is-on {
+  border-color: var(--wine);
+  background: #fff;
+}
+
+.builder__cake-photo {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--cream-300);
+}
+
+.builder__cake-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.builder__cake-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.builder__cake-name {
+  font-family: "Zilla Slab", serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--wine);
+}
+
+.builder__cake-meta {
+  font-size: 0.66rem;
+  color: var(--cocoa-soft);
+}
+
+.builder__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.builder__field > span {
+  font-family: "Inter", sans-serif;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cocoa-soft);
+}
+
+.builder__field input,
+.builder__field textarea,
+.builder__message {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(122, 15, 42, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--cocoa);
+  font-family: "Inter", sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.builder__field input:focus,
+.builder__field textarea:focus,
+.builder__message:focus {
+  outline: none;
+  border-color: var(--wine);
+}
+
+.builder__price {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--cocoa);
+}
+
+.builder__price strong {
+  color: var(--wine);
+}
+
+.builder__file input {
+  display: none;
+}
+
+.builder__file {
+  display: inline-block;
+  padding: 9px 14px;
+  border: 1px dashed rgba(122, 15, 42, 0.4);
+  border-radius: 12px;
+  background: var(--cream-200);
+  color: var(--wine);
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.builder__file:hover {
+  border-style: solid;
+}
+
+.builder__ref {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.builder__ref img {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(122, 15, 42, 0.16);
+}
+
+.builder__ref button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--cocoa-soft);
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.builder__message {
+  min-height: 190px;
+  font-size: 0.74rem;
+}
+
+.builder__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.builder__send {
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: #1f9d55;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.builder__send:hover {
+  background: #17804a;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.builder__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px 14px;
+  border-top: 1px solid rgba(122, 15, 42, 0.12);
+}
+
+.builder__ghost {
+  padding: 10px 16px;
+  border: 1px solid rgba(122, 15, 42, 0.24);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--wine);
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.builder__ghost:hover:not(:disabled) {
+  background: var(--wine);
+  color: var(--cream-100);
+}
+
+.builder__ghost:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.builder__next {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--wine);
+  color: var(--cream-100);
+  font-family: "Inter", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.builder__next:hover {
+  background: var(--crimson);
+}
+
 /* On a phone the panel takes the screen rather than floating over a sliver. */
 @media (max-width: 560px) {
   .chat {
@@ -2756,5 +3156,12 @@ main {
     bottom: 14px;
     padding: 12px 18px;
     font-size: 0.66rem;
+  }
+
+  /* Give the cake its name back — the order button gets the narrower column. */
+  .chat__cake-order {
+    padding: 0 8px;
+    font-size: 0.54rem;
+    letter-spacing: 0.04em;
   }
 }
