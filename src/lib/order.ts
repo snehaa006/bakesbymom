@@ -33,9 +33,9 @@ export const SIZES: { kg: number; label: string }[] = [
 ];
 
 /**
- * Fallbacks for cakes that have no flavour or add-on rows of their own yet.
- * Once the admin panel fills `cake_flavours` / `cake_addons`, the builder uses
- * those instead — priced, and specific to the cake.
+ * Flavours for cakes that have no flavour rows of their own yet. Once the
+ * admin panel fills `cake_flavours`, the builder uses those instead — priced,
+ * and specific to the cake.
  */
 export const HOUSE_FLAVOURS = [
   "Chocolate truffle",
@@ -48,14 +48,19 @@ export const HOUSE_FLAVOURS = [
   "Rasmalai",
 ];
 
-export const HOUSE_ADDONS = [
-  "Eggless",
+/** Finishing touches for anything iced and candle-worthy. */
+const CAKE_ADDONS = [
   "Message piped on top",
   "Candles",
   "Name plaque",
   "Fresh flowers",
   "Photo print on top",
 ];
+
+/** Finishing touches for the boxed things that travel as gifts. */
+const GIFT_ADDONS = ["Gift wrapping", "Gift box", "Greeting card note"];
+
+export const HOUSE_ADDONS = CAKE_ADDONS;
 
 export const TIME_SLOTS = [
   "Morning (9am – 12pm)",
@@ -64,11 +69,154 @@ export const TIME_SLOTS = [
   "Night (8pm – 10pm)",
 ];
 
+/**
+ * One thing the kitchen sells, and the questions worth asking about it.
+ *
+ * Only cakes come out of the catalog — they are the rows the admin panel
+ * maintains, with photos and prices. Everything else is baked to order off a
+ * short list, so its options live here and its price is settled on WhatsApp.
+ */
+export interface ProductType {
+  id: string;
+  label: string;
+  /** Pick the occasion and the cake out of the live catalog. */
+  catalog?: boolean;
+  /** Asked before the flavour, for things where the flour is the choice. */
+  flours?: string[];
+  flavours: string[];
+  /** The "how much" question, when it isn't a cake weight. */
+  quantity?: { label: string; options: string[] };
+  addons: string[];
+  /** Wording for the free-text line the customer wants written on it. */
+  inscription: string;
+}
+
+/**
+ * Everything is eggless, so it is said once on the first screen rather than
+ * offered as a choice nobody has.
+ */
+export const EGGLESS_NOTE = "Everything we bake is 100% eggless.";
+
+export const PRODUCT_TYPES: ProductType[] = [
+  {
+    id: "cake",
+    label: "Cake",
+    catalog: true,
+    flavours: HOUSE_FLAVOURS,
+    addons: CAKE_ADDONS,
+    inscription: "Message piped on the cake",
+  },
+  {
+    id: "brownies",
+    label: "Brownies",
+    flavours: [
+      "Oreo brownie",
+      "Biscoff brownie",
+      "Triple chocolate brownie",
+      "Walnut brownie",
+      "KitKat brownie",
+      "Mixed flavours",
+    ],
+    quantity: { label: "How many?", options: ["Box of 4", "Box of 6", "Box of 9", "Box of 12"] },
+    addons: GIFT_ADDONS,
+    inscription: "Note on the gift card",
+  },
+  {
+    id: "dry-cake",
+    label: "Dry cake",
+    flavours: ["Vanilla", "Chocolate", "Marble", "Banana walnut", "Orange", "Tutti frutti", "Coffee"],
+    quantity: { label: "How much?", options: ["½ kg", "1 kg", "1½ kg", "2 kg"] },
+    addons: GIFT_ADDONS,
+    inscription: "Note on the gift card",
+  },
+  {
+    id: "cookies",
+    label: "Cookies",
+    flours: ["Maida", "Wheat flour", "Ragi", "Oats", "Jowar"],
+    flavours: [
+      "Choco chip",
+      "Rolled oats",
+      "Coconut",
+      "Butter / nankhatai",
+      "Dry fruit",
+      "Chocolate",
+      "Jeera (salted)",
+    ],
+    quantity: { label: "How much?", options: ["250 g", "500 g", "750 g", "1 kg"] },
+    addons: GIFT_ADDONS,
+    inscription: "Note on the gift card",
+  },
+  {
+    id: "jar-cake",
+    label: "Jar cake",
+    flavours: [
+      "Chocolate truffle",
+      "Red velvet",
+      "Butterscotch",
+      "Blueberry",
+      "Biscoff",
+      "Oreo",
+      "Rasmalai",
+      "Tiramisu",
+      "Pineapple",
+      "Mango",
+      "Strawberry",
+    ],
+    quantity: { label: "How many jars?", options: ["1 jar", "2 jars", "4 jars", "6 jars", "12 jars"] },
+    addons: GIFT_ADDONS,
+    inscription: "Note on the gift card",
+  },
+  {
+    id: "cupcakes",
+    label: "Cupcakes",
+    flavours: HOUSE_FLAVOURS,
+    quantity: { label: "How many?", options: ["6 cupcakes", "12 cupcakes", "24 cupcakes"] },
+    addons: CAKE_ADDONS,
+    inscription: "Message piped on top",
+  },
+  {
+    id: "cake-cupcakes",
+    label: "Cake + cupcake combo",
+    flavours: HOUSE_FLAVOURS,
+    quantity: {
+      label: "Which combo?",
+      options: [
+        "½ kg cake + 6 cupcakes",
+        "1 kg cake + 6 cupcakes",
+        "1 kg cake + 12 cupcakes",
+        "1½ kg cake + 12 cupcakes",
+      ],
+    },
+    addons: CAKE_ADDONS,
+    inscription: "Message piped on the cake",
+  },
+  {
+    id: "bento",
+    label: "Bento cake",
+    flavours: HOUSE_FLAVOURS,
+    quantity: { label: "How many?", options: ["1 bento", "2 bentos", "3 bentos", "4 or more"] },
+    addons: CAKE_ADDONS,
+    inscription: "Message piped on the bento",
+  },
+];
+
+export function findProduct(id: string): ProductType | null {
+  return PRODUCT_TYPES.find((p) => p.id === id) ?? null;
+}
+
 export interface OrderDraft {
+  /** Which of PRODUCT_TYPES this order is for. */
+  product: string;
   occasion: string;
   cakeName: string;
   weightKg: number;
+  /** Cookies are chosen by flour before they are chosen by flavour. */
+  flour: string;
   flavour: string;
+  /** Anything the list doesn't carry — berries, a flavour they had once. */
+  customFlavour: string;
+  /** "Box of 6", "500 g", "2 jars" — whatever the product counts in. */
+  quantity: string;
   addons: string[];
   cakeMessage: string;
   date: string;
@@ -86,10 +234,14 @@ export interface OrderDraft {
 }
 
 export const EMPTY_DRAFT: OrderDraft = {
+  product: "",
   occasion: "",
   cakeName: "",
   weightKg: 1,
+  flour: "",
   flavour: "",
+  customFlavour: "",
+  quantity: "",
   addons: [],
   cakeMessage: "",
   date: "",
@@ -137,21 +289,31 @@ function prettyDate(value: string): string {
 
 /**
  * The order as the bakery reads it on WhatsApp: one line per answer, and
- * nothing printed for a question the customer skipped.
+ * nothing printed for a question the customer skipped or was never asked. A
+ * cake lists its occasion, catalog name and weight; a box of cookies lists its
+ * flour and how much of it — the same slip, shaped by what was ordered.
  */
 export function buildMessage(draft: OrderDraft): string {
-  const lines: string[] = ["Hello Bakesbymom! I'd like to order a cake 🎂", ""];
+  const product = findProduct(draft.product);
+  const lines: string[] = ["Hello Bakesbymom! I'd like to place an order 🎂", ""];
 
   const add = (label: string, value: string) => {
     if (value.trim()) lines.push(`• ${label}: ${value.trim()}`);
   };
 
+  add("Item", product?.label ?? "");
   add("Occasion", draft.occasion);
   add("Cake", draft.cakeName);
-  add("Size", sizeLabel(draft.weightKg));
-  add("Flavour", draft.flavour);
+  if (product?.catalog) add("Size", sizeLabel(draft.weightKg));
+  add("Flour", draft.flour);
+
+  const flavour = [draft.flavour, draft.customFlavour.trim()].filter(Boolean).join(" · ");
+  add("Flavour", flavour);
+  add("Quantity", draft.quantity);
   add("Add-ons", draft.addons.join(", "));
-  if (draft.cakeMessage.trim()) add("Message on the cake", `"${draft.cakeMessage.trim()}"`);
+  if (draft.cakeMessage.trim()) {
+    add(product?.inscription ?? "Message", `"${draft.cakeMessage.trim()}"`);
+  }
 
   const when = [draft.date ? prettyDate(draft.date) : "", draft.slot].filter(Boolean).join(" · ");
   add("Needed on", when);

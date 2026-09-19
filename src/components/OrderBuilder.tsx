@@ -3,20 +3,47 @@ import { fetchCakeDetail, type CakeDetail, type CategoryWithCakes } from "../lib
 import { resolvePhotoUrl } from "../lib/api";
 import { formatPrice } from "../lib/format";
 import {
+  EGGLESS_NOTE,
   EMPTY_DRAFT,
-  HOUSE_ADDONS,
   HOUSE_FLAVOURS,
+  PRODUCT_TYPES,
   SIZES,
   TIME_SLOTS,
-  WHATSAPP_NUMBER,
   buildMessage,
   canShareFile,
   estimatePrice,
+  findProduct,
   whatsappUrl,
   type OrderDraft,
 } from "../lib/order";
 
-const STEPS = ["Occasion", "Cake", "Size", "Flavour", "Extras", "When", "You", "Review"];
+/** Every question the slip can ask. Which of them run depends on the item. */
+type StepId =
+  | "product"
+  | "occasion"
+  | "cake"
+  | "size"
+  | "flour"
+  | "flavour"
+  | "quantity"
+  | "extras"
+  | "when"
+  | "you"
+  | "review";
+
+const TITLES: Record<StepId, string> = {
+  product: "Item",
+  occasion: "Occasion",
+  cake: "Cake",
+  size: "Size",
+  flour: "Flour",
+  flavour: "Flavour",
+  quantity: "How much",
+  extras: "Extras",
+  when: "When",
+  you: "You",
+  review: "Review",
+};
 
 interface OrderBuilderProps {
   catalog: CategoryWithCakes[];
@@ -28,7 +55,7 @@ interface OrderBuilderProps {
 /**
  * The order slip, assembled one question at a time.
  *
- * Every answer is optional except the cake itself — the point is a message the
+ * Every answer is optional except the item itself — the point is a message the
  * bakery can read at a glance, not a form to survive. The last step shows that
  * message in a box the customer can edit, and hands it to WhatsApp's compose
  * box from there. Nothing is sent from the site.
@@ -41,7 +68,7 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
   const [detail, setDetail] = useState<CakeDetail | null>(null);
   const [reference, setReference] = useState<File | null>(null);
   const [referenceUrl, setReferenceUrl] = useState<string>("");
-  /** The message once the customer has edited it by hand; "" means auto. */
+  /** The message once the customer has edited it by hand; null means auto. */
   const [edited, setEdited] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -49,10 +76,22 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
 
   const patch = (fields: Partial<OrderDraft>) => setDraft((prev) => ({ ...prev, ...fields }));
 
+  const product = findProduct(draft.product);
   const category = catalog.find((c) => c.id === categoryId) ?? null;
   const cakes = category?.cakes ?? [];
 
-  // Jump straight to the size question when a cake card started this.
+  // A cake walks the catalog; everything else is a short list and a quantity.
+  const steps: StepId[] = useMemo(() => {
+    if (!product) return ["product"];
+    const middle: StepId[] = product.catalog
+      ? ["occasion", "cake", "size", "flavour"]
+      : [...(product.flours ? (["flour"] as StepId[]) : []), "flavour", "quantity"];
+    return ["product", ...middle, "extras", "when", "you", "review"];
+  }, [product]);
+
+  const current = steps[Math.min(step, steps.length - 1)];
+
+  // Jump straight past the item and occasion when a cake card started this.
   useEffect(() => {
     if (!startCakeId || !catalog.length) return;
     const owner = catalog.find((c) => c.cakes.some((cake) => cake.id === startCakeId));
@@ -62,11 +101,12 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
     setCakeId(cake.id);
     setDraft((prev) => ({
       ...prev,
+      product: "cake",
       occasion: owner.name,
       cakeName: cake.name,
       weightKg: Number(cake.weight_kg) || 1,
     }));
-    setStep(2);
+    setStep(3); // product · occasion · cake → size
   }, [startCakeId, catalog]);
 
   // Flavours, add-ons and the real base price live on the cake's own row.
@@ -100,18 +140,15 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
   }, [step]);
 
   const flavours = detail?.flavours.length
-    ? detail.flavours.map((f) => ({
-        name: f.name,
-        delta: Number(f.price_delta) || 0,
-      }))
-    : HOUSE_FLAVOURS.map((name) => ({ name, delta: 0 }));
+    ? detail.flavours.map((f) => ({ name: f.name, delta: Number(f.price_delta) || 0 }))
+    : (product?.flavours ?? HOUSE_FLAVOURS).map((name) => ({ name, delta: 0 }));
 
   const addons = detail?.addons.length
     ? detail.addons.map((a) => ({ name: a.name, delta: Number(a.price_delta) || 0 }))
-    : HOUSE_ADDONS.map((name) => ({ name, delta: 0 }));
+    : (product?.addons ?? []).map((name) => ({ name, delta: 0 }));
 
   // Price follows the size, the flavour surcharge and whatever add-ons are on.
-  // Only priced options move it — the house fallbacks carry no surcharge.
+  // Only the catalog carries prices, so only a cake ever shows one.
   const priced = useMemo(() => {
     if (!detail) return { amount: 0, exact: false };
     const flavour = detail.flavours.find((f) => f.name === draft.flavour);
@@ -161,16 +198,19 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
 
   // Nothing here is compulsory, so the forward button never locks; it only
   // renames itself when the step has been left blank.
-  const answered = [
-    Boolean(draft.occasion),
-    Boolean(draft.cakeName),
-    true,
-    Boolean(draft.flavour),
-    draft.addons.length > 0 || Boolean(draft.cakeMessage),
-    Boolean(draft.date || draft.slot),
-    Boolean(draft.name || draft.phone),
-    true,
-  ][step];
+  const answered: Record<StepId, boolean> = {
+    product: Boolean(draft.product),
+    occasion: Boolean(draft.occasion),
+    cake: Boolean(draft.cakeName),
+    size: true,
+    flour: Boolean(draft.flour),
+    flavour: Boolean(draft.flavour || draft.customFlavour),
+    quantity: Boolean(draft.quantity),
+    extras: draft.addons.length > 0 || Boolean(draft.cakeMessage),
+    when: Boolean(draft.date || draft.slot),
+    you: Boolean(draft.name || draft.phone),
+    review: true,
+  };
 
   return (
     <div className="builder">
@@ -179,16 +219,51 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
           ← Chat
         </button>
         <span className="builder__count">
-          Step {step + 1} of {STEPS.length} · {STEPS[step]}
+          Step {step + 1} of {steps.length} · {TITLES[current]}
         </span>
       </div>
       <div className="builder__progress" aria-hidden="true">
-        <span style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
+        <span style={{ width: `${((step + 1) / steps.length) * 100}%` }} />
       </div>
 
       <div className="builder__scroll" ref={scrollerRef}>
-        {/* ---- 1 · occasion ---- */}
-        {step === 0 && (
+        {/* ---- what are we making ---- */}
+        {current === "product" && (
+          <>
+            <h3 className="builder__q">What would you like?</h3>
+            <div className="builder__opts">
+              {PRODUCT_TYPES.map((type) => (
+                <button
+                  key={type.id}
+                  type="button"
+                  className={`builder__opt ${draft.product === type.id ? "is-on" : ""}`.trim()}
+                  onClick={() => {
+                    // Switching item resets the answers that belonged to the old one.
+                    setCategoryId("");
+                    setCakeId("");
+                    patch({
+                      product: type.id,
+                      occasion: "",
+                      cakeName: "",
+                      flour: "",
+                      flavour: "",
+                      customFlavour: "",
+                      quantity: "",
+                      addons: [],
+                    });
+                    setStep(1);
+                  }}
+                >
+                  {type.label}
+                </button>
+              ))}
+            </div>
+            <p className="builder__hint">{EGGLESS_NOTE}</p>
+          </>
+        )}
+
+        {/* ---- occasion (cakes only) ---- */}
+        {current === "occasion" && (
           <>
             <h3 className="builder__q">What's the occasion?</h3>
             {catalog.length > 0 ? (
@@ -202,7 +277,7 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
                       setCategoryId(c.id);
                       setCakeId("");
                       patch({ occasion: c.name, cakeName: "" });
-                      setStep(1);
+                      setStep(step + 1);
                     }}
                   >
                     {c.name}
@@ -222,8 +297,8 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
           </>
         )}
 
-        {/* ---- 2 · cake ---- */}
-        {step === 1 && (
+        {/* ---- which cake (cakes only) ---- */}
+        {current === "cake" && (
           <>
             <h3 className="builder__q">Which cake?</h3>
             {cakes.length > 0 ? (
@@ -236,7 +311,7 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
                     onClick={() => {
                       setCakeId(cake.id);
                       patch({ cakeName: cake.name, weightKg: Number(cake.weight_kg) || 1 });
-                      setStep(2);
+                      setStep(step + 1);
                     }}
                   >
                     <span className="builder__cake-photo">
@@ -269,8 +344,8 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
           </>
         )}
 
-        {/* ---- 3 · size ---- */}
-        {step === 2 && (
+        {/* ---- size, by weight (cakes only) ---- */}
+        {current === "size" && (
           <>
             <h3 className="builder__q">How big?</h3>
             <div className="builder__opts">
@@ -297,8 +372,31 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
           </>
         )}
 
-        {/* ---- 4 · flavour ---- */}
-        {step === 3 && (
+        {/* ---- flour (cookies) ---- */}
+        {current === "flour" && (
+          <>
+            <h3 className="builder__q">Which flour?</h3>
+            <div className="builder__opts">
+              {(product?.flours ?? []).map((flour) => (
+                <button
+                  key={flour}
+                  type="button"
+                  className={`builder__opt ${draft.flour === flour ? "is-on" : ""}`.trim()}
+                  onClick={() => {
+                    patch({ flour: draft.flour === flour ? "" : flour });
+                    if (draft.flour !== flour) setStep(step + 1);
+                  }}
+                >
+                  {flour}
+                </button>
+              ))}
+            </div>
+            <p className="builder__hint">Every one of them baked without egg.</p>
+          </>
+        )}
+
+        {/* ---- flavour, plus anything the list doesn't carry ---- */}
+        {current === "flavour" && (
           <>
             <h3 className="builder__q">Flavour?</h3>
             <div className="builder__opts">
@@ -314,11 +412,42 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
                 </button>
               ))}
             </div>
+            <label className="builder__field">
+              <span>Something else?</span>
+              <input
+                value={draft.customFlavour}
+                onChange={(e) => patch({ customFlavour: e.target.value })}
+                placeholder="Berries, a flavour you had before…"
+                maxLength={60}
+              />
+            </label>
           </>
         )}
 
-        {/* ---- 5 · extras ---- */}
-        {step === 4 && (
+        {/* ---- how much (everything but cakes) ---- */}
+        {current === "quantity" && (
+          <>
+            <h3 className="builder__q">{product?.quantity?.label ?? "How much?"}</h3>
+            <div className="builder__opts">
+              {(product?.quantity?.options ?? []).map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  className={`builder__opt ${draft.quantity === option ? "is-on" : ""}`.trim()}
+                  onClick={() => patch({ quantity: draft.quantity === option ? "" : option })}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+            <p className="builder__hint">
+              Need a different amount? Say so in the notes — the price is settled on WhatsApp.
+            </p>
+          </>
+        )}
+
+        {/* ---- extras ---- */}
+        {current === "extras" && (
           <>
             <h3 className="builder__q">Anything on top?</h3>
             <div className="builder__opts">
@@ -335,7 +464,7 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
               ))}
             </div>
             <label className="builder__field">
-              <span>Message piped on the cake</span>
+              <span>{product?.inscription ?? "Message"}</span>
               <input
                 value={draft.cakeMessage}
                 onChange={(e) => patch({ cakeMessage: e.target.value })}
@@ -346,8 +475,8 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
           </>
         )}
 
-        {/* ---- 6 · when & where ---- */}
-        {step === 5 && (
+        {/* ---- when & where ---- */}
+        {current === "when" && (
           <>
             <h3 className="builder__q">When do you need it?</h3>
             <label className="builder__field">
@@ -396,8 +525,8 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
           </>
         )}
 
-        {/* ---- 7 · you + reference ---- */}
-        {step === 6 && (
+        {/* ---- you + reference ---- */}
+        {current === "you" && (
           <>
             <h3 className="builder__q">Who's it from?</h3>
             <label className="builder__field">
@@ -457,8 +586,8 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
           </>
         )}
 
-        {/* ---- 8 · review ---- */}
-        {step === 7 && (
+        {/* ---- review ---- */}
+        {current === "review" && (
           <>
             <h3 className="builder__q">Read it over</h3>
             <p className="builder__hint">
@@ -494,12 +623,6 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
                 </button>
               )}
             </div>
-            {!WHATSAPP_NUMBER && (
-              <p className="builder__hint">
-                No WhatsApp number is configured yet, so WhatsApp will ask which chat to open. Set
-                VITE_WHATSAPP_NUMBER to point it straight at the bakery.
-              </p>
-            )}
           </>
         )}
       </div>
@@ -513,9 +636,13 @@ export function OrderBuilder({ catalog, startCakeId, onClose }: OrderBuilderProp
         >
           Back
         </button>
-        {step < STEPS.length - 1 ? (
-          <button type="button" className="builder__next" onClick={() => setStep((s) => s + 1)}>
-            {answered ? "Next" : "Skip"}
+        {step < steps.length - 1 ? (
+          <button
+            type="button"
+            className="builder__next"
+            onClick={() => setStep((s) => Math.min(s + 1, steps.length - 1))}
+          >
+            {answered[current] ? "Next" : "Skip"}
           </button>
         ) : (
           <button type="button" className="builder__ghost" onClick={onClose}>
