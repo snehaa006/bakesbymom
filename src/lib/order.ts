@@ -11,13 +11,17 @@ import type { CakeDetail } from "./catalog";
 import { formatPrice } from "./format";
 
 /**
- * The bakery's WhatsApp number in international form, digits only
- * (91 + the ten-digit number for India). Set VITE_WHATSAPP_NUMBER in .env —
- * with it unset the link still works, WhatsApp just asks which chat to open.
+ * The bakery's WhatsApp number in international form, digits only — the 91
+ * country code in front of the ten-digit Panipat number. It is the shop's
+ * public contact, so it lives here rather than in an env file the deploy can
+ * forget; VITE_WHATSAPP_NUMBER still overrides it when the bakery moves number
+ * or a preview build needs to point somewhere else.
  */
-export const WHATSAPP_NUMBER = (
-  (import.meta.env.VITE_WHATSAPP_NUMBER as string | undefined) ?? ""
-).replace(/\D/g, "");
+const DEFAULT_WHATSAPP_NUMBER = "917206552667";
+
+export const WHATSAPP_NUMBER =
+  ((import.meta.env.VITE_WHATSAPP_NUMBER as string | undefined) ?? "").replace(/\D/g, "") ||
+  DEFAULT_WHATSAPP_NUMBER;
 
 /** Sizes the kitchen bakes to, named the way Panipat asks for them. */
 export const SIZES: { kg: number; label: string }[] = [
@@ -192,4 +196,20 @@ export function canShareFile(file: File | null): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * Whether a typed message is someone asking to order rather than asking a
+ * question. Deliberately narrow: "most ordered cake" is a question about the
+ * catalog, not an order, so a bare "order" never counts — only the phrases
+ * people actually open with, in English and in Hinglish.
+ */
+const ORDER_INTENT =
+  /\b(?:(?:i |we |lets |let's |can i |how (?:do|to) (?:i |we )?)?(?:want(?:ed)? to |wanna |like to |need to )?(?:place|start|make|give|put)?\s*(?:an? )?order(?:ing)?\b(?! ?ed)|order (?:a |the )?(?:cake|now|online|please|kar|kr)|(?:cake|kek) (?:ka |ki )?order|book (?:a |the )?(?:cake|order)|buy (?:a |the )?cake|customi[sz]e (?:a |my |the )?cake|place my order)/;
+
+export function isOrderIntent(text: string): boolean {
+  const q = text.toLowerCase().trim();
+  // Questions about what sells well are not orders.
+  if (/\b(most|least|best|top) ordered\b/.test(q)) return false;
+  return ORDER_INTENT.test(q);
 }
