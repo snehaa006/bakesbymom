@@ -3,6 +3,8 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { Landing } from "./Landing";
 import { Catalog } from "./components/Catalog";
 import { CakeDetail } from "./components/CakeDetail";
+import { Shop } from "./components/Shop";
+import { ShopItem } from "./components/ShopItem";
 import { AdminPanel } from "./components/admin/AdminPanel";
 import { ChatBot } from "./components/ChatBot";
 
@@ -40,6 +42,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/catalog/:cakeId" element={<CakeDetail />} />
+        <Route path="/shop/:category" element={<Shop />} />
+        <Route path="/shop/:category/:item" element={<ShopItem />} />
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
       <ChatBot />
