@@ -5,6 +5,7 @@ import { isApiConfigured, resolvePhotoUrl } from "../lib/api";
 import { formatPrice } from "../lib/format";
 import { answer, STARTER_CHIPS, type BotReply, type CakeHit } from "../lib/chat";
 import { OrderBuilder } from "./OrderBuilder";
+import { isOrderIntent } from "../lib/order";
 
 /** Chip that opens the order slip rather than asking the bot a question. */
 const ORDER_CHIP = "Place an order";
@@ -77,7 +78,18 @@ export function ChatBot() {
   function send(question: string) {
     const trimmed = question.trim();
     if (!trimmed) return;
-    if (trimmed === ORDER_CHIP) {
+    // "I want to order" belongs in the slip, not in the bot's answer pile.
+    if (trimmed === ORDER_CHIP || isOrderIntent(trimmed)) {
+      setMessages((prev) => [
+        ...prev,
+        { id: nextId.current++, from: "you", text: [trimmed] },
+        {
+          id: nextId.current++,
+          from: "bot",
+          text: ["Lovely — let's put the whole thing together and send it to WhatsApp."],
+        },
+      ]);
+      setDraft("");
       setOrdering("");
       return;
     }

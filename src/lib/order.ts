@@ -193,3 +193,19 @@ export function canShareFile(file: File | null): boolean {
     return false;
   }
 }
+
+/**
+ * Whether a typed message is someone asking to order rather than asking a
+ * question. Deliberately narrow: "most ordered cake" is a question about the
+ * catalog, not an order, so a bare "order" never counts — only the phrases
+ * people actually open with, in English and in Hinglish.
+ */
+const ORDER_INTENT =
+  /\b(?:(?:i |we |lets |let's |can i |how (?:do|to) (?:i |we )?)?(?:want(?:ed)? to |wanna |like to |need to )?(?:place|start|make|give|put)?\s*(?:an? )?order(?:ing)?\b(?! ?ed)|order (?:a |the )?(?:cake|now|online|please|kar|kr)|(?:cake|kek) (?:ka |ki )?order|book (?:a |the )?(?:cake|order)|buy (?:a |the )?cake|customi[sz]e (?:a |my |the )?cake|place my order)/;
+
+export function isOrderIntent(text: string): boolean {
+  const q = text.toLowerCase().trim();
+  // Questions about what sells well are not orders.
+  if (/\b(most|least|best|top) ordered\b/.test(q)) return false;
+  return ORDER_INTENT.test(q);
+}
