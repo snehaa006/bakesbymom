@@ -2395,45 +2395,20 @@ main {
   gap: clamp(8px, 1vw, 14px);
 }
 
-/* Cut-outs, so each tile is a coloured ground the cake stands on. The four
-   tints rotate across the grid and down it, which keeps the 4×4 from reading
-   as stripes. */
 .showcase__tile {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: block;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-radius: 6px;
-  padding: 8px;
-  background:
-    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0) 62%),
-    var(--plate, #f9ebc6);
-}
-
-.showcase__tile:nth-child(8n + 1),
-.showcase__tile:nth-child(8n + 7) {
-  --plate: #d8e8de;
-}
-.showcase__tile:nth-child(8n + 2),
-.showcase__tile:nth-child(8n + 8) {
-  --plate: #f7dcdc;
-}
-.showcase__tile:nth-child(8n + 3),
-.showcase__tile:nth-child(8n + 5) {
-  --plate: #f9ebc6;
-}
-.showcase__tile:nth-child(8n + 4),
-.showcase__tile:nth-child(8n + 6) {
-  --plate: #f8dbc8;
+  border-radius: 4px;
+  background: var(--honey-600);
 }
 
 .showcase__tile img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
-  filter: drop-shadow(0 10px 12px rgba(90, 54, 43, 0.2));
   transition:
     transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1),
     filter 0.4s ease;
@@ -2441,12 +2416,12 @@ main {
 
 /* The whole grid dims a touch so the tile under the cursor is the one lit. */
 .showcase__grid:hover .showcase__tile img {
-  filter: drop-shadow(0 10px 12px rgba(90, 54, 43, 0.2)) brightness(0.88) saturate(0.92);
+  filter: brightness(0.86) saturate(0.9);
 }
 
 .showcase__grid:hover .showcase__tile:hover img {
-  filter: drop-shadow(0 14px 16px rgba(90, 54, 43, 0.26));
-  transform: scale(1.07) translateY(-3px);
+  filter: none;
+  transform: scale(1.08);
 }
 
 @media (max-width: 900px) {
@@ -2668,9 +2643,7 @@ main {
 .chat__cake-photo img {
   width: 100%;
   height: 100%;
-  /* Cut-outs — contain, so the thumbnail shows the whole cake. */
-  object-fit: contain;
-  padding: 3px;
+  object-fit: cover;
   display: block;
 }
 
@@ -2973,8 +2946,7 @@ main {
 .builder__cake-photo img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 3px;
+  object-fit: cover;
   display: block;
 }
 
