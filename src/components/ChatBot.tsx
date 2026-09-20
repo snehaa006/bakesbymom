@@ -6,6 +6,7 @@ import { formatPrice } from "../lib/format";
 import { answer, STARTER_CHIPS, type BotReply, type CakeHit } from "../lib/chat";
 import { OrderBuilder } from "./OrderBuilder";
 import { isOrderIntent } from "../lib/order";
+import { CakeRobot } from "./CakeRobot";
 
 /** Chip that opens the order slip rather than asking the bot a question. */
 const ORDER_CHIP = "Place an order";
@@ -114,9 +115,9 @@ export function ChatBot() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls="chat-panel"
-        aria-label={open ? "Close the cake assistant" : "Ask about our cakes"}
+        aria-label={open ? "Close the cake assistant" : "Ask our cake robot about our cakes"}
       >
-        {open ? "×" : "Ask about cakes"}
+        {open ? "×" : <CakeRobot />}
       </button>
 
       <div
