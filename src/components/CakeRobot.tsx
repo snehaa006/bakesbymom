@@ -8,8 +8,8 @@ export function CakeRobot() {
     <svg
       className="cake-bot"
       viewBox="0 0 48 48"
-      width="68"
-      height="68"
+      width="136"
+      height="136"
       fill="none"
       aria-hidden="true"
       focusable="false"
