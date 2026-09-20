@@ -2449,6 +2449,8 @@ main {
 /* A launcher pill and a panel, both pinned bottom-right on every public page.
    The panel stays mounted so the thread survives being closed and reopened; it
    is hidden with visibility so nothing inside it can be tabbed to meanwhile. */
+/* No backing pill or circle — the robot stands on the page by itself, with a
+   soft shadow under it so it doesn't sink into the cream background. */
 .chat-launch {
   position: fixed;
   right: clamp(16px, 2.4vw, 28px);
@@ -2456,12 +2458,12 @@ main {
   z-index: 120;
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
+  width: 76px;
+  height: 76px;
   border: none;
   border-radius: 9999px;
   padding: 0;
-  background: var(--wine);
+  background: transparent;
   color: var(--pill-cream);
   font-family: "Inter", sans-serif;
   font-size: 0.74rem;
@@ -2469,14 +2471,12 @@ main {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 14px 34px rgba(90, 10, 30, 0.34);
   transition:
     background 0.3s ease,
     transform 0.3s ease;
 }
 
 .chat-launch:hover {
-  background: var(--crimson);
   transform: translateY(-2px);
 }
 
@@ -2484,6 +2484,7 @@ main {
    blink every few seconds so the button feels like it is listening. */
 .cake-bot {
   display: block;
+  filter: drop-shadow(0 8px 14px rgba(90, 10, 30, 0.28));
   animation: cake-bot-bob 3.4s ease-in-out infinite;
 }
 
@@ -2491,14 +2492,69 @@ main {
   animation-duration: 1.6s;
 }
 
-.cake-bot__antenna {
-  transform-origin: 24px 10px;
+.cake-bot__candle {
+  transform-origin: 24px 11px;
   animation: cake-bot-nod 3.4s ease-in-out infinite;
+}
+
+/* The flame never sits still: it leans, stretches and breathes the way a real
+   one does, on three offset loops so the motion never repeats too obviously. */
+.cake-bot__flame {
+  transform-origin: 24px 6.4px;
+  animation: cake-bot-flicker 0.7s ease-in-out infinite alternate;
+}
+
+.cake-bot__flame path {
+  animation: cake-bot-flame-lean 1.9s ease-in-out infinite;
+}
+
+.cake-bot__flame ellipse {
+  transform-origin: 24px 4px;
+  animation: cake-bot-glow 1.3s ease-in-out infinite alternate;
 }
 
 .cake-bot__eyes {
   transform-origin: 24px 21.2px;
   animation: cake-bot-blink 5.2s ease-in-out infinite;
+}
+
+@keyframes cake-bot-flicker {
+  0% {
+    transform: scale(0.92, 0.94);
+  }
+  40% {
+    transform: scale(1.04, 1.08);
+  }
+  100% {
+    transform: scale(0.97, 1.12);
+  }
+}
+
+@keyframes cake-bot-flame-lean {
+  0%,
+  100% {
+    transform: translateX(-0.25px) rotate(-4deg);
+  }
+  30% {
+    transform: translateX(0.3px) rotate(5deg);
+  }
+  55% {
+    transform: translateX(-0.15px) rotate(-2deg);
+  }
+  80% {
+    transform: translateX(0.2px) rotate(3deg);
+  }
+}
+
+@keyframes cake-bot-glow {
+  0% {
+    opacity: 0.28;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(1.12);
+  }
 }
 
 @keyframes cake-bot-bob {
@@ -2534,7 +2590,10 @@ main {
 
 @media (prefers-reduced-motion: reduce) {
   .cake-bot,
-  .cake-bot__antenna,
+  .cake-bot__candle,
+  .cake-bot__flame,
+  .cake-bot__flame path,
+  .cake-bot__flame ellipse,
   .cake-bot__eyes {
     animation: none;
   }
@@ -2545,9 +2604,15 @@ main {
   width: 46px;
   height: 46px;
   padding: 0;
+  background: var(--wine);
+  box-shadow: 0 14px 34px rgba(90, 10, 30, 0.34);
   font-size: 1.5rem;
   line-height: 1;
   letter-spacing: 0;
+}
+
+.chat-launch--open:hover {
+  background: var(--crimson);
 }
 
 .chat {
@@ -3218,8 +3283,8 @@ main {
   .chat-launch {
     right: 12px;
     bottom: 14px;
-    width: 52px;
-    height: 52px;
+    width: 68px;
+    height: 68px;
   }
 
   /* Give the cake its name back — the order button gets the narrower column. */
