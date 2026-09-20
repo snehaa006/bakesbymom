@@ -2458,8 +2458,8 @@ main {
   z-index: 120;
   display: grid;
   place-items: center;
-  width: 148px;
-  height: 148px;
+  width: 120px;
+  height: 120px;
   border: none;
   border-radius: 9999px;
   padding: 0;
@@ -3283,8 +3283,8 @@ main {
   .chat-launch {
     right: 12px;
     bottom: 14px;
-    width: 136px;
-    height: 136px;
+    width: 108px;
+    height: 108px;
   }
 
   /* Give the cake its name back — the order button gets the narrower column. */
