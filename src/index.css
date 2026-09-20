@@ -2454,9 +2454,13 @@ main {
   right: clamp(16px, 2.4vw, 28px);
   bottom: clamp(16px, 2.4vw, 28px);
   z-index: 120;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
   border: none;
   border-radius: 9999px;
-  padding: 14px 24px;
+  padding: 0;
   background: var(--wine);
   color: var(--pill-cream);
   font-family: "Inter", sans-serif;
@@ -2474,6 +2478,66 @@ main {
 .chat-launch:hover {
   background: var(--crimson);
   transform: translateY(-2px);
+}
+
+/* The robot itself: a slow bob while it waits, a livelier one on hover, and a
+   blink every few seconds so the button feels like it is listening. */
+.cake-bot {
+  display: block;
+  animation: cake-bot-bob 3.4s ease-in-out infinite;
+}
+
+.chat-launch:hover .cake-bot {
+  animation-duration: 1.6s;
+}
+
+.cake-bot__antenna {
+  transform-origin: 24px 10px;
+  animation: cake-bot-nod 3.4s ease-in-out infinite;
+}
+
+.cake-bot__eyes {
+  transform-origin: 24px 21.2px;
+  animation: cake-bot-blink 5.2s ease-in-out infinite;
+}
+
+@keyframes cake-bot-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
+@keyframes cake-bot-nod {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes cake-bot-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cake-bot,
+  .cake-bot__antenna,
+  .cake-bot__eyes {
+    animation: none;
+  }
 }
 
 /* Once the panel is up the launcher shrinks to a close button beside it. */
@@ -3154,8 +3218,8 @@ main {
   .chat-launch {
     right: 12px;
     bottom: 14px;
-    padding: 12px 18px;
-    font-size: 0.66rem;
+    width: 52px;
+    height: 52px;
   }
 
   /* Give the cake its name back — the order button gets the narrower column. */
