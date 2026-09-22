@@ -30,10 +30,10 @@
   --wine-deep: #7a0f2a;
   --cocoa: #5a362b;
   --cocoa-soft: #8a5a48;
-  /* The about band: our cream, greyed right down — the reference's elegance
-     formula (barely any saturation, mid tone, perfectly flat) on a warm hue
-     rather than its olive one. */
-  --taupe: #736558;
+  /* The about band, sampled straight off the reference: hue 50, 10% saturation,
+     46% lightness, and perfectly flat. The elegance is in how little colour is
+     actually in it. */
+  --sage: #807c69;
   --hairline: rgba(158, 17, 52, 0.14);
 }
 
@@ -1193,7 +1193,7 @@ main {
   scroll-margin-top: 118px;
   width: 100%;
   padding: clamp(72px, 9vw, 126px) clamp(20px, 5vw, 60px) clamp(80px, 10vw, 136px);
-  background: var(--taupe);
+  background: var(--sage);
   color: var(--cream-100);
 }
 
@@ -1233,7 +1233,7 @@ main {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.75;
-  color: rgba(253, 247, 230, 0.86);
+  color: rgba(253, 247, 230, 0.92);
 }
 
 .about__body + .about__body {
@@ -1264,7 +1264,7 @@ main {
 .about__cta:hover {
   background: var(--pill-cream);
   border-color: var(--pill-cream);
-  color: var(--taupe);
+  color: var(--sage);
 }
 
 .about__cta-arrow {
@@ -1306,7 +1306,7 @@ main {
   bottom: calc(-1 * (var(--rail-gap) + var(--rail-dot-top) + var(--rail-dot) / 2));
   width: 1px;
   transform: translateX(-50%);
-  background: rgba(244, 233, 200, 0.34);
+  background: rgba(244, 233, 200, 0.24);
 }
 
 .about__step:last-child::before {
@@ -1337,7 +1337,7 @@ main {
   margin: 0;
   font-size: 0.88rem;
   line-height: 1.72;
-  color: rgba(253, 247, 230, 0.84);
+  color: rgba(253, 247, 230, 0.9);
 }
 
 .baker-3d {
