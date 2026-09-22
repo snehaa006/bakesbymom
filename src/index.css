@@ -134,16 +134,6 @@ a:hover {
   }
 }
 
-@keyframes floatSoft {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-11px);
-  }
-}
-
 @keyframes spinSlow {
   to {
     transform: rotate(360deg);
@@ -218,15 +208,6 @@ a:hover {
   }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
 @keyframes scrollDot {
   0% {
     transform: translateY(0);
@@ -264,26 +245,21 @@ a:hover {
   overflow-x: clip;
   overflow-y: visible;
   /* Yellow and pink alternate the way the hero band does — cream through
-     products and about, a pink crest over order and ritual, cream again through
-     breads — and then the final chapter goes down through the blush into the
-     maroon it used to end on. The descent is spread over the timeline/visit
-     boundary so it sweeps rather than cuts. */
+     products and showcase, a pink crest over order and ritual, then cream again
+     through breads and reviews, closing warm under the footer. The stops track
+     the sections: hero 0–13, products 13–24, showcase 24–37, about 37–52,
+     order 52–61, ritual 61–73, breads 73–86, reviews 86–99. */
   background: linear-gradient(
     180deg,
     var(--cream-300) 0%,
-    var(--butter-400) 13%,
-    #f8e4bc 21%,
-    var(--apricot) 31%,
-    var(--blush) 45%,
-    var(--apricot) 55%,
-    var(--cream-300) 64%,
-    var(--butter-400) 71%,
-    var(--apricot) 77%,
-    var(--blush) 80%,
-    #a02d45 84%,
-    #5c1a25 88%,
-    var(--maroon) 94%,
-    var(--maroon-deep) 100%
+    var(--butter-400) 16%,
+    #f8e4bc 27%,
+    var(--apricot) 39%,
+    var(--blush) 57%,
+    var(--apricot) 70%,
+    var(--cream-300) 81%,
+    var(--butter-400) 90%,
+    var(--apricot) 100%
   );
 }
 
@@ -1494,14 +1470,7 @@ main {
   animation: scrollDot 1.8s ease-in-out infinite;
 }
 
-/* ---------------------------------- shared story panel (chapters I & III) ---------------------------------- */
-
-.story-panel {
-  background: var(--cream-100);
-  border-radius: 26px;
-  padding: 52px;
-  box-shadow: 0 26px 60px rgba(120, 30, 40, 0.1);
-}
+/* ---------------------------------- shared chapter type ---------------------------------- */
 
 .chapter-eyebrow {
   font-size: 0.72rem;
@@ -1788,274 +1757,45 @@ main {
   color: var(--script-blush);
 }
 
-/* ---------------------------------- chapter III — timeline ---------------------------------- */
+/* ---------------------------------- site footer ---------------------------------- */
 
-.timeline {
+.site-footer {
   position: relative;
-  padding: 40px 40px 130px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: start;
-  max-width: 1240px;
-  margin: 0 auto;
-}
-
-.timeline .story-panel {
-  box-shadow: 0 26px 60px rgba(120, 30, 40, 0.12);
-}
-
-.timeline__heading {
-  font-family: "Zilla Slab", serif;
-  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
-  line-height: 1.08;
-  color: #9e1134;
-  font-weight: 700;
-}
-
-.timeline__list {
+  z-index: 5;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 18px;
+  flex-wrap: wrap;
+  padding: 10px 40px 64px;
 }
 
-.timeline__item {
-  background: var(--cream-100);
-  border: 1px solid var(--hairline);
-  box-shadow: 0 14px 34px rgba(120, 30, 40, 0.08);
-  border-radius: 18px;
-  padding: 24px 28px;
-  transition:
-    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.4s ease;
-}
-
-.timeline__item:hover {
-  transform: translateX(8px);
-}
-
-.timeline__item--now {
-  background: linear-gradient(90deg, rgba(240, 169, 58, 0.32), rgba(241, 165, 169, 0.3));
-}
-
-.timeline__year {
+.site-footer__copyright {
   font-size: 0.74rem;
-  letter-spacing: 0.2em;
-  color: #bf152f;
-  font-weight: 600;
-  margin: 0 0 10px;
-}
-
-.timeline__text {
-  font-size: 1rem;
-  line-height: 1.55;
-  color: #5a2a2a;
+  color: var(--cocoa-soft);
   margin: 0;
 }
 
-/* ---------------------------------- final chapter — visit ---------------------------------- */
-
-.visit {
-  position: relative;
-  padding: 130px 40px 150px;
-  text-align: center;
-}
-
-.visit__intro {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.visit__eyebrow {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.26em;
-  color: var(--script-blush);
-  font-weight: 600;
-  margin: 0 0 22px;
-}
-
-.visit__heading {
-  font-family: "Zilla Slab", serif;
-  font-size: clamp(2.8rem, 6.4vw, 5.4rem);
-  line-height: 1.02;
-  color: var(--pill-cream);
-  margin: 0 0 26px;
-  font-weight: 700;
-}
-
-.visit__subtitle {
-  font-size: 1.04rem;
-  line-height: 1.7;
-  color: rgba(244, 233, 200, 0.82);
-  max-width: 620px;
-  margin: 0 auto 56px;
-}
-
-.visit__orbs {
-  max-width: 1000px;
-  margin: 0 auto 56px;
-  background: rgba(244, 233, 200, 0.06);
-  border: 1px solid rgba(244, 233, 200, 0.14);
-  border-radius: 30px;
-  padding: 56px;
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  flex-wrap: wrap;
-}
-
-.orb {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition:
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.5s ease;
-  animation: floatSoft 6s ease-in-out infinite;
-}
-
-.orb:hover {
-  transform: scale(1.08);
-}
-
-.orb--wheat {
-  border-radius: 42% 42% 46% 46%;
-  background: radial-gradient(circle at 50% 40%, #f4a63c 0%, #b02038 68%, #7a0f2a 100%);
-  box-shadow: 0 0 50px rgba(240, 140, 60, 0.45);
-}
-
-.orb--wheat:hover {
-  box-shadow: 0 0 50px rgba(240, 140, 60, 0.75);
-}
-
-.orb--coffee {
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 35%, #c9a98f 0%, #5a2a22 62%, var(--maroon-deep) 100%);
-  box-shadow: 0 0 40px rgba(90, 40, 30, 0.5);
-  animation-duration: 6.6s;
-  animation-delay: 0.6s;
-}
-
-.orb--coffee:hover {
-  box-shadow: 0 0 40px rgba(90, 40, 30, 0.75);
-}
-
-.orb--berry {
-  border-radius: 46% 46% 42% 42%;
-  background: radial-gradient(circle at 50% 40%, #f49bb0 0%, #bf3560 62%, #8a1236 100%);
-  box-shadow: 0 0 50px rgba(240, 120, 150, 0.4);
-  animation-duration: 6.2s;
-  animation-delay: 1.1s;
-}
-
-.orb--berry:hover {
-  box-shadow: 0 0 50px rgba(240, 120, 150, 0.75);
-}
-
-.orb__steam {
-  position: absolute;
-  top: 22px;
-  left: 50%;
-  width: 20px;
-  height: 40px;
-  filter: blur(6px);
-  background: linear-gradient(180deg, rgba(255, 240, 214, 0.5), transparent);
-  animation: steam 4.5s ease-in-out infinite;
-}
-
-.visit__actions {
-  display: flex;
-  gap: 18px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 60px;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 34px;
-  border-radius: 9999px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s ease,
-    background 0.35s ease;
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-}
-
-.btn--filled {
-  background: var(--pill-cream);
-  color: var(--wine);
-}
-
-.btn--filled:hover {
-  box-shadow: 0 16px 34px rgba(244, 233, 200, 0.3);
-}
-
-.btn--outline {
-  background: transparent;
-  color: var(--pill-cream);
-  border: 1px solid rgba(244, 233, 200, 0.5);
-}
-
-.btn--outline:hover {
-  background: rgba(244, 233, 200, 0.12);
-}
-
-.visit__tagline {
-  font-family: "Satisfy", cursive;
-  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-  background: linear-gradient(90deg, var(--pill-cream), var(--script-blush), var(--pill-cream));
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 6s linear infinite;
-  margin: 0;
-}
-
-.visit__footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin: 46px 0 0;
-}
-
-.visit__copyright {
-  font-size: 0.74rem;
-  color: rgba(244, 233, 200, 0.45);
-  margin: 0;
-}
-
-.visit__admin-link {
+.site-footer__admin {
   font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  color: rgba(244, 233, 200, 0.5);
-  border: 1px solid rgba(244, 233, 200, 0.22);
+  color: var(--wine);
+  border: 1px solid rgba(158, 17, 52, 0.28);
   border-radius: 9999px;
   padding: 6px 16px;
   transition:
     color 0.3s ease,
-    border-color 0.3s ease;
+    border-color 0.3s ease,
+    background 0.3s ease;
 }
 
-.visit__admin-link:hover {
-  color: var(--pill-cream);
-  border-color: rgba(244, 233, 200, 0.5);
+.site-footer__admin:hover {
+  color: var(--crimson);
+  border-color: rgba(158, 17, 52, 0.55);
+  background: rgba(253, 247, 230, 0.6);
 }
+
 
 .nav__link--cta {
   padding: 7px 18px;
@@ -2153,8 +1893,7 @@ main {
     max-width: 58ch;
   }
 
-  .ritual,
-  .timeline {
+  .ritual {
     grid-template-columns: 1fr;
   }
 
@@ -2176,10 +1915,6 @@ main {
 
   .review__quote-mark {
     font-size: 8rem;
-  }
-
-  .story-panel {
-    padding: 40px 32px;
   }
 
   .nav__links {
