@@ -24,10 +24,7 @@ export function useScrolledPast(threshold = 40) {
   return past;
 }
 
-export function useNavAndSealScroll(
-  navRef: RefObject<HTMLElement | null>,
-  sealRef: RefObject<HTMLElement | null>,
-) {
+export function useNavScroll(navRef: RefObject<HTMLElement | null>) {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -41,17 +38,12 @@ export function useNavAndSealScroll(
           nav.style.boxShadow = "0 10px 34px rgba(120,20,40,0.12)";
         }
       }
-
-      const doc = document.documentElement;
-      const frac = y / Math.max(1, doc.scrollHeight - window.innerHeight);
-      const seal = sealRef.current;
-      if (seal) seal.style.opacity = frac > 0.35 ? "1" : "0";
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [navRef, sealRef]);
+  }, [navRef]);
 }
 
 export function useNoteParallax(

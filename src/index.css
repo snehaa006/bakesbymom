@@ -103,20 +103,6 @@ a:hover {
   }
 }
 
-@keyframes steam {
-  0% {
-    opacity: 0;
-    transform: translateY(6px) scaleX(0.8);
-  }
-  22% {
-    opacity: 0.55;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-70px) scaleX(1.5);
-  }
-}
-
 @keyframes flour {
   0% {
     transform: translateY(-8vh) translateX(0) rotate(0deg);
@@ -246,19 +232,19 @@ a:hover {
   overflow-y: visible;
   /* Yellow and pink alternate the way the hero band does — cream through
      products and showcase, a pink crest over order and ritual, then cream again
-     through breads and reviews, closing warm under the footer. The stops track
-     the sections: hero 0–13, products 13–24, showcase 24–37, about 37–52,
-     order 52–61, ritual 61–73, breads 73–86, reviews 86–99. */
+     through reviews, closing warm under the footer. The stops track the sections:
+     hero 0–16, products 16–28, showcase 28–42, about 42–60, order 60–71,
+     ritual 71–84, reviews 84–98. */
   background: linear-gradient(
     180deg,
     var(--cream-300) 0%,
-    var(--butter-400) 16%,
-    #f8e4bc 27%,
-    var(--apricot) 39%,
-    var(--blush) 57%,
-    var(--apricot) 70%,
-    var(--cream-300) 81%,
-    var(--butter-400) 90%,
+    var(--butter-400) 19%,
+    #f8e4bc 31%,
+    var(--apricot) 45%,
+    var(--blush) 66%,
+    var(--apricot) 79%,
+    var(--cream-300) 86%,
+    var(--butter-400) 93%,
     var(--apricot) 100%
   );
 }
@@ -292,44 +278,6 @@ a:hover {
   background:
     radial-gradient(60% 45% at 50% 8%, rgba(255, 241, 202, 0.55), transparent 70%),
     radial-gradient(52% 40% at 88% 92%, rgba(240, 169, 58, 0.08), transparent 70%);
-}
-
-/* ---------------------------------- seal ---------------------------------- */
-
-.seal {
-  position: fixed;
-  left: 30px;
-  bottom: 30px;
-  z-index: 40;
-  width: 118px;
-  height: 118px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.seal__disc {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #b0203e, #7a0f2a);
-  box-shadow: 0 12px 30px rgba(90, 10, 30, 0.4);
-}
-
-.seal__ring {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  animation: spinSlow 26s linear infinite;
-}
-
-.seal__icon {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* ---------------------------------- nav ---------------------------------- */
@@ -709,13 +657,12 @@ main {
 
 /* Pinned to the viewport, so it rides along for the whole page - scrolling down
    or back up - instead of being bounded by one section. z-index sits above every
-   section (max 6) and above the seal (40) so nothing can ever cover it; the nav
+   section (max 6) so nothing can ever cover it; the nav
    pill (50) still wins, and the badge never reaches it anyway. */
 .spin-badge--float {
   position: fixed;
   /* sits in the left gutter with a small margin off the window edge */
   left: clamp(14px, 1.6vw, 26px);
-  /* clear of the seal, which is parked at the bottom-left corner */
   bottom: clamp(200px, 26vh, 330px);
   z-index: 45;
   width: clamp(120px, 13vw, 180px);
@@ -1515,126 +1462,9 @@ main {
   font-weight: 400;
 }
 
-/* ---------------------------------- chapter II — breads ---------------------------------- */
-
-.breads {
-  position: relative;
-  padding: 80px 40px 120px;
-}
-
-.breads__intro {
-  text-align: center;
-  max-width: 820px;
-  margin: 0 auto 70px;
-}
-
-.breads__eyebrow {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.26em;
-  color: #bf152f;
-  font-weight: 600;
-  margin: 0 0 20px;
-}
-
-.breads__heading {
-  font-family: "Zilla Slab", serif;
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  line-height: 1.06;
-  color: #9e1134;
-  margin: 0 0 24px;
-  font-weight: 700;
-}
-
-.breads__body {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #5a362b;
-  margin: 0;
-}
-
-.breads__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
-  max-width: 1240px;
-  margin: 0 auto;
-}
-
-.card {
-  border-radius: 26px;
-  padding: 20px;
-  box-shadow: 0 26px 60px rgba(120, 30, 40, 0.1);
-  transition:
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.5s ease;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 40px 80px rgba(120, 30, 40, 0.2);
-}
-
-.card--sourdough,
-.card--brioche,
-.card--croissant {
-  background: var(--cream-100);
-  border: 1px solid var(--hairline);
-}
-
-.card__glow {
-  height: 240px;
-  border-radius: 18px;
-  overflow: hidden;
-  transition: filter 0.5s ease;
-}
-
-/* The gradient stays behind the photo, so a missing image still looks right. */
-.card__glow img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.card:hover .card__glow {
-  filter: brightness(1.12) saturate(1.1);
-}
-
-.card--sourdough .card__glow {
-  background: radial-gradient(62% 66% at 50% 42%, #ffeab4 0%, var(--amber) 54%, var(--amber-deep) 100%);
-}
-
-.card--brioche .card__glow {
-  background: radial-gradient(62% 66% at 50% 42%, #ffe3d8 0%, var(--blush) 54%, #d4718a 100%);
-}
-
-.card--croissant .card__glow {
-  background: radial-gradient(62% 66% at 50% 42%, #fdf1c8 0%, #e9c06a 54%, #c98f42 100%);
-}
-
-.card__body {
-  padding: 26px 14px 14px;
-}
-
-.card__title {
-  font-family: "Zilla Slab", serif;
-  font-size: 1.6rem;
-  color: #9e1134;
-  margin: 0 0 12px;
-  font-weight: 700;
-}
-
-.card__desc {
-  font-size: 0.94rem;
-  line-height: 1.6;
-  color: #5a362b;
-  margin: 0;
-}
-
 /* ---------------------------------- reviews ---------------------------------- */
 
-/* Social proof between the breads and the timeline: one blush card carrying a
+/* Social proof after the ritual: one blush card carrying a
    single voice, and four cream cards around it. */
 .reviews {
   position: relative;
@@ -1894,10 +1724,6 @@ main {
   }
 
   .ritual {
-    grid-template-columns: 1fr;
-  }
-
-  .breads__grid {
     grid-template-columns: 1fr;
   }
 
