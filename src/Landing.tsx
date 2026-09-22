@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { FlourLayer } from "./components/FlourLayer";
 import { Intro } from "./components/Intro";
-import { Seal } from "./components/Seal";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { Products } from "./components/Products";
@@ -10,16 +9,14 @@ import { About } from "./components/About";
 import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
 import { Ritual } from "./components/Ritual";
-import { Breads } from "./components/Breads";
 import { Reviews } from "./components/Reviews";
 import { Footer } from "./components/Footer";
-import { useNavAndSealScroll, useScrolledPast } from "./hooks/useScrollEffects";
+import { useNavScroll, useScrolledPast } from "./hooks/useScrollEffects";
 
 export function Landing() {
   const navRef = useRef<HTMLElement>(null);
-  const sealRef = useRef<HTMLDivElement>(null);
 
-  useNavAndSealScroll(navRef, sealRef);
+  useNavScroll(navRef);
   // The badge is not painted on the first screen — it pops in on the first scroll.
   const badgeIn = useScrolledPast(40);
 
@@ -28,7 +25,6 @@ export function Landing() {
       <Intro />
       <FlourLayer />
       <div className="ambient-glow" />
-      <Seal ref={sealRef} />
       <Nav ref={navRef} />
 
       {/* Pinned to the viewport, so it rides along the whole page — top to bottom
@@ -47,7 +43,6 @@ export function Landing() {
         <About />
         <HowToOrder />
         <Ritual />
-        <Breads />
         <Reviews />
       </main>
 
