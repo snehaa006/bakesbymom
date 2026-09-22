@@ -30,6 +30,10 @@
   --wine-deep: #7a0f2a;
   --cocoa: #5a362b;
   --cocoa-soft: #8a5a48;
+  /* The about band: our cream, greyed right down — the reference's elegance
+     formula (barely any saturation, mid tone, perfectly flat) on a warm hue
+     rather than its olive one. */
+  --taupe: #736558;
   --hairline: rgba(158, 17, 52, 0.14);
 }
 
@@ -1180,108 +1184,160 @@ main {
 
 /* ---------------------------------- about ---------------------------------- */
 
+/* A full-bleed cocoa band that breaks the cream run of the page: the story and
+   one outlined call to action on the left, the timeline hung off a hairline
+   rail on the right. No photos — the type carries it. */
 .about {
   position: relative;
-  scroll-margin-top: 118px;
   z-index: 5;
+  scroll-margin-top: 118px;
+  width: 100%;
+  padding: clamp(72px, 9vw, 126px) clamp(20px, 5vw, 60px) clamp(80px, 10vw, 136px);
+  background: var(--taupe);
+  color: var(--cream-100);
+}
+
+.about__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.36fr);
+  gap: clamp(48px, 8vw, 130px);
+  align-items: start;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 40px 40px 110px;
 }
 
-.about__top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-}
-
-.about__gallery {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 18px;
-  align-items: stretch;
-}
-
-.about__gallery-stack {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 18px;
-}
-
-.about__gallery-stack .photo-slot {
-  aspect-ratio: auto;
-  min-height: 130px;
+.about__eyebrow {
+  max-width: 40ch;
+  margin: 0 0 clamp(26px, 3.4vw, 44px);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.7;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cream-100);
 }
 
 .about__heading {
-  font-family: "Zilla Slab", serif;
-  font-size: clamp(2rem, 4.2vw, 3.2rem);
-  line-height: 1.12;
-  font-weight: 700;
-  color: #9e1134;
-  margin: 0 0 24px;
-}
-
-.about__heading-script {
-  font-family: "Satisfy", cursive;
-  font-style: normal;
+  max-width: 13ch;
+  margin: 0 0 clamp(24px, 2.6vw, 34px);
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.4rem, 5.4vw, 4.4rem);
   font-weight: 400;
-  color: #bf152f;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--cream-100);
 }
 
-.about__copy .chapter-body + .chapter-body {
+.about__body {
+  max-width: 42ch;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: rgba(253, 247, 230, 0.86);
+}
+
+.about__body + .about__body {
   margin-top: 18px;
 }
 
-.about__signature {
-  margin-top: 30px;
-  padding-top: 22px;
-  border-top: 1px solid rgba(158, 17, 52, 0.18);
-}
-
-.about__signature-name {
-  font-family: "Satisfy", cursive;
-  font-size: 1.7rem;
-  color: #7a0f2a;
-  margin: 0;
-}
-
-.about__signature-role {
+/* Square, not pill — the reference's outlined button with the long arrow. */
+.about__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  min-width: min(344px, 100%);
+  margin-top: clamp(38px, 5vw, 62px);
+  padding: 18px 24px;
+  border: 1px solid rgba(244, 233, 200, 0.55);
   font-size: 0.72rem;
-  text-transform: uppercase;
+  font-weight: 600;
   letter-spacing: 0.2em;
-  color: #8a5a48;
-  margin: 6px 0 0;
+  text-transform: uppercase;
+  color: var(--pill-cream);
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease;
 }
 
-.about__values {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  margin-top: clamp(48px, 6vw, 80px);
+.about__cta:hover {
+  background: var(--pill-cream);
+  border-color: var(--pill-cream);
+  color: var(--taupe);
 }
 
-.about__value {
-  padding: 30px 28px;
-  border-radius: 24px;
-  background: rgba(253, 247, 230, 0.86);
-  border: 1px solid var(--hairline);
-  box-shadow: 0 18px 44px rgba(120, 30, 40, 0.1);
+.about__cta-arrow {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 12px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.about__value-title {
-  font-family: "Zilla Slab", serif;
-  font-size: 1.18rem;
-  color: #9e1134;
-  margin: 0 0 12px;
+.about__cta:hover .about__cta-arrow {
+  transform: translateX(6px);
 }
 
-.about__value-text {
-  font-size: 0.94rem;
-  line-height: 1.7;
-  color: #5a362b;
+/* ---- the rail ---- */
+
+.about__steps {
+  --rail-gap: clamp(58px, 10vw, 150px);
+  --rail-offset: 30px;
+  --rail-dot: 11px;
+  --rail-dot-top: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--rail-gap);
+  padding-top: clamp(4px, 3vw, 50px);
+  padding-left: var(--rail-offset);
+}
+
+.about__step {
+  position: relative;
+}
+
+/* Every mark but the last carries the hairline down to the next one, so the
+   rail begins at the first dot and stops at the last. */
+.about__step::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--rail-dot) / 2 - var(--rail-offset));
+  top: calc(var(--rail-dot-top) + var(--rail-dot) / 2);
+  bottom: calc(-1 * (var(--rail-gap) + var(--rail-dot-top) + var(--rail-dot) / 2));
+  width: 1px;
+  transform: translateX(-50%);
+  background: rgba(244, 233, 200, 0.34);
+}
+
+.about__step:last-child::before {
+  content: none;
+}
+
+.about__step-dot {
+  position: absolute;
+  top: var(--rail-dot-top);
+  left: calc(-1 * var(--rail-offset));
+  width: var(--rail-dot);
+  height: var(--rail-dot);
+  border-radius: 50%;
+  background: var(--pill-cream);
+}
+
+.about__step-title {
+  margin: 0 0 14px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pill-cream);
+}
+
+.about__step-text {
   margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.72;
+  color: rgba(253, 247, 230, 0.84);
 }
 
 .baker-3d {
@@ -2077,12 +2133,24 @@ main {
     position: static;
   }
 
-  .about__top {
+  .about__inner {
     grid-template-columns: minmax(0, 1fr);
+    gap: clamp(46px, 8vw, 70px);
   }
 
-  .about__values {
-    grid-template-columns: minmax(0, 1fr);
+  .about__heading {
+    max-width: 16ch;
+  }
+
+  /* Stacked, the rail sits under the copy — tighter marks and a measure that
+     stays readable across the full width. */
+  .about__steps {
+    --rail-gap: 52px;
+    padding-top: 0;
+  }
+
+  .about__step-text {
+    max-width: 58ch;
   }
 
   .ritual,
@@ -2160,15 +2228,25 @@ main {
   }
 
   .about {
-    padding: 24px 20px 80px;
+    padding: 64px 20px 72px;
   }
 
-  .about__top {
+  .about__inner {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .about__values {
-    grid-template-columns: minmax(0, 1fr);
+  .about__heading {
+    max-width: none;
+  }
+
+  .about__steps {
+    --rail-gap: 46px;
+    --rail-offset: 24px;
+  }
+
+  .about__cta {
+    min-width: 100%;
+    gap: 20px;
   }
 
   .baker-3d {

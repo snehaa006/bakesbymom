@@ -1,68 +1,67 @@
+import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
-import { PhotoSlot } from "./PhotoSlot";
 
-const VALUES = [
+/* The story, told as three marks on a rail: where the baking started, where it
+   got good, and everything it turned into. Copy is placeholder for now. */
+const STEPS = [
   {
-    title: "Baked to order",
-    text: "Nothing sits on a shelf. Your cake, brownie tray or cookie box goes into the oven once you order it.",
+    title: "A hobby at home",
+    text: "It started with birthday cakes for the people she loves — weekend bakes, one oven, and the joy of watching someone cut the first slice.",
   },
   {
-    title: "Real ingredients",
-    text: "Good butter, real chocolate, fresh cream and fruit — no shortcuts, no packet mixes, no preservatives.",
+    title: "Cakes, perfected",
+    text: "Batch after batch the sponge got softer and the buttercream steadier, until the cakes people asked for became the cakes they came back for.",
   },
   {
-    title: "Made for your moment",
-    text: "Birthdays, anniversaries, tiny Tuesday treats — flavours, sizes and messages shaped around the occasion.",
+    title: "A whole dessert table",
+    text: "Cookies, brownies, cupcakes, bento and jar cakes, donuts, macarons, pastries and every kind of cake — one kitchen, and a table that keeps growing.",
   },
 ];
 
 export function About() {
   return (
     <section id="about" className="about">
-      <div className="about__top">
-        <Reveal className="about__gallery">
-          <PhotoSlot
-            className="photo-slot--tall"
-            label="Mom at work"
-            hint="Portrait · 3:4"
-          />
-          <div className="about__gallery-stack">
-            <PhotoSlot label="A finished cake" hint="Square · 1:1" />
-            <PhotoSlot label="Brownies, sliced" hint="Square · 1:1" />
-          </div>
-        </Reveal>
-
+      <div className="about__inner">
         <Reveal className="about__copy">
-          <p className="chapter-eyebrow">About us</p>
-          <h2 className="about__heading">
-            One kitchen,
-            <br />
-            <em className="about__heading-script">a whole dessert table.</em>
-          </h2>
-          <p className="chapter-body">
-            Bakesbymom started the way most home bakeries do — one birthday cake for someone we love, then another for
-            a neighbour, and then a kitchen that never quite stopped smelling of vanilla.
+          <p className="about__eyebrow">What began as a hobby in a home kitchen is now</p>
+
+          <h2 className="about__heading">every cake, cookie and brownie on this table.</h2>
+
+          <p className="about__body">
+            Mom never set out to run a bakery. She baked for the people she loves — a birthday cake here, a tray of
+            brownies there — and the kitchen quietly learned her hands.
           </p>
-          <p className="chapter-body">
-            Today that same kitchen turns out celebration cakes, fudgy brownies, cupcakes, cookies, tea cakes and
-            fresh breads. Every order is still mixed, shaped, baked and finished by hand, in batches small enough to
-            taste the care.
+          <p className="about__body">
+            One order became two, two became a weekend booked out, and the dessert table kept getting longer.
+            Everything is still mixed, baked to order and finished by hand, in batches small enough to taste the care.
           </p>
 
-          <div className="about__signature">
-            <p className="about__signature-name">Bakesbymom</p>
-            <p className="about__signature-role">Home bakery · Panipat, Haryana</p>
-          </div>
+          <Link to="/catalog" className="about__cta">
+            <span>Explore the catalog</span>
+            <svg className="about__cta-arrow" viewBox="0 0 56 12" fill="none" aria-hidden="true">
+              <path d="M0 6h51" stroke="currentColor" strokeWidth="1.1" />
+              <path
+                d="M46.4 1.4 51 6l-4.6 4.6"
+                stroke="currentColor"
+                strokeWidth="1.1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
         </Reveal>
-      </div>
 
-      <div className="about__values">
-        {VALUES.map((value) => (
-          <Reveal key={value.title} className="about__value">
-            <h3 className="about__value-title">{value.title}</h3>
-            <p className="about__value-text">{value.text}</p>
-          </Reveal>
-        ))}
+        {/* One Reveal for the whole rail, so the hairline between the marks
+            never animates in pieces. */}
+        <Reveal className="about__steps">
+          {STEPS.map((step) => (
+            <div key={step.title} className="about__step">
+              <span className="about__step-dot" aria-hidden="true" />
+              <h3 className="about__step-title">{step.title}</h3>
+              <p className="about__step-text">{step.text}</p>
+            </div>
+          ))}
+        </Reveal>
       </div>
     </section>
   );
