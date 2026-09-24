@@ -3,9 +3,9 @@ import { FlourLayer } from "./components/FlourLayer";
 import { Intro } from "./components/Intro";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
+import { About } from "./components/About";
 import { Products } from "./components/Products";
 import { Showcase } from "./components/Showcase";
-import { About } from "./components/About";
 import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
 import { Ritual } from "./components/Ritual";
@@ -38,9 +38,9 @@ export function Landing() {
 
       <main id="top">
         <Hero />
+        <About />
         <Products />
         <Showcase />
-        <About />
         <HowToOrder />
         <Ritual />
         <Reviews />
