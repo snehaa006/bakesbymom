@@ -89,6 +89,7 @@ const RESTAGED_PHOTOS: Record<string, string> = {
   "IMG-20260213-WA0054.png": "/photos/restaged/mom-butterfly.jpg",
   "IMG-20251130-WA0019.png": "/photos/restaged/engaged-hands.jpg",
   "IMG-20260808-WA0046.png": "/photos/restaged/mom-flowerpot.jpg",
+  "IMG-20251130-WA0022.png": "/photos/restaged/mom-photo-clothesline.jpg",
 };
 
 /**
