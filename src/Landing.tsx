@@ -4,11 +4,11 @@ import { Intro } from "./components/Intro";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
+import { Ritual } from "./components/Ritual";
 import { Products } from "./components/Products";
 import { Showcase } from "./components/Showcase";
 import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
-import { Ritual } from "./components/Ritual";
 import { Reviews } from "./components/Reviews";
 import { Footer } from "./components/Footer";
 import { useNavScroll, useScrolledPast } from "./hooks/useScrollEffects";
@@ -39,10 +39,10 @@ export function Landing() {
       <main id="top">
         <Hero />
         <About />
+        <Ritual />
         <Products />
         <Showcase />
         <HowToOrder />
-        <Ritual />
         <Reviews />
       </main>
 
