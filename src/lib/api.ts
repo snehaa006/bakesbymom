@@ -77,6 +77,21 @@ export function apiUpload<T>(path: string, form: FormData): Promise<T> {
 }
 
 /**
+ * Cakes we have re-shot against a styled background. The bucket still holds the
+ * phone photo under its original key — and D1, the products shelf and the
+ * showcase all still point at that key — so the swap lives here: one entry per
+ * cake, old R2 key on the left, the restaged picture that ships with the site
+ * on the right. Drop an entry and the original comes straight back.
+ */
+const RESTAGED_PHOTOS: Record<string, string> = {
+  "IMG-20260913-WA0003.png": "/photos/restaged/anniversary-maroon.jpg",
+  "IMG-20251128-WA0019.png": "/photos/restaged/bride-to-be.jpg",
+  "IMG-20260213-WA0054.png": "/photos/restaged/mom-butterfly.jpg",
+  "IMG-20251130-WA0019.png": "/photos/restaged/engaged-hands.jpg",
+  "IMG-20260808-WA0046.png": "/photos/restaged/mom-flowerpot.jpg",
+};
+
+/**
  * Photo URLs are stored in D1 as the Worker path "/api/photos/<key>". That
  * resolves on its own when the Worker serves the SPA, but not when the site is
  * hosted elsewhere and points at the Worker through VITE_API_BASE_URL — so
@@ -84,6 +99,8 @@ export function apiUpload<T>(path: string, form: FormData): Promise<T> {
  * admin upload route returns) are handed back untouched.
  */
 export function resolvePhotoUrl(url: string): string {
+  const restaged = RESTAGED_PHOTOS[url.slice(url.lastIndexOf("/") + 1)];
+  if (restaged) return restaged;
   if (/^(https?:)?\/\//i.test(url) || url.startsWith("data:")) return url;
   const path = url.startsWith("/api/") ? url.slice("/api".length) : url;
   return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
