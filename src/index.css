@@ -233,14 +233,16 @@ a:hover {
   /* Yellow and pink alternate the way the hero band does — cream through
      products and showcase, a pink crest over order and ritual, then cream again
      through reviews, closing warm under the footer. The stops track the sections:
-     hero 0–16, products 16–28, showcase 28–42, about 42–60, order 60–71,
-     ritual 71–84, reviews 84–98. */
+     hero 0–16, about 16–34, products 34–46, showcase 46–60, order 60–71,
+     ritual 71–84, reviews 84–98. The about band paints its own sage, so the
+     cream run is stretched under it to keep products and showcase on yellow and
+     land the pink crest on order and ritual. */
   background: linear-gradient(
     180deg,
     var(--cream-300) 0%,
     var(--butter-400) 19%,
-    #f8e4bc 31%,
-    var(--apricot) 45%,
+    #f8e4bc 40%,
+    var(--apricot) 58%,
     var(--blush) 66%,
     var(--apricot) 79%,
     var(--cream-300) 86%,
