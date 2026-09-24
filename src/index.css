@@ -35,6 +35,23 @@
      actually in it. */
   --sage: #807c69;
   --hairline: rgba(158, 17, 52, 0.14);
+
+  /* The fixed nav pill floats over every page, so each one starts this far
+     down. It shrinks with the pill: on the narrow layout the links move into a
+     drawer and the bar is a single short row. */
+  --nav-space: 130px;
+}
+
+@media (max-width: 860px) {
+  :root {
+    --nav-space: 104px;
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --nav-space: 96px;
+  }
 }
 
 html,
@@ -55,6 +72,25 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/* Media never outgrows its column — the one rule that stops a stray wide image
+   from handing a phone a horizontal scrollbar. */
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Long cake names and WhatsApp numbers would otherwise widen a narrow column
+   rather than wrap inside it. */
+h1,
+h2,
+h3,
+p,
+a,
+li {
+  overflow-wrap: break-word;
 }
 
 ::selection {
@@ -344,23 +380,44 @@ a:hover {
   box-shadow: 0 12px 38px rgba(120, 20, 40, 0.14);
 }
 
-@media (max-width: 860px) {
-  .nav {
-    border-radius: 26px;
-    padding: 12px 20px;
-  }
+/* The burger only exists on the narrow layout, where the links move into a
+   drawer. Three bars that fold into a cross when the drawer is open. */
+.nav__burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  margin: -8px -8px -8px 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  place-items: center;
+  align-content: center;
+  justify-content: center;
+  gap: 5px;
+}
 
-  .nav__inner {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px 14px;
-  }
+.nav__burger-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: #8a1236;
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.7, 0.3, 1),
+    opacity 0.2s ease;
+}
 
-  .nav__links {
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 8px;
-  }
+.nav__burger.is-open .nav__burger-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav__burger.is-open .nav__burger-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__burger.is-open .nav__burger-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ---------------------------------- main ---------------------------------- */
@@ -487,7 +544,9 @@ main {
 
 .hero__band {
   position: relative;
-  min-height: 100vh;
+  /* svh, not vh: on a phone vh measures the tallest the viewport ever gets, so
+     the band would run under the URL bar until the user scrolls. */
+  min-height: 100svh;
   overflow: hidden;
   background: linear-gradient(180deg, #f9eec1 0%, #f6d3bd 34%, #f1a5a9 72%);
 }
@@ -514,7 +573,7 @@ main {
 .hero__grid {
   position: relative;
   z-index: 3;
-  min-height: 100vh;
+  min-height: 100svh;
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
@@ -1649,7 +1708,7 @@ main {
   .hero__grid {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;
-    padding: 132px 28px 96px;
+    padding: calc(var(--nav-space) + 24px) 28px 96px;
     gap: 40px;
   }
 
@@ -1687,6 +1746,10 @@ main {
     width: 108px;
     left: 12px;
     bottom: clamp(150px, 20vh, 210px);
+  }
+
+  .showcase {
+    scroll-margin-top: 104px;
   }
 
   .order__logo {
@@ -1743,17 +1806,9 @@ main {
   .review__quote-mark {
     font-size: 8rem;
   }
-
-  .nav__links {
-    gap: 22px;
-  }
 }
 
 @media (max-width: 560px) {
-  .nav {
-    padding: 11px 16px;
-  }
-
   .product-card {
     width: 62vw;
   }
@@ -1763,24 +1818,11 @@ main {
   }
 
   .nav__logo {
-    font-size: 1.32rem;
-  }
-
-  .nav__links {
-    gap: 8px 12px;
-  }
-
-  .nav__link {
-    font-size: 0.56rem;
-    letter-spacing: 0.08em;
-  }
-
-  .nav__link--cta {
-    padding: 7px 12px;
+    font-size: 1.42rem;
   }
 
   .hero__grid {
-    padding: 118px 20px 90px;
+    padding: calc(var(--nav-space) + 16px) 20px 90px;
     gap: 30px;
   }
 
@@ -1809,6 +1851,15 @@ main {
   .about__cta {
     min-width: 100%;
     gap: 20px;
+  }
+
+  /* The badge is fixed in the left gutter, and a phone has no left gutter — it
+     ends up sitting on whatever button happens to be scrolled under it (the
+     About band's "Explore the catalog" is the usual casualty). It is pure
+     decoration, so the narrow layout goes without it and leaves the assistant
+     as the only thing floating over the page. */
+  .spin-badge--float {
+    display: none;
   }
 
   .baker-3d {
@@ -2064,6 +2115,18 @@ main {
   transform: scale(1.08);
 }
 
+@media (max-width: 560px) {
+  /* Four across leaves tiles the size of a thumbnail; three keeps the cakes
+     readable without running the grid to eight rows. */
+  .showcase__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .showcase {
+    scroll-margin-top: 92px;
+  }
+}
+
 @media (max-width: 900px) {
   .showcase__inner {
     grid-template-columns: minmax(0, 1fr);
@@ -2261,7 +2324,7 @@ main {
   bottom: calc(clamp(16px, 2.4vw, 28px) + 62px);
   z-index: 120;
   width: min(372px, calc(100vw - 32px));
-  max-height: min(600px, calc(100vh - 140px));
+  max-height: min(600px, calc(100dvh - 140px));
   display: flex;
   flex-direction: column;
   border-radius: 22px;
@@ -2916,15 +2979,28 @@ main {
     right: 10px;
     left: 10px;
     width: auto;
-    bottom: 78px;
-    max-height: calc(100vh - 150px);
+    bottom: 68px;
+    /* dvh follows the URL bar, so the panel is never taller than what is
+       actually on screen. */
+    max-height: calc(100dvh - 120px);
   }
 
+  /* The robot floats over whatever is scrolled under it, so on a phone it is
+     sized to the smallest it can be and still be a comfortable tap target. */
   .chat-launch {
+    right: 4px;
+    bottom: 6px;
+    width: 72px;
+    height: 72px;
+  }
+
+  /* Open, the launcher is a close button, not a robot — it keeps its own size
+     rather than inheriting the robot's, or it hangs off the bottom edge. */
+  .chat-launch--open {
     right: 12px;
     bottom: 14px;
-    width: 108px;
-    height: 108px;
+    width: 46px;
+    height: 46px;
   }
 
   /* Give the cake its name back — the order button gets the narrower column. */
@@ -3533,18 +3609,9 @@ main {
 }
 
 @media (max-width: 560px) {
-  .nav__menu {
-    left: 0;
-    transform: translate(0, -8px);
-  }
-
-  .nav__menu.is-open {
-    transform: translate(0, 0);
-  }
-
   .shop__hero,
   .item {
-    padding-top: 112px;
+    padding-top: var(--nav-space);
   }
 
   .shop__grid {
@@ -3553,5 +3620,205 @@ main {
 
   .item__field--row {
     flex-direction: column;
+  }
+}
+
+
+/* ---------------------------------- nav drawer ---------------------------------- */
+
+/* Kept at the end of the sheet on purpose: the pieces it overrides — the
+   Products menu, the Catalog pill — are declared further down than the nav
+   block itself, so an override placed up there quietly loses to them. */
+
+@media (max-width: 860px) {
+  .nav {
+    top: 14px;
+    width: min(1180px, calc(100% - 28px));
+    border-radius: 22px;
+    padding: 10px 18px;
+  }
+
+  .nav__inner {
+    gap: 12px;
+  }
+
+  .nav__burger {
+    display: grid;
+  }
+
+  /* The drawer: the same list, one row per link, dropping out of the pill it
+     belongs to. Collapsed it is zero-height and untabbable rather than merely
+     transparent. */
+  .nav__links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    left: 0;
+    z-index: 60;
+    max-height: min(74vh, 560px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 8px;
+    border-radius: 22px;
+    background: var(--cream-100);
+    border: 1px solid rgba(158, 17, 52, 0.2);
+    box-shadow: 0 18px 44px rgba(120, 20, 40, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition:
+      opacity 0.24s ease,
+      transform 0.24s cubic-bezier(0.2, 0.7, 0.3, 1),
+      visibility 0.24s;
+  }
+
+  .nav__links.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Full-width rows, each one a comfortable thumb target. */
+  .nav__links > li {
+    width: 100%;
+  }
+
+  .nav__link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 46px;
+    padding: 0 14px;
+    border-radius: 14px;
+    font-size: 0.74rem;
+    letter-spacing: 0.2em;
+  }
+
+  .nav__link--cta {
+    justify-content: center;
+    margin-top: 6px;
+  }
+
+  .nav__link--menu {
+    justify-content: space-between;
+  }
+
+  /* Inside the drawer the shelf list opens in place — a floating panel would
+     hang off the side of a phone. */
+  .nav__menu {
+    position: static;
+    width: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    transform: none;
+    overflow: hidden;
+    max-height: 0;
+    transition:
+      max-height 0.28s cubic-bezier(0.2, 0.7, 0.3, 1),
+      opacity 0.2s ease,
+      visibility 0.2s;
+  }
+
+  .nav__menu.is-open {
+    max-height: 520px;
+    transform: none;
+    padding: 4px 0 8px;
+  }
+
+  .nav__menu::before {
+    content: none;
+  }
+
+  .nav__menu-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-left: 12px;
+    border-left: 1px solid rgba(122, 15, 42, 0.16);
+    margin-left: 14px;
+  }
+
+  .nav__menu-link {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0 12px;
+  }
+
+  .nav__menu-note {
+    text-align: left;
+    margin-inline: 14px;
+  }
+}
+
+/* ---------------------------------- phone polish ---------------------------------- */
+
+/* The last pass over the narrow layout: the things that only go wrong once the
+   floating furniture (nav pill, badge, assistant) shares a screen this small
+   with the content underneath it. */
+@media (max-width: 560px) {
+  .nav {
+    padding: 9px 14px;
+  }
+
+  /* The assistant floats over the bottom-right corner, right where the footer
+     puts its admin link. Give the footer room to clear it. */
+  .site-footer {
+    padding: 10px 20px 104px;
+    gap: 12px;
+  }
+
+  /* Both belts are swipeable on a touch screen, so the arrow buttons are a
+     convenience rather than the only way through — but they still have to be
+     hittable. */
+  .products__arrow {
+    width: 44px;
+  }
+
+  .order__inner {
+    padding-inline: 20px;
+  }
+
+  .order__panel-inner {
+    width: min(100%, 340px);
+    padding: 34px 30px;
+  }
+
+  /* An off-centre decorative blob is the one thing wide enough to be felt
+     through .page's clip. */
+  .order__blob-mark {
+    left: -32%;
+    width: 300px;
+  }
+
+  .reviews {
+    padding-inline: 20px;
+  }
+
+  .showcase__cta,
+  .order__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+  }
+}
+
+/* Small phones (iPhone SE and down) — the last place the type has to give. */
+@media (max-width: 380px) {
+  .nav__logo {
+    font-size: 1.28rem;
+  }
+
+  .showcase__grid {
+    gap: 6px;
+  }
+
+  .product-card {
+    width: 74vw;
   }
 }

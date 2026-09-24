@@ -60,7 +60,17 @@ export function FlowModel({ src, label, front, scale = 1, tilt = 0 }: FlowModelP
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // As in the hero scenes: a browser without WebGL throws here, and an error
+    // escaping the effect would unmount the page rather than just this prop.
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch {
+      // Settle the placeholder instead of leaving it stuck on "loading"
+      // forever — there is no context coming.
+      setFailed(true);
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;

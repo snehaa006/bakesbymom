@@ -281,7 +281,7 @@ export function AdminPanel() {
               Cakes {selectedCategory ? `· ${selectedCategory.name}` : ""}
             </h2>
             {!selectedCategory ? (
-              <p className="admin__hint">Pick a category on the left to manage its cakes.</p>
+              <p className="admin__hint">Pick a category to manage its cakes.</p>
             ) : (
               <>
                 <ul className="admin__list">
@@ -378,7 +378,7 @@ export function AdminPanel() {
             {selectedCakeId ? (
               <CakeEditor cakeId={selectedCakeId} onError={setError} />
             ) : (
-              <p className="admin__hint">Open a cake in the middle column to edit its details.</p>
+              <p className="admin__hint">Open a cake to edit its details.</p>
             )}
           </section>
         </div>

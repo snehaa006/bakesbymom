@@ -44,7 +44,20 @@ export function AuntyScene() {
     camera.position.set(0, TARGET_HEIGHT / 2, CAMERA_DISTANCE);
     camera.lookAt(0, TARGET_HEIGHT / 2, 0);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // A phone with WebGL switched off — an older device, a locked-down browser,
+    // some low-power modes — throws here rather than returning null. Without
+    // this the error escapes the effect and React unmounts the whole tree, so
+    // one missing GPU context costs the entire page. Let the scene be absent
+    // instead: every section around it is plain HTML and reads fine alone.
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch {
+      // Settle the placeholder instead of leaving it stuck on "loading"
+      // forever — there is no context coming.
+      setStatus("error");
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(host.clientWidth, host.clientHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
