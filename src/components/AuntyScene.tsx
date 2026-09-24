@@ -19,6 +19,13 @@ const CAMERA_DISTANCE = 4;
    viewport, so the turn has to finish inside that or it plays off-screen. */
 const SCROLL_RANGE = 0.45;
 
+/* How far she follows the cursor, in radians at the edge of the screen. The
+   model is one fused mesh — no eye nodes, no head bone — so the look has to be
+   carried by the whole figure, which means it has to stay small: enough to
+   read as her watching the pointer, not enough to read as a spin. */
+const POINTER_YAW = 0.3;
+const POINTER_PITCH = 0.075;
+
 export function AuntyScene() {
   const hostRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<SceneStatus>("loading");
@@ -82,9 +89,9 @@ export function AuntyScene() {
     let restingY = 0;
     const clock = new THREE.Clock();
 
-    /* She is driven entirely by scroll position, not by the pointer: 0 with the
-       page at rest, 1 once the hero has scrolled away. The rendered value is
-       eased towards the target so a jumpy wheel still reads as a smooth turn. */
+    /* Her turn is driven by scroll position: 0 with the page at rest, 1 once the
+       hero has scrolled away. The rendered value is eased towards the target so
+       a jumpy wheel still reads as a smooth turn. */
     let scrollTarget = 0;
     let scrollCurrent = 0;
 
@@ -98,6 +105,33 @@ export function AuntyScene() {
 
     readScroll();
     window.addEventListener("scroll", readScroll, { passive: true });
+
+    /* Where the cursor sits relative to her, as -1..1 of a half viewport on
+       each axis. Eased like the scroll turn, and added on top of it, so the two
+       compose instead of one overwriting the other. */
+    let pointerX = 0;
+    let pointerY = 0;
+    let yawCurrent = 0;
+    let pitchCurrent = 0;
+
+    const readPointer = (event: PointerEvent) => {
+      // A finger is not a cursor: on touch this would fire mid-scroll and yank her.
+      if (event.pointerType !== "mouse") return;
+      const rect = host.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      pointerX = THREE.MathUtils.clamp(
+        (event.clientX - (rect.left + rect.width / 2)) / (window.innerWidth / 2),
+        -1,
+        1,
+      );
+      pointerY = THREE.MathUtils.clamp(
+        (event.clientY - (rect.top + rect.height / 2)) / (window.innerHeight / 2),
+        -1,
+        1,
+      );
+    };
+
+    if (!reduceMotion) window.addEventListener("pointermove", readPointer, { passive: true });
 
     new GLTFLoader().load(
       "/aunty.glb",
@@ -147,10 +181,17 @@ export function AuntyScene() {
     const render = () => {
       const elapsed = clock.getElapsedTime();
       scrollCurrent = THREE.MathUtils.lerp(scrollCurrent, scrollTarget, 0.07);
+      /* Her origin sits at her own mid-height, so these turn her on the spot
+         rather than swinging her about her feet. */
+      yawCurrent = THREE.MathUtils.lerp(yawCurrent, pointerX * POINTER_YAW, 0.08);
+      pitchCurrent = THREE.MathUtils.lerp(pitchCurrent, pointerY * POINTER_PITCH, 0.08);
+
       if (aunty) {
         /* Scroll scrubs the turn: she pivots to face the page and settles down
-           a touch, as if leaning over the counter. */
-        aunty.rotation.y = scrollCurrent * 0.62;
+           a touch, as if leaning over the counter. The cursor is layered on top
+           — she keeps following it through the scrolled turn. */
+        aunty.rotation.y = scrollCurrent * 0.62 + yawCurrent;
+        aunty.rotation.x = pitchCurrent;
         aunty.rotation.z = scrollCurrent * -0.045;
         aunty.position.y = restingY - scrollCurrent * 0.075;
         if (!reduceMotion) {
@@ -168,6 +209,7 @@ export function AuntyScene() {
       window.cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
       window.removeEventListener("scroll", readScroll);
+      window.removeEventListener("pointermove", readPointer);
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
