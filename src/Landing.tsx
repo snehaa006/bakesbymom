@@ -4,8 +4,8 @@ import { Intro } from "./components/Intro";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
-import { Ritual } from "./components/Ritual";
 import { Products } from "./components/Products";
+import { Ritual } from "./components/Ritual";
 import { Showcase } from "./components/Showcase";
 import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
@@ -39,8 +39,8 @@ export function Landing() {
       <main id="top">
         <Hero />
         <About />
-        <Ritual />
         <Products />
+        <Ritual />
         <Showcase />
         <HowToOrder />
         <Reviews />
