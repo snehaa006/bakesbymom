@@ -230,23 +230,22 @@ a:hover {
   /* clip (not hidden) so position: sticky still works inside the page */
   overflow-x: clip;
   overflow-y: visible;
-  /* Yellow and pink alternate the way the hero band does — cream through
-     products and showcase, a pink crest over order and ritual, then cream again
-     through reviews, closing warm under the footer. The stops track the sections:
-     hero 0–16, about 16–34, products 34–46, showcase 46–60, order 60–71,
-     ritual 71–84, reviews 84–98. The about band paints its own sage, so the
-     cream run is stretched under it to keep products and showcase on yellow and
-     land the pink crest on order and ritual. */
+  /* Yellow and pink alternate the way the hero band does — cream through ritual
+     and products, warming across showcase to a pink crest over order, then cream
+     again through reviews, closing warm under the footer. The stops track the
+     sections: hero 0–16, about 16–33, ritual 33–47, products 47–60,
+     showcase 60–74, order 74–84, reviews 84–98. The about band paints its own
+     sage, so the cream run is stretched under it to carry ritual and products. */
   background: linear-gradient(
     180deg,
     var(--cream-300) 0%,
-    var(--butter-400) 19%,
-    #f8e4bc 40%,
-    var(--apricot) 58%,
-    var(--blush) 66%,
-    var(--apricot) 79%,
-    var(--cream-300) 86%,
-    var(--butter-400) 93%,
+    var(--butter-400) 22%,
+    #f8e4bc 48%,
+    var(--apricot) 70%,
+    var(--blush) 79%,
+    var(--apricot) 85%,
+    var(--cream-300) 89%,
+    var(--butter-400) 95%,
     var(--apricot) 100%
   );
 }
