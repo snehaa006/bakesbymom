@@ -8,7 +8,7 @@ interface Review {
   rating: number;
 }
 
-/** The one that gets the big blush card, the way the reference leads with a single voice. */
+/** The one that gets the big brick card, the way the reference leads with a single voice. */
 const FEATURED: Review = {
   quote:
     "Absolutely love this bakery! Everything is always fresh, delicious, and made with care. The perfect spot for a sweet treat!",
@@ -49,7 +49,7 @@ function Stars({ rating }: { rating: number }) {
   return (
     <span className="review__stars" aria-label={`${rating} out of 5`}>
       {[1, 2, 3, 4, 5].map((star) => (
-        <StarIcon key={star} color={star <= rating ? "currentColor" : "rgba(122, 15, 42, 0.18)"} />
+        <StarIcon key={star} color={star <= rating ? "currentColor" : "rgba(114, 19, 13, 0.18)"} />
       ))}
     </span>
   );

@@ -53,14 +53,14 @@ export function BakerScene() {
     keyLight.shadow.camera.bottom = -2;
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xf4a5bd, 2.1);
+    const fillLight = new THREE.DirectionalLight(0xe3a69c, 2.1);
     fillLight.position.set(-5, 3, 2);
     scene.add(fillLight);
-    scene.add(new THREE.HemisphereLight(0xffefd1, 0x6b1735, 2.3));
+    scene.add(new THREE.HemisphereLight(0xffefd1, 0x72130d, 2.3));
 
     const floor = new THREE.Mesh(
       new THREE.CircleGeometry(2.7, 64),
-      new THREE.ShadowMaterial({ color: 0x78223c, opacity: 0.16 }),
+      new THREE.ShadowMaterial({ color: 0x3d3b30, opacity: 0.16 }),
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -0.025;
