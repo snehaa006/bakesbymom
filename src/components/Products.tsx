@@ -103,8 +103,8 @@ export function Products() {
   return (
     <section id="products" className="products">
       {/* Organic colour marks, carried over from the palette the page runs on. */}
-      <div className="products__blob products__blob--peach" aria-hidden="true" />
-      <div className="products__blob products__blob--blush" aria-hidden="true" />
+      <div className="products__blob products__blob--sage" aria-hidden="true" />
+      <div className="products__blob products__blob--brick" aria-hidden="true" />
 
       <div className="products__inner">
         <Reveal className="products__head">

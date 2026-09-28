@@ -771,7 +771,7 @@
   height: calc(var(--u) * 2);
   transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(60, 24, 16, 0.3), transparent 68%);
+  background: radial-gradient(ellipse at center, rgba(40, 39, 31, 0.3), transparent 68%);
   filter: blur(4px);
 }
 
@@ -828,7 +828,7 @@
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.24em;
-  color: #bf152f;
+  color: var(--brick-400);
   font-weight: 600;
 }
 
@@ -836,14 +836,14 @@
   font-family: "Zilla Slab", serif;
   font-size: 1.24rem;
   font-weight: 700;
-  color: #9e1134;
+  color: var(--brick);
   margin: 4px 0 6px;
 }
 
 .flow__caption {
   font-size: 0.78rem;
   line-height: 1.5;
-  color: #6a3a2e;
+  color: var(--sage-700);
   margin: 0;
 }
 
@@ -876,11 +876,11 @@
 }
 
 .flow__arrow-shaft {
-  stroke: rgba(240, 169, 58, 0.85);
+  stroke: rgba(128, 124, 105, 0.85);
 }
 
 .flow__arrow-head {
-  stroke: #bf152f;
+  stroke: var(--brick-400);
 }
 
 .flow__stage:nth-child(3) + .flow__arrow {

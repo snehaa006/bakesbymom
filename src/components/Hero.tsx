@@ -11,7 +11,7 @@ export function Hero() {
           <svg viewBox="0 0 1440 420" preserveAspectRatio="none">
             <path
               d="M0,150 C260,54 520,4 780,44 C1030,82 1240,166 1440,120 L1440,420 L0,420 Z"
-              fill="#f7e9be"
+              fill="#f1eddd"
             />
           </svg>
         </div>
