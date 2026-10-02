@@ -49,7 +49,7 @@ function Stars({ rating }: { rating: number }) {
   return (
     <span className="review__stars" aria-label={`${rating} out of 5`}>
       {[1, 2, 3, 4, 5].map((star) => (
-        <StarIcon key={star} size={15} color={star <= rating ? "currentColor" : "rgba(43, 30, 23, 0.16)"} />
+        <StarIcon key={star} size={15} color={star <= rating ? "currentColor" : "rgba(10, 10, 10, 0.18)"} />
       ))}
     </span>
   );

@@ -60,7 +60,7 @@ export function Showcase() {
               until the last rose sits right. Taste what that does to a slice.
             </p>
             <div>
-              <Link to="/catalog" className="btn btn--ghost-light showcase__cta">
+              <Link to="/catalog" className="btn btn--ghost showcase__cta">
                 Explore
                 <ArrowIcon size={16} />
               </Link>

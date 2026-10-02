@@ -127,8 +127,8 @@
   padding: 13px;
   border: none;
   border-radius: 12px;
-  background: var(--dark-chocolate);
-  color: var(--misty-100);
+  background: var(--yellow);
+  color: var(--ink);
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
@@ -136,7 +136,8 @@
 }
 
 .admin__login-btn:hover {
-  background: var(--aloewood);
+  background: var(--ink);
+  color: var(--white);
 }
 
 .admin__columns {
@@ -295,8 +296,8 @@
 
 .admin__form button[type="submit"],
 .admin__inline-form button {
-  background: var(--dark-chocolate);
-  color: var(--misty-100);
+  background: var(--yellow);
+  color: var(--ink);
   border: none;
   border-radius: 10px;
   padding: 10px 16px;
@@ -308,7 +309,8 @@
 
 .admin__form button[type="submit"]:hover,
 .admin__inline-form button:hover {
-  background: var(--aloewood);
+  background: var(--ink);
+  color: var(--white);
 }
 
 .admin__ghost {

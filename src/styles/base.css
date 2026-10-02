@@ -1,7 +1,11 @@
 /* ============================================================================
    Bakesbymom — design system
    ----------------------------------------------------------------------------
-   Warm porcelain ground, espresso type, one soft rose accent. Fraunces (with
+   Light gray and white for every surface, ink for type, and the accent
+   colours of bakesbymom.com's own theme: yellow for the buttons that matter,
+   purple for labels, picked options and the accent word, amber stars, green
+   for WhatsApp and anything that went right, red for anything that went
+   wrong. Fraunces (with
    its SOFT axis turned all the way up, so the serifs read rounded and
    hand-made) carries every headline; Inter carries everything you read or
    press; the Satisfy script is kept for the wordmark alone.
@@ -13,30 +17,46 @@
 :root {
   color-scheme: light;
 
-  /* ---- ground ---- */
-  --porcelain: #fbf7f2;
-  --paper: #fffdfa;
-  --oat: #f4ece2;
-  --oat-deep: #eadfd1;
-  --blush: #f4ded7;
-  --blush-deep: #ebc9bf;
+  /* ---- the reference theme ---- */
+  --light-gray: #f0f0f0;
+  --white: #ffffff;
+  --ink-deep: #0a0a0a;
+  --gray-dark: #333333;
+  --yellow: #f0c417;
+  --yellow-deep: #d8ae0a;
+  --purple: #803cee;
+  --purple-deep: #6a2bd4;
+  --amber: #ffb74a;
+  --green: #00a341;
+  --green-deep: #008a37;
+  --green-soft: #e0f4e8;
+  --red: #f83a3a;
+  --red-soft: #fee7e7;
 
-  /* ---- accent ---- */
-  --rose: #c4796d;
-  --sakura: #ec9c9d;
-  --caramel: #a06c48;
+  /* ---- ground: every surface is the gray or the white ---- */
+  --porcelain: var(--light-gray);
+  --paper: var(--white);
+  --oat: var(--white);
+  --oat-deep: #e6e6e6;
+  --blush: #fafafa;
+  --blush-deep: #e0e0e0;
 
-  /* ---- type & dark ground ---- */
-  --cocoa: #5b4032;
-  --espresso-2: #3a2a21;
-  --espresso: #2b1e17;
-  --ink: #2b1e17;
-  --ink-2: #6a564b;
-  --ink-3: #9b887c;
-  --line: rgba(43, 30, 23, 0.1);
-  --line-strong: rgba(43, 30, 23, 0.18);
-  --on-dark: #f6efe7;
-  --on-dark-2: rgba(246, 239, 231, 0.66);
+  /* ---- accent roles ---- */
+  --rose: var(--purple);
+  --sakura: var(--yellow);
+  --caramel: var(--purple);
+
+  /* ---- ink ---- */
+  --cocoa: #333333;
+  --espresso-2: #333333;
+  --espresso: #1a1a1a;
+  --ink: #1a1a1a;
+  --ink-2: #555555;
+  --ink-3: #8c8c8c;
+  --line: rgba(26, 26, 26, 0.1);
+  --line-strong: rgba(26, 26, 26, 0.18);
+  --on-dark: #ffffff;
+  --on-dark-2: rgba(255, 255, 255, 0.7);
 
   /* ---- the previous palette's names, so the ported assistant and admin
      rules land on the new colours without being rewritten ---- */
@@ -68,8 +88,8 @@
   --r-xl: 40px;
 
   /* ---- depth ---- */
-  --shadow-soft: 0 1px 2px rgba(43, 30, 23, 0.04), 0 14px 34px -16px rgba(43, 30, 23, 0.22);
-  --shadow-lift: 0 2px 6px rgba(43, 30, 23, 0.05), 0 34px 70px -28px rgba(43, 30, 23, 0.36);
+  --shadow-soft: 0 1px 2px rgba(26, 26, 26, 0.04), 0 14px 34px -16px rgba(26, 26, 26, 0.2);
+  --shadow-lift: 0 2px 6px rgba(26, 26, 26, 0.05), 0 34px 70px -28px rgba(26, 26, 26, 0.32);
 
   /* ---- motion ---- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -169,8 +189,8 @@ button {
 }
 
 ::selection {
-  background: rgba(236, 156, 157, 0.99);
-  color: var(--espresso);
+  background: rgba(240, 196, 23, 0.99);
+  color: var(--ink);
 }
 
 :focus-visible {
@@ -226,8 +246,8 @@ button {
 /* ---------------------------------- buttons ---------------------------------- */
 
 .btn {
-  --btn-bg: var(--espresso);
-  --btn-fg: var(--on-dark);
+  --btn-bg: var(--yellow);
+  --btn-fg: var(--ink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -256,9 +276,11 @@ button {
 }
 
 .btn:hover {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--white);
   color: var(--btn-fg);
   transform: translateY(-1px);
-  box-shadow: 0 14px 30px -14px rgba(43, 30, 23, 0.5);
+  box-shadow: 0 14px 30px -14px rgba(26, 26, 26, 0.5);
 }
 
 .btn:hover svg {
@@ -276,9 +298,9 @@ button {
 }
 
 .btn--ghost:hover {
-  --btn-bg: var(--espresso);
-  --btn-fg: var(--on-dark);
-  border-color: var(--espresso);
+  --btn-bg: var(--yellow);
+  --btn-fg: var(--ink);
+  border-color: var(--yellow);
 }
 
 .btn--light {
@@ -353,9 +375,9 @@ button {
 }
 
 .round-btn:hover:not(:disabled) {
-  background: var(--espresso);
-  border-color: var(--espresso);
-  color: var(--on-dark);
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--ink);
 }
 
 .round-btn:active:not(:disabled) {
