@@ -32,33 +32,33 @@ export function LogoCard({ src, className = "" }: LogoCardProps) {
         <rect width="420" height="300" fill="url(#logoStripes)" />
 
         {/* tulip */}
-        <g stroke="#111111" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <g stroke="#1a1a1a" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M210,40 c-10,5 -13,14 -9,22 c2,5 6,8 9,12 c3,-4 7,-7 9,-12 c4,-8 1,-17 -9,-22z" />
           <path d="M210,74 v26" />
           <path d="M210,96 c-9,-2 -14,-8 -15,-15 c8,0 13,5 15,15z" />
           <path d="M210,96 c9,-2 14,-8 15,-15 c-8,0 -13,5 -15,15z" />
         </g>
 
-        <text className="logo-card__arc" fill="#111111" textAnchor="middle">
+        <text className="logo-card__arc" fill="#1a1a1a" textAnchor="middle">
           <textPath href="#logoArcTop" startOffset="30%">EST. BY</textPath>
         </text>
-        <text className="logo-card__arc" fill="#111111" textAnchor="middle">
+        <text className="logo-card__arc" fill="#1a1a1a" textAnchor="middle">
           <textPath href="#logoArcTop" startOffset="70%">MONICA</textPath>
         </text>
 
-        <text className="logo-card__word" x="210" y="182" textAnchor="middle" fill="#111111">
+        <text className="logo-card__word" x="210" y="182" textAnchor="middle" fill="#1a1a1a">
           bakesbymom
         </text>
 
-        <text className="logo-card__arc" fill="#111111" textAnchor="middle">
+        <text className="logo-card__arc" fill="#1a1a1a" textAnchor="middle">
           <textPath href="#logoArcBottom" startOffset="50%">EGGLESS CUSTOM CAKES</textPath>
         </text>
 
-        <g fill="#111111">
-          <rect x="24" y="278" width="16" height="16" rx="4.6" fill="none" stroke="#111111" strokeWidth="1.6" />
-          <circle cx="32" cy="286" r="4" fill="none" stroke="#111111" strokeWidth="1.6" />
+        <g fill="#1a1a1a">
+          <rect x="24" y="278" width="16" height="16" rx="4.6" fill="none" stroke="#1a1a1a" strokeWidth="1.6" />
+          <circle cx="32" cy="286" r="4" fill="none" stroke="#1a1a1a" strokeWidth="1.6" />
           <text className="logo-card__meta" x="48" y="291">@BAKESBYMOM</text>
-          <circle cx="292" cy="286" r="8" fill="none" stroke="#111111" strokeWidth="1.6" />
+          <circle cx="292" cy="286" r="8" fill="none" stroke="#1a1a1a" strokeWidth="1.6" />
           <path d="M288.5,282.5 c0,5.5 3.5,9 8.5,8.5 l-0.8,-2.6 -2.6,-0.9 -1,0.9 c-1.6,-0.9 -2.6,-1.9 -3.4,-3.4 l0.9,-1 -0.9,-2.6z" />
           <text className="logo-card__meta" x="308" y="291">7206552667</text>
         </g>

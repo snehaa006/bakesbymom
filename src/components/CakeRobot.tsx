@@ -20,10 +20,10 @@ export function CakeRobot() {
         <rect x="22.8" y="8" width="2.4" height="1" fill="var(--light-gray)" />
         <path d="M24 6.4V5.2" stroke="var(--ink-deep)" strokeWidth="0.7" strokeLinecap="round" />
         <g className="cake-bot__flame">
-          <ellipse cx="24" cy="3.9" rx="2.4" ry="3.3" fill="var(--gray-line)" opacity="0.6" />
+          <ellipse cx="24" cy="3.9" rx="2.4" ry="3.3" fill="var(--amber)" opacity="0.45" />
           <path
             d="M24 0.6c1.9 1.7 2.8 3.1 2.8 4.4a2.8 2.8 0 0 1-5.6 0c0-1.3.9-2.7 2.8-4.4Z"
-            fill="var(--gray-mid)"
+            fill="var(--amber)"
           />
           <path
             d="M24 2.6c.9.9 1.4 1.7 1.4 2.5a1.4 1.4 0 0 1-2.8 0c0-.8.5-1.6 1.4-2.5Z"
@@ -80,11 +80,11 @@ export function CakeRobot() {
       />
       <path
         d="M9 33.5v-.1A5.5 5.5 0 0 1 14.5 28h19a5.5 5.5 0 0 1 5.5 5.4v.1c-1.7 0-1.7 2.1-3.4 2.1s-1.7-2.1-3.4-2.1-1.7 2.1-3.4 2.1-1.7-2.1-3.4-2.1-1.7 2.1-3.4 2.1-1.7-2.1-3.4-2.1-1.7 2.1-3.3 2.1S10.7 33.5 9 33.5Z"
-        fill="var(--gray-line)"
+        fill="var(--yellow)"
       />
-      <circle cx="16.5" cy="39.5" r="1.3" fill="var(--light-gray)" />
-      <circle cx="24" cy="40.2" r="1.3" fill="var(--gray-mid)" />
-      <circle cx="31.5" cy="39.5" r="1.3" fill="var(--light-gray)" />
+      <circle cx="16.5" cy="39.5" r="1.3" fill="var(--purple)" />
+      <circle cx="24" cy="40.2" r="1.3" fill="var(--red)" />
+      <circle cx="31.5" cy="39.5" r="1.3" fill="var(--purple)" />
     </svg>
   );
 }

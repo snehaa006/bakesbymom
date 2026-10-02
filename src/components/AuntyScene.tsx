@@ -85,14 +85,14 @@ export function AuntyScene() {
     keyLight.shadow.camera.bottom = -1;
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0x111111, 1.5);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
     fillLight.position.set(-4, 2.5, 2);
     scene.add(fillLight);
     scene.add(new THREE.HemisphereLight(0xffefd1, 0x0a0a0a, 1.6));
 
     const floor = new THREE.Mesh(
       new THREE.CircleGeometry(2.2, 64),
-      new THREE.ShadowMaterial({ color: 0x111111, opacity: 0.16 }),
+      new THREE.ShadowMaterial({ color: 0x1a1a1a, opacity: 0.16 }),
     );
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;

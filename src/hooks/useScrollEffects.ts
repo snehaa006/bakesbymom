@@ -32,10 +32,10 @@ export function useNavScroll(navRef: RefObject<HTMLElement | null>) {
       if (nav) {
         if (y > 60) {
           nav.style.background = "rgba(255,255,255,0.94)";
-          nav.style.boxShadow = "0 12px 40px rgba(17,17,17,0.18)";
+          nav.style.boxShadow = "0 12px 40px rgba(26,26,26,0.18)";
         } else {
           nav.style.background = "rgba(255,255,255,0.82)";
-          nav.style.boxShadow = "0 10px 34px rgba(17,17,17,0.12)";
+          nav.style.boxShadow = "0 10px 34px rgba(26,26,26,0.12)";
         }
       }
     };

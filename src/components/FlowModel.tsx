@@ -88,7 +88,7 @@ export function FlowModel({ src, label, front, scale = 1, tilt = 0 }: FlowModelP
     const keyLight = new THREE.DirectionalLight(0xffe4bd, 2.4);
     keyLight.position.set(2.5, 4, 3.5);
     scene.add(keyLight);
-    const fillLight = new THREE.DirectionalLight(0x111111, 1.3);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.3);
     fillLight.position.set(-3, 1.5, 2);
     scene.add(fillLight);
     scene.add(new THREE.HemisphereLight(0xffefd1, 0x0a0a0a, 1.5));
