@@ -5,7 +5,7 @@ import { Nav } from "./Nav";
 import { CategoryRow } from "./CategoryRow";
 
 /** Band tints, cycled so neighbouring categories never share a background. */
-const TONES = ["sage", "cream", "sage-deep", "ivory"] as const;
+const TONES = ["misty", "cream", "rose", "ivory"] as const;
 
 export function Catalog() {
   const [categories, setCategories] = useState<CategoryWithCakes[]>([]);
