@@ -29,7 +29,7 @@ export function Landing() {
 
       {/* Pinned to the viewport, so it rides along the whole page — top to bottom
           and back up — and always paints over the sections it passes. It jumps
-          in out of a pale Misty Rose flare the first time the page is scrolled. */}
+          in out of a pale flare the first time the page is scrolled. */}
       <RotatingBadge
         className={`spin-badge--float ${badgeIn ? "spin-badge--in" : ""}`.trim()}
         text="order your cakes and cookies now"
