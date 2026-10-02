@@ -9,6 +9,7 @@ import {
 import { formatPrice } from "../lib/format";
 import { isApiConfigured, resolvePhotoUrl } from "../lib/api";
 import { Nav } from "./Nav";
+import { Footer } from "./Footer";
 
 export function CakeDetail() {
   const { cakeId } = useParams<{ cakeId: string }>();
@@ -102,8 +103,8 @@ export function CakeDetail() {
 
             {/* ---- info + builder ---- */}
             <div className="detail__info">
-              {cake.category && <p className="detail__category">{cake.category.name}</p>}
-              <h1 className="detail__name">{cake.name}</h1>
+              {cake.category && <p className="detail__category eyebrow">{cake.category.name}</p>}
+              <h1 className="detail__name display">{cake.name}</h1>
               {cake.description && <p className="detail__desc">{cake.description}</p>}
 
               <dl className="detail__specs">
@@ -174,6 +175,8 @@ export function CakeDetail() {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }

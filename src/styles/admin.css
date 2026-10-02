@@ -1,0 +1,438 @@
+/* ============================================================================
+   Admin (back office)
+   ----------------------------------------------------------------------------
+   A working tool, not a shop window — carried over rule for rule and moved
+   onto the new colour and type tokens.
+   ========================================================================== */
+
+.admin-page {
+  min-height: 100svh;
+  background: var(--porcelain);
+}
+
+/* The slim bar the Admin panel wears. The public pages (catalog, cake detail)
+   share the landing page's floating nav pill instead. */
+.pagehead {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(253, 246, 244, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(68, 48, 37, 0.14);
+}
+
+.pagehead__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pagehead__logo {
+  font-family: var(--font-script);
+  font-size: 1.7rem;
+  color: var(--chocolate-deep);
+  line-height: 1;
+}
+
+.pagehead__links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.pagehead__link {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--chocolate-deep);
+  font-weight: 500;
+}
+
+.pagehead__link--btn {
+  background: none;
+  border: 1px solid rgba(68, 48, 37, 0.3);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ---------------------------------- admin ---------------------------------- */
+
+.admin {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 40px 32px 0;
+}
+
+.admin__title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--dark-chocolate);
+  font-weight: 700;
+  margin: 0 0 28px;
+}
+
+.admin--login {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin__login-card {
+  width: min(380px, 100%);
+  background: var(--misty-50);
+  border-radius: 22px;
+  padding: 40px 34px;
+  box-shadow: 0 22px 54px rgba(68, 48, 37, 0.16);
+  text-align: center;
+}
+
+.admin__login-title {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  color: var(--dark-chocolate);
+  margin: 0 0 8px;
+}
+
+.admin__login-sub {
+  font-size: 0.9rem;
+  color: var(--aloewood-deep);
+  margin: 0 0 24px;
+}
+
+.admin__login-input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(68, 48, 37, 0.25);
+  font-family: inherit;
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+
+.admin__login-error {
+  color: var(--aloewood);
+  font-size: 0.85rem;
+  margin: 0 0 14px;
+}
+
+.admin__login-btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.admin__login-btn:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.admin__columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.admin__col {
+  background: var(--misty-50);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 16px 40px rgba(68, 48, 37, 0.08);
+}
+
+.admin__col-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--dark-chocolate);
+  margin: 0 0 16px;
+}
+
+.admin__list {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin__list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid rgba(68, 48, 37, 0.12);
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+.admin__list-row.is-active {
+  border-color: var(--aloewood);
+  box-shadow: 0 0 0 1px var(--aloewood) inset;
+}
+
+.admin__list-pick {
+  flex: 1;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--chocolate-deep);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin__count {
+  font-size: 0.72rem;
+  color: var(--aloewood);
+  background: rgba(68, 48, 37, 0.08);
+  border-radius: 9999px;
+  padding: 2px 8px;
+}
+
+.admin__row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.admin__mini,
+.admin__mini-del {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.74rem;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+.admin__mini {
+  color: var(--chocolate-deep);
+}
+
+.admin__mini-del {
+  color: var(--aloewood);
+}
+
+.admin__mini:hover {
+  background: rgba(68, 48, 37, 0.08);
+}
+
+.admin__mini-del:hover {
+  background: rgba(127, 88, 54, 0.1);
+}
+
+.admin__hint {
+  color: var(--aloewood);
+  font-size: 0.84rem;
+  font-style: italic;
+}
+
+.admin__form {
+  border-top: 1px solid rgba(68, 48, 37, 0.14);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin__form-title {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--chocolate-deep);
+  margin: 0 0 2px;
+}
+
+.admin__form input,
+.admin__form textarea,
+.admin__inline-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(68, 48, 37, 0.22);
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: #fff;
+}
+
+.admin__form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.admin__form-grid label {
+  font-size: 0.72rem;
+  color: var(--aloewood);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin__form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin__form button[type="submit"],
+.admin__inline-form button {
+  background: var(--yellow);
+  color: var(--ink);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 0.86rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.admin__form button[type="submit"]:hover,
+.admin__inline-form button:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.admin__ghost {
+  background: none;
+  border: 1px solid rgba(68, 48, 37, 0.3);
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.86rem;
+  color: var(--chocolate-deep);
+}
+
+/* ---- cake editor (photos / flavours / addons) ---- */
+
+.admin__editor {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.admin__block-title {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--chocolate-deep);
+  margin: 0 0 10px;
+}
+
+.admin__photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.admin__photo {
+  position: relative;
+  width: 74px;
+  height: 74px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin__photo-del {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(47, 33, 25, 0.85);
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.admin__upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: var(--chocolate-deep);
+  cursor: pointer;
+}
+
+.admin__inline-form {
+  display: grid;
+  grid-template-columns: 1fr 90px auto;
+  gap: 8px;
+}
+
+@media (max-width: 1080px) {
+  .admin__columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .pagehead__inner {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding-block: 12px;
+  }
+
+  .pagehead__logo {
+    font-size: 1.5rem;
+  }
+
+  .pagehead__links {
+    gap: 14px;
+  }
+
+  .pagehead__inner,
+  .admin {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .admin__form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin {
+    padding-top: 24px;
+  }
+
+  .admin__inline-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin__form-actions {
+    flex-wrap: wrap;
+  }
+}

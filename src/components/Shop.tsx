@@ -1,9 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import { Nav } from "./Nav";
+import { ArrowIcon } from "./icons";
 import { VegMark, VegNote } from "./VegMark";
 import { PhotoSlot } from "./PhotoSlot";
 import { resolvePhotoUrl } from "../lib/api";
 import { SHOP, findCategory } from "../lib/shop";
+import { Footer } from "./Footer";
 
 /**
  * One shelf: the filter rail down the left, the varieties across the right.
@@ -29,8 +31,8 @@ export function Shop() {
               <Link to="/">Home</Link> <span>›</span> <span>Products</span> <span>›</span>{" "}
               <strong>{category.name}</strong>
             </p>
-            <h1 className="shop__heading">{category.name}</h1>
-            <p className="shop__blurb">{category.blurb}</p>
+            <h1 className="shop__heading display">{category.name}</h1>
+            <p className="shop__blurb lede">{category.blurb}</p>
           </header>
 
           <main className="shop">
@@ -92,7 +94,7 @@ export function Shop() {
                 <Link key={item.slug} to={`/shop/${category.slug}/${item.slug}`} className="shop-card">
                   <div className="shop-card__photo">
                     {item.photo ? (
-                      <img src={resolvePhotoUrl(item.photo)} alt={item.name} loading="lazy" />
+                      <img src={resolvePhotoUrl(item.photo)} alt={item.name} loading="lazy" decoding="async" />
                     ) : (
                       <PhotoSlot label={item.name} hint="Photo coming soon" />
                     )}
@@ -103,7 +105,10 @@ export function Shop() {
                       {item.name}
                     </h3>
                     <p className="shop-card__blurb">{item.blurb}</p>
-                    <span className="shop-card__cta">Customise &amp; order</span>
+                    <span className="shop-card__cta">
+                      Customise &amp; order
+                      <ArrowIcon size={14} />
+                    </span>
                   </div>
                 </Link>
               ))}
@@ -111,6 +116,8 @@ export function Shop() {
           </main>
         </>
       )}
+
+      <Footer />
     </div>
   );
 }

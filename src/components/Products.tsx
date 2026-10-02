@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
-import { ArrowIcon } from "./icons";
-import { resolvePhotoUrl } from "../lib/api";
+import { ArrowIcon, ChevronIcon } from "./icons";
+import { resolveThumbUrl } from "../lib/api";
 
 /**
  * What the kitchen actually sends out, in the order the catalog lists it.
@@ -106,42 +106,48 @@ export function Products() {
       <div className="products__blob products__blob--left" aria-hidden="true" />
       <div className="products__blob products__blob--right" aria-hidden="true" />
 
-      <div className="products__inner">
-        <Reveal className="products__head">
-          <p className="products__eyebrow">What we serve</p>
-          <h2 className="products__heading">Our Products</h2>
-          <p className="products__body">
-            Every cake leaves this kitchen the old-fashioned way: baked to order in small batches,
-            iced by hand the morning it goes out, and finished with whatever the occasion asks for.
-          </p>
+      <div className="container">
+        <Reveal className="products__head stagger">
+          <div className="products__title-block">
+            <p className="eyebrow">What we serve</p>
+            <h2 className="products__heading display">Our Products</h2>
+          </div>
 
-          <div className="products__actions">
-            <Link to="/catalog" className="products__more">
-              View more
-            </Link>
-            <div className="products__arrows">
-              <button
-                type="button"
-                className="products__arrow products__arrow--prev"
-                onClick={() => shove(-1)}
-                aria-label="Previous products"
-              >
-                <ArrowIcon size={18} />
-              </button>
-              <button
-                type="button"
-                className="products__arrow"
-                onClick={() => shove(1)}
-                aria-label="Next products"
-              >
-                <ArrowIcon size={18} />
-              </button>
+          <div className="products__aside">
+            <p className="products__body lede">
+              Every cake leaves this kitchen the old-fashioned way: baked to order in small batches,
+              iced by hand the morning it goes out, and finished with whatever the occasion asks for.
+            </p>
+
+            <div className="products__actions">
+              <Link to="/catalog" className="products__more link-arrow">
+                View more
+                <ArrowIcon size={16} />
+              </Link>
+              <div className="products__arrows">
+                <button
+                  type="button"
+                  className="round-btn round-btn--prev"
+                  onClick={() => shove(-1)}
+                  aria-label="Previous products"
+                >
+                  <ChevronIcon size={16} />
+                </button>
+                <button
+                  type="button"
+                  className="round-btn"
+                  onClick={() => shove(1)}
+                  aria-label="Next products"
+                >
+                  <ChevronIcon size={16} />
+                </button>
+              </div>
             </div>
           </div>
         </Reveal>
       </div>
 
-      <div
+      <Reveal
         className="products__viewport"
         onPointerEnter={hold}
         onPointerLeave={release}
@@ -160,14 +166,21 @@ export function Products() {
                 tabIndex={clone ? -1 : undefined}
               >
                 <div className="product-card__photo">
-                  <img src={resolvePhotoUrl(product.photo)} alt={product.name} loading="lazy" />
+                  <img
+                    src={resolveThumbUrl(product.photo)}
+                    alt={product.name}
+                    width={500}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <h3 className="product-card__name">{product.name}</h3>
               </Link>
             );
           })}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

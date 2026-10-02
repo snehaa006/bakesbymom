@@ -92,3 +92,12 @@ export function StarIcon({ size = 16, color = "currentColor" }: IconProps) {
     </svg>
   );
 }
+
+/** A thin chevron — the round row buttons and the menu disclosure use it. */
+export function ChevronIcon({ size = 16, color = "currentColor", strokeWidth = 1.8 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 5l7 7-7 7" />
+    </svg>
+  );
+}

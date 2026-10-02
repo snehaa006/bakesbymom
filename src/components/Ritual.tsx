@@ -18,6 +18,9 @@ function FlowStage({ index, title, caption, children }: StageProps) {
   return (
     <div className="flow__stage">
       <div className="flow__scene">
+        <span className="flow__index" aria-hidden="true">
+          {String(index).padStart(2, "0")}
+        </span>
         <div className="flow__pedestal" />
         <div ref={objectRef} className="flow__object">
           {children}
@@ -47,16 +50,16 @@ function FlowArrow() {
 export function Ritual() {
   return (
     <section id="ritual" className="ritual">
-      <Reveal className="ritual__intro">
-        <p className="chapter-eyebrow">Chapter I — Before the Bell</p>
-        <h2 className="chapter-heading ritual__heading">From flour to the first warm bite.</h2>
-        <p className="chapter-body">
+      <Reveal className="ritual__intro container stagger">
+        <p className="eyebrow">Chapter I — Before the Bell</p>
+        <h2 className="ritual__heading display">From flour to the first warm bite.</h2>
+        <p className="ritual__body lede">
           Every cookie is a small journey. Butter and sugar are creamed to silk, the dough is shaped by hand, the
           hearth turns it gold, and it lands on the plate still warm.
         </p>
       </Reveal>
 
-      <Reveal className="flow">
+      <Reveal className="flow container stagger">
         <FlowStage index={1} title="Mix" caption="Butter, sugar & flour folded into silky dough.">
           <FlowModel src="/mixer.glb" label="Stand mixer" front={30} />
         </FlowStage>

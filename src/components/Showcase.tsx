@@ -1,12 +1,15 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
-import { resolvePhotoUrl } from "../lib/api";
+import { ArrowIcon } from "./icons";
+import { resolveThumbUrl } from "../lib/api";
+import { useScrollProgress } from "../hooks/useScrollProgress";
 
 /**
- * Sixteen covers pulled from the catalog, arranged four across. They are listed
- * here rather than fetched so the section paints with the rest of the page
- * instead of popping in after an API round trip; every one of them is a real
- * cake photo out of the same R2 bucket the catalog reads.
+ * Sixteen covers pulled from the catalog. They are listed here rather than
+ * fetched so the section paints with the rest of the page instead of popping
+ * in after an API round trip; every one of them is a real cake photo out of
+ * the same R2 bucket the catalog reads.
  */
 const TILES = [
   { photo: "/api/photos/uploads/IMG-20260913-WA0002.png", alt: "Spiderman web cake" },
@@ -30,35 +33,59 @@ const TILES = [
   { photo: "/api/photos/uploads/IMG-20260913-WA0013.png", alt: "Janmashtami lotus cake" },
 ];
 
+/** Dealt into three columns that drift at different speeds as the page moves. */
+const COLUMNS = [0, 1, 2].map((column) => TILES.filter((_, index) => index % 3 === column));
+
+/**
+ * The gallery, on the one dark ground of the page: the three words held still
+ * on the left while the cakes move past them on the right.
+ */
 export function Showcase() {
+  const galleryRef = useRef<HTMLDivElement>(null);
+  useScrollProgress(galleryRef);
+
   return (
     <section id="showcase" className="showcase">
-      <div className="showcase__inner">
-        <Reveal className="showcase__copy">
-          <h2 className="showcase__heading">
-            Passion,
-            <br />
-            Patience,
-            <br />
-            Perfection
-          </h2>
-          <p className="showcase__body">
-            Three things go into every box that leaves this kitchen. We pour the passion in at the
-            mixing bowl, give the batter the patience it asks for, and keep fussing over the piping
-            until the last rose sits right. Taste what that does to a slice.
-          </p>
-          <Link to="/catalog" className="showcase__cta">
-            Explore
-          </Link>
-        </Reveal>
+      <div className="showcase__inner container">
+        <div className="showcase__copy-wrap">
+          <Reveal className="showcase__copy stagger">
+            <h2 className="showcase__heading display">
+              <span>Passion,</span>{" "}
+              <span>Patience,</span>{" "}
+              <span>Perfection</span>
+            </h2>
+            <p className="showcase__body">
+              Three things go into every box that leaves this kitchen. We pour the passion in at the
+              mixing bowl, give the batter the patience it asks for, and keep fussing over the piping
+              until the last rose sits right. Taste what that does to a slice.
+            </p>
+            <div>
+              <Link to="/catalog" className="btn btn--ghost showcase__cta">
+                Explore
+                <ArrowIcon size={16} />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
 
-        <Reveal className="showcase__grid">
-          {TILES.map((tile) => (
-            <Link key={tile.photo} to="/catalog" className="showcase__tile" aria-label={tile.alt}>
-              <img src={resolvePhotoUrl(tile.photo)} alt={tile.alt} loading="lazy" />
-            </Link>
+        <div className="showcase__grid" ref={galleryRef}>
+          {COLUMNS.map((tiles, column) => (
+            <div key={column} className={`showcase__col showcase__col--${column + 1}`}>
+              {tiles.map((tile) => (
+                <Link key={tile.photo} to="/catalog" className="showcase__tile" aria-label={tile.alt}>
+                  <img
+                    src={resolveThumbUrl(tile.photo)}
+                    alt={tile.alt}
+                    width={500}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </Link>
+              ))}
+            </div>
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   );

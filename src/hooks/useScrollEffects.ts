@@ -24,28 +24,6 @@ export function useScrolledPast(threshold = 40) {
   return past;
 }
 
-export function useNavScroll(navRef: RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      const nav = navRef.current;
-      if (nav) {
-        if (y > 60) {
-          nav.style.background = "rgba(255,255,255,0.94)";
-          nav.style.boxShadow = "0 12px 40px rgba(26,26,26,0.18)";
-        } else {
-          nav.style.background = "rgba(255,255,255,0.82)";
-          nav.style.boxShadow = "0 10px 34px rgba(26,26,26,0.12)";
-        }
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [navRef]);
-}
-
 export function useNoteParallax(
   ref: RefObject<HTMLElement | null>,
   speed: number,

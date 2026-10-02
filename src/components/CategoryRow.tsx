@@ -82,7 +82,7 @@ export function CategoryRow({ category, tone, eager = false }: CategoryRowProps)
     <section className={`band band--${tone}`} id={`cat-${category.id}`}>
       <div className="band__inner">
         <header className="band__head">
-          <h2 className="band__title">{category.name}</h2>
+          <h2 className="band__title display">{category.name}</h2>
           {category.description && <p className="band__desc">{category.description}</p>}
 
           <div className="band__controls">
