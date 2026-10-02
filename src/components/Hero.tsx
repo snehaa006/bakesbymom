@@ -6,40 +6,41 @@ import { ArrowIcon } from "./icons";
 export function Hero() {
   return (
     <section className="hero">
-      <div className="hero__band">
-        <div className="hero__wave" aria-hidden="true">
-          <svg viewBox="0 0 1440 420" preserveAspectRatio="none">
-            <path
-              d="M0,150 C260,54 520,4 780,44 C1030,82 1240,166 1440,120 L1440,420 L0,420 Z"
-              fill="#f9e7e3"
-            />
-          </svg>
-        </div>
+      <div className="hero__wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 420" preserveAspectRatio="none">
+          <path
+            d="M0,150 C260,54 520,4 780,44 C1030,82 1240,166 1440,120 L1440,420 L0,420 Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
 
-        <div className="hero__grid">
-          <Reveal className="hero__copy">
-            <h1 className="hero__title">
+      <div className="hero__grid container">
+        <Reveal className="hero__copy stagger">
+          <h1 className="hero__title display">
+            <span className="hero__line">
               We're <em className="hero__title-script">Bakesbymom</em>
-              <br />
-              Home Bakery.
-            </h1>
-            <p className="hero__subtitle">
-              A home bakery in Panipat baking cakes, brownies, cookies, cupcakes and breads — fresh to order.
-            </p>
-            <Link to="/catalog" className="hero__cta">
+            </span>{" "}
+            <span className="hero__line">Home Bakery.</span>
+          </h1>
+          <p className="hero__subtitle lede">
+            A home bakery in Panipat baking cakes, brownies, cookies, cupcakes and breads — fresh to order.
+          </p>
+          <div className="hero__actions">
+            <Link to="/catalog" className="btn hero__cta">
               <span>See this week's bakes</span>
-              <span className="hero__cta-divider" aria-hidden="true" />
-              <ArrowIcon />
+              <ArrowIcon size={17} />
             </Link>
-          </Reveal>
+          </div>
+        </Reveal>
 
-          <Reveal className="hero__scene">
-            <AuntyScene />
-          </Reveal>
+        <div className="hero__scene">
+          <div className="hero__halo" aria-hidden="true" />
+          <AuntyScene />
         </div>
       </div>
 
-      <div className="scroll-cue">
+      <div className="scroll-cue" aria-hidden="true">
         <span className="scroll-cue__label">Scroll</span>
         <div className="scroll-cue__track">
           <div className="scroll-cue__dot" />

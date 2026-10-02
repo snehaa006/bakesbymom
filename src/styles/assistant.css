@@ -1,0 +1,886 @@
+/* ============================================================================
+   Cake assistant + order builder
+   ----------------------------------------------------------------------------
+   Carried over from the previous stylesheet rule for rule — the assistant is
+   a working tool with a lot of states — and moved onto the new tokens: the
+   display serif for its titles, Inter for everything else, espresso for the
+   header, porcelain for the panel.
+   ========================================================================== */
+
+
+/* A launcher pill and a panel, both pinned bottom-right on every public page.
+   The panel stays mounted so the thread survives being closed and reopened; it
+   is hidden with visibility so nothing inside it can be tabbed to meanwhile. */
+/* No backing pill or circle — the robot stands on the page by itself, with a
+   soft shadow under it so it doesn't sink into the pale background. */
+.chat-launch {
+  position: fixed;
+  right: clamp(16px, 2.4vw, 28px);
+  bottom: clamp(16px, 2.4vw, 28px);
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  border: none;
+  border-radius: 9999px;
+  padding: 0;
+  background: transparent;
+  color: var(--misty-100);
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.chat-launch:hover {
+  transform: translateY(-2px);
+}
+
+/* The robot itself: a slow bob while it waits, a livelier one on hover, and a
+   blink every few seconds so the button feels like it is listening. */
+.cake-bot {
+  display: block;
+  filter: drop-shadow(0 12px 22px rgba(47, 33, 25, 0.28));
+  animation: cake-bot-bob 3.4s ease-in-out infinite;
+}
+
+.chat-launch:hover .cake-bot {
+  animation-duration: 1.6s;
+}
+
+.cake-bot__candle {
+  transform-origin: 24px 11px;
+  animation: cake-bot-nod 3.4s ease-in-out infinite;
+}
+
+/* The flame never sits still: it leans, stretches and breathes the way a real
+   one does, on three offset loops so the motion never repeats too obviously. */
+.cake-bot__flame {
+  transform-origin: 24px 6.4px;
+  animation: cake-bot-flicker 0.7s ease-in-out infinite alternate;
+}
+
+.cake-bot__flame path {
+  animation: cake-bot-flame-lean 1.9s ease-in-out infinite;
+}
+
+.cake-bot__flame ellipse {
+  transform-origin: 24px 4px;
+  animation: cake-bot-glow 1.3s ease-in-out infinite alternate;
+}
+
+.cake-bot__eyes {
+  transform-origin: 24px 21.2px;
+  animation: cake-bot-blink 5.2s ease-in-out infinite;
+}
+
+@keyframes cake-bot-flicker {
+  0% {
+    transform: scale(0.92, 0.94);
+  }
+  40% {
+    transform: scale(1.04, 1.08);
+  }
+  100% {
+    transform: scale(0.97, 1.12);
+  }
+}
+
+@keyframes cake-bot-flame-lean {
+  0%,
+  100% {
+    transform: translateX(-0.25px) rotate(-4deg);
+  }
+  30% {
+    transform: translateX(0.3px) rotate(5deg);
+  }
+  55% {
+    transform: translateX(-0.15px) rotate(-2deg);
+  }
+  80% {
+    transform: translateX(0.2px) rotate(3deg);
+  }
+}
+
+@keyframes cake-bot-glow {
+  0% {
+    opacity: 0.28;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes cake-bot-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
+@keyframes cake-bot-nod {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes cake-bot-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cake-bot,
+  .cake-bot__candle,
+  .cake-bot__flame,
+  .cake-bot__flame path,
+  .cake-bot__flame ellipse,
+  .cake-bot__eyes {
+    animation: none;
+  }
+}
+
+/* Once the panel is up the launcher shrinks to a close button beside it. */
+.chat-launch--open {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  background: var(--dark-chocolate);
+  box-shadow: 0 14px 34px rgba(33, 23, 15, 0.34);
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.chat-launch--open:hover {
+  background: var(--aloewood);
+}
+
+.chat {
+  position: fixed;
+  right: clamp(16px, 2.4vw, 28px);
+  bottom: calc(clamp(16px, 2.4vw, 28px) + 62px);
+  z-index: 120;
+  width: min(372px, calc(100vw - 32px));
+  max-height: min(600px, calc(100dvh - 140px));
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--misty-50);
+  border: 1px solid rgba(47, 33, 25, 0.18);
+  box-shadow: 0 26px 60px rgba(47, 33, 25, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px) scale(0.98);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s cubic-bezier(0.2, 0.7, 0.3, 1),
+    visibility 0.28s;
+}
+
+.chat--open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.chat__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--espresso);
+  color: var(--misty-100);
+}
+
+.chat__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.chat__sub {
+  margin: 3px 0 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+.chat__close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.chat__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: thin;
+}
+
+.chat__scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.chat__scroll::-webkit-scrollbar-thumb {
+  background: rgba(47, 33, 25, 0.22);
+  border-radius: 9999px;
+}
+
+.chat__msg {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.chat__msg--you {
+  align-items: flex-end;
+}
+
+.chat__bubble {
+  max-width: 88%;
+  padding: 11px 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(47, 33, 25, 0.12);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--dark-chocolate);
+}
+
+.chat__bubble p {
+  margin: 0;
+}
+
+.chat__bubble p + p {
+  margin-top: 8px;
+}
+
+.chat__msg--you .chat__bubble {
+  background: var(--misty-100);
+  border-color: rgba(47, 33, 25, 0.16);
+  color: var(--chocolate-ink);
+}
+
+.chat__cakes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.chat__cake {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(47, 33, 25, 0.12);
+  color: inherit;
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.chat__cake:hover {
+  border-color: var(--sakura);
+  color: inherit;
+  transform: translateX(2px);
+}
+
+.chat__cake-photo {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--misty-rose);
+}
+
+.chat__cake-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.chat__cake-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.chat__cake-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--dark-chocolate);
+  line-height: 1.25;
+}
+
+.chat__cake-meta {
+  font-size: 0.7rem;
+  color: var(--aloewood);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chat__chip {
+  border: 1px solid rgba(47, 33, 25, 0.26);
+  background: transparent;
+  border-radius: 9999px;
+  padding: 7px 13px;
+  font-family: inherit;
+  font-size: 0.74rem;
+  color: var(--dark-chocolate);
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.chat__chip:hover {
+  background: var(--dark-chocolate);
+  color: var(--misty-100);
+}
+
+.chat__form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid rgba(47, 33, 25, 0.12);
+  background: var(--misty-100);
+}
+
+.chat__input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid rgba(47, 33, 25, 0.2);
+  border-radius: 9999px;
+  padding: 11px 16px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  color: var(--dark-chocolate);
+  background: #fff;
+}
+
+.chat__input:focus {
+  outline: 2px solid rgba(68, 48, 37, 0.35);
+  outline-offset: 1px;
+}
+
+.chat__send {
+  border: none;
+  border-radius: 9999px;
+  padding: 0 18px;
+  background: var(--dark-chocolate);
+  color: var(--misty-100);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.chat__send:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.chat__send:hover:not(:disabled) {
+  background: var(--aloewood);
+}
+
+/* ---------------------------------- order builder ---------------------------------- */
+
+.chat__order {
+  margin-left: auto;
+  margin-right: 8px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--misty-100);
+  color: var(--chocolate-deep);
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.chat__order:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.chat__cake-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.chat__cake-row .chat__cake {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat__cake-order {
+  flex: 0 0 auto;
+  padding: 0 11px;
+  border: 1px solid rgba(47, 33, 25, 0.2);
+  border-radius: 14px;
+  background: var(--misty-100);
+  color: var(--dark-chocolate);
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.chat__cake-order:hover {
+  background: var(--dark-chocolate);
+  color: var(--misty-50);
+}
+
+.builder {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.builder__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 8px;
+}
+
+.builder__back {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--dark-chocolate);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.builder__back:hover {
+  color: var(--aloewood);
+}
+
+.builder__count {
+  margin-left: auto;
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: var(--aloewood);
+}
+
+.builder__progress {
+  height: 3px;
+  background: rgba(47, 33, 25, 0.12);
+}
+
+.builder__progress span {
+  display: block;
+  height: 100%;
+  background: var(--dark-chocolate);
+  transition: width 0.3s ease;
+}
+
+.builder__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.builder__scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.builder__scroll::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(47, 33, 25, 0.22);
+}
+
+.builder__q {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.16rem;
+  font-weight: 500;
+  color: var(--dark-chocolate);
+}
+
+.builder__hint {
+  margin: 0;
+  font-size: 0.7rem;
+  line-height: 1.55;
+  color: var(--aloewood);
+}
+
+.builder__opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.builder__opt {
+  padding: 8px 13px;
+  border: 1px solid rgba(47, 33, 25, 0.2);
+  border-radius: 999px;
+  background: var(--misty-100);
+  color: var(--dark-chocolate);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.builder__opt:hover {
+  border-color: var(--dark-chocolate);
+}
+
+.builder__opt.is-on {
+  background: var(--dark-chocolate);
+  border-color: var(--dark-chocolate);
+  color: var(--misty-50);
+}
+
+.builder__cakes {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.builder__cake {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px;
+  border: 1px solid rgba(47, 33, 25, 0.16);
+  border-radius: 14px;
+  background: var(--misty-100);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.builder__cake:hover,
+.builder__cake.is-on {
+  border-color: var(--dark-chocolate);
+  background: #fff;
+}
+
+.builder__cake-photo {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--misty-100);
+}
+
+.builder__cake-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.builder__cake-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.builder__cake-name {
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--dark-chocolate);
+}
+
+.builder__cake-meta {
+  font-size: 0.66rem;
+  color: var(--aloewood);
+}
+
+.builder__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.builder__field > span {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aloewood);
+}
+
+.builder__field input,
+.builder__field textarea,
+.builder__message {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(47, 33, 25, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--dark-chocolate);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.builder__field input:focus,
+.builder__field textarea:focus,
+.builder__message:focus {
+  outline: none;
+  border-color: var(--dark-chocolate);
+}
+
+.builder__price {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--dark-chocolate);
+}
+
+.builder__price strong {
+  color: var(--dark-chocolate);
+}
+
+.builder__file input {
+  display: none;
+}
+
+.builder__file {
+  display: inline-block;
+  padding: 9px 14px;
+  border: 1px dashed rgba(47, 33, 25, 0.4);
+  border-radius: 12px;
+  background: var(--misty-100);
+  color: var(--dark-chocolate);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.builder__file:hover {
+  border-style: solid;
+}
+
+.builder__ref {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.builder__ref img {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(47, 33, 25, 0.16);
+}
+
+.builder__ref button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--aloewood);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.builder__message {
+  min-height: 190px;
+  font-size: 0.74rem;
+}
+
+.builder__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.builder__send {
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: var(--aloewood);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.builder__send:hover {
+  background: var(--aloewood-deep);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.builder__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px 14px;
+  border-top: 1px solid rgba(47, 33, 25, 0.12);
+}
+
+.builder__ghost {
+  padding: 10px 16px;
+  border: 1px solid rgba(47, 33, 25, 0.24);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dark-chocolate);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.builder__ghost:hover:not(:disabled) {
+  background: var(--dark-chocolate);
+  color: var(--misty-50);
+}
+
+.builder__ghost:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.builder__next {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--dark-chocolate);
+  color: var(--misty-50);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.builder__next:hover {
+  background: var(--aloewood);
+}
+
+/* On a phone the panel takes the screen rather than floating over a sliver. */
+@media (max-width: 560px) {
+  .chat {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    bottom: 68px;
+    /* dvh follows the URL bar, so the panel is never taller than what is
+       actually on screen. */
+    max-height: calc(100dvh - 120px);
+  }
+
+  /* The robot floats over whatever is scrolled under it, so on a phone it is
+     sized to the smallest it can be and still be a comfortable tap target. */
+  .chat-launch {
+    right: 4px;
+    bottom: 6px;
+    width: 72px;
+    height: 72px;
+  }
+
+  /* Open, the launcher is a close button, not a robot — it keeps its own size
+     rather than inheriting the robot's, or it hangs off the bottom edge. */
+  .chat-launch--open {
+    right: 12px;
+    bottom: 14px;
+    width: 46px;
+    height: 46px;
+  }
+
+  /* Give the cake its name back — the order button gets the narrower column. */
+  .chat__cake-order {
+    padding: 0 8px;
+    font-size: 0.54rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+
+/* A 120px robot crowds a phone screen; it shrinks there, still well over the
+   44px a thumb needs. */
+@media (max-width: 560px) {
+  .chat-launch:not(.chat-launch--open) {
+    width: 84px;
+    height: 84px;
+  }
+
+  .chat-launch .cake-bot {
+    width: 76px;
+    height: 76px;
+  }
+}

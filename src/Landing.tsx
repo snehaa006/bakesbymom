@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { FlourLayer } from "./components/FlourLayer";
 import { Intro } from "./components/Intro";
 import { Nav } from "./components/Nav";
@@ -11,12 +10,14 @@ import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
 import { Reviews } from "./components/Reviews";
 import { Footer } from "./components/Footer";
-import { useNavScroll, useScrolledPast } from "./hooks/useScrollEffects";
+import { useScrolledPast } from "./hooks/useScrollEffects";
 
+/**
+ * The home page, ordered the way a shop window is: who we are, then what you
+ * can order, then the work itself — the gallery, the story, the process — and
+ * finally what people say and how to order.
+ */
 export function Landing() {
-  const navRef = useRef<HTMLElement>(null);
-
-  useNavScroll(navRef);
   // The badge is not painted on the first screen — it pops in on the first scroll.
   const badgeIn = useScrolledPast(40);
 
@@ -24,12 +25,11 @@ export function Landing() {
     <div className="page">
       <Intro />
       <FlourLayer />
-      <div className="ambient-glow" />
-      <Nav ref={navRef} />
+      <div className="ambient-glow" aria-hidden="true" />
+      <Nav />
 
-      {/* Pinned to the viewport, so it rides along the whole page — top to bottom
-          and back up — and always paints over the sections it passes. It jumps
-          in out of a pale Misty Rose flare the first time the page is scrolled. */}
+      {/* Pinned to the viewport, so it rides along the whole page and always
+          paints over the sections it passes. It eases in on the first scroll. */}
       <RotatingBadge
         className={`spin-badge--float ${badgeIn ? "spin-badge--in" : ""}`.trim()}
         text="order your cakes and cookies now"
@@ -38,12 +38,12 @@ export function Landing() {
 
       <main id="top">
         <Hero />
-        <About />
         <Products />
-        <Ritual />
         <Showcase />
-        <HowToOrder />
+        <About />
+        <Ritual />
         <Reviews />
+        <HowToOrder />
       </main>
 
       <Footer />

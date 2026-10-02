@@ -3,6 +3,7 @@ import { fetchCatalog, type CategoryWithCakes } from "../lib/catalog";
 import { isApiConfigured } from "../lib/api";
 import { Nav } from "./Nav";
 import { CategoryRow } from "./CategoryRow";
+import { Footer } from "./Footer";
 
 /** Tinted band, plain band — the reference alternates its rows the same way. */
 const TONES = ["tint", "plain"] as const;
@@ -28,9 +29,9 @@ export function Catalog() {
       <Nav />
 
       <header className="catalog__hero">
-        <p className="catalog__eyebrow">The Catalog</p>
-        <h1 className="catalog__heading">Every cake, by occasion</h1>
-        <p className="catalog__subtitle">
+        <p className="catalog__eyebrow eyebrow">The Catalog</p>
+        <h1 className="catalog__heading display">Every cake, by occasion</h1>
+        <p className="catalog__subtitle lede">
           Browse a shelf, open a cake, and build your order — the final price follows the flavour,
           the size and the finishing touches you pick.
         </p>
@@ -63,6 +64,8 @@ export function Catalog() {
           />
         ))}
       </main>
+
+      <Footer />
     </div>
   );
 }

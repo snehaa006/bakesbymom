@@ -6,6 +6,7 @@ import { PhotoSlot } from "./PhotoSlot";
 import { resolvePhotoUrl } from "../lib/api";
 import { TIME_SLOTS, whatsappUrl } from "../lib/order";
 import { findItem } from "../lib/shop";
+import { Footer } from "./Footer";
 
 const TABS = ["Description", "Details", "Reviews"] as const;
 type Tab = (typeof TABS)[number];
@@ -71,6 +72,7 @@ export function ShopItem() {
             We couldn&apos;t find that one. <Link to="/">Back home</Link>
           </p>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -111,8 +113,8 @@ export function ShopItem() {
 
           {/* ---- name, mark, customiser ---- */}
           <div className="item__info">
-            <p className="item__category">{category.name}</p>
-            <h1 className="item__name">{item.name}</h1>
+            <p className="item__category eyebrow">{category.name}</p>
+            <h1 className="item__name display">{item.name}</h1>
 
             <p className="item__veg">
               <VegMark />
@@ -284,6 +286,8 @@ export function ShopItem() {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

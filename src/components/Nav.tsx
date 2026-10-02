@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { PRODUCT_MENU } from "../lib/shop";
+import { ChevronIcon } from "./icons";
 
 const LINKS = [
   { hash: "#about", label: "About" },
@@ -30,6 +31,7 @@ export const Nav = forwardRef<HTMLElement>((_props, ref) => {
   const onLanding = pathname === "/";
   const [openMenu, setOpenMenu] = useState(false);
   const [openNav, setOpenNav] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLLIElement>(null);
   const navRef = useRef<HTMLElement | null>(null);
 
@@ -52,6 +54,14 @@ export const Nav = forwardRef<HTMLElement>((_props, ref) => {
       window.removeEventListener("keydown", onKey);
     };
   }, [openMenu, openNav]);
+
+  // The bar is clear over the top of a page and frosts over once it scrolls.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // A new route means both menus have done their job.
   useEffect(() => {
@@ -97,7 +107,15 @@ export const Nav = forwardRef<HTMLElement>((_props, ref) => {
         if (typeof ref === "function") ref(node);
         else if (ref) ref.current = node;
       }}
-      className={`nav ${onLanding ? "" : "nav--page"} ${openNav ? "nav--open" : ""}`.trim()}
+      className={[
+        "nav",
+        onLanding ? "" : "nav--page",
+        openNav ? "nav--open" : "",
+        openMenu ? "nav--menu-open" : "",
+        scrolled ? "nav--scrolled" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <div className="nav__inner">
         {onLanding ? (
@@ -138,20 +156,24 @@ export const Nav = forwardRef<HTMLElement>((_props, ref) => {
               aria-haspopup="true"
             >
               Products
-              <span className="nav__caret" aria-hidden="true" />
+              <span className="nav__caret" aria-hidden="true">
+                <ChevronIcon size={12} strokeWidth={2.2} />
+              </span>
             </button>
 
             <div className={`nav__menu ${openMenu ? "is-open" : ""}`.trim()}>
-              <div className="nav__menu-grid">
-                {PRODUCT_MENU.map((entry) => (
-                  <Link key={entry.to} to={entry.to} className="nav__menu-link">
-                    {entry.label}
-                  </Link>
-                ))}
+              <div className="nav__menu-inner">
+                <div className="nav__menu-grid">
+                  {PRODUCT_MENU.map((entry) => (
+                    <Link key={entry.to} to={entry.to} className="nav__menu-link">
+                      {entry.label}
+                    </Link>
+                  ))}
+                </div>
+                <p className="nav__menu-note">
+                  Everything eggless · baked to order · Panipat
+                </p>
               </div>
-              <p className="nav__menu-note">
-                Everything eggless · baked to order · Panipat
-              </p>
             </div>
           </li>
 

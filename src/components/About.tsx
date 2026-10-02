@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
+import { ScrollWords } from "./ScrollWords";
 
 /* The story, told as three marks on a rail: where the baking started, where it
-   got good, and everything it turned into. Copy is placeholder for now. */
+   got good, and everything it turned into. */
 const STEPS = [
   {
     title: "A hobby at home",
@@ -21,12 +22,18 @@ const STEPS = [
 export function About() {
   return (
     <section id="about" className="about">
-      <div className="about__inner">
-        <Reveal className="about__copy">
-          <p className="about__eyebrow">What began as a hobby in a home kitchen is now</p>
+      <div className="container">
+        <div className="about__statement">
+          <Reveal>
+            <p className="about__eyebrow eyebrow">What began as a hobby in a home kitchen is now</p>
+          </Reveal>
+          <ScrollWords
+            className="about__heading display"
+            text="every cake, cookie and brownie on this table."
+          />
+        </div>
 
-          <h2 className="about__heading">every cake, cookie and brownie on this table.</h2>
-
+        <Reveal className="about__copy stagger">
           <p className="about__body">
             Mom never set out to run a bakery. She baked for the people she loves — a birthday cake here, a tray of
             brownies there — and the kitchen quietly learned her hands.
@@ -36,7 +43,7 @@ export function About() {
             Everything is still mixed, baked to order and finished by hand, in batches small enough to taste the care.
           </p>
 
-          <Link to="/catalog" className="about__cta">
+          <Link to="/catalog" className="about__cta link-arrow">
             <span>Explore the catalog</span>
             <svg className="about__cta-arrow" viewBox="0 0 56 12" fill="none" aria-hidden="true">
               <path d="M0 6h51" stroke="currentColor" strokeWidth="1.1" />
@@ -52,8 +59,8 @@ export function About() {
         </Reveal>
 
         {/* One Reveal for the whole rail, so the hairline between the marks
-            never animates in pieces. */}
-        <Reveal className="about__steps">
+            draws across in one stroke. */}
+        <Reveal className="about__steps stagger">
           {STEPS.map((step) => (
             <div key={step.title} className="about__step">
               <span className="about__step-dot" aria-hidden="true" />

@@ -49,7 +49,7 @@ function Stars({ rating }: { rating: number }) {
   return (
     <span className="review__stars" aria-label={`${rating} out of 5`}>
       {[1, 2, 3, 4, 5].map((star) => (
-        <StarIcon key={star} color={star <= rating ? "currentColor" : "rgba(47, 33, 25, 0.18)"} />
+        <StarIcon key={star} size={15} color={star <= rating ? "currentColor" : "rgba(43, 30, 23, 0.16)"} />
       ))}
     </span>
   );
@@ -58,33 +58,39 @@ function Stars({ rating }: { rating: number }) {
 export function Reviews() {
   return (
     <section id="reviews" className="reviews">
-      <Reveal className="reviews__intro">
-        <p className="chapter-eyebrow">Kind Words</p>
-        <h2 className="chapter-heading reviews__heading">What the neighbourhood says.</h2>
-        <p className="chapter-body">
-          Every box leaves the kitchen warm and comes back as a message on the phone. A few of the ones we kept.
-        </p>
-      </Reveal>
+      <div className="container">
+        <Reveal className="reviews__intro stagger">
+          <p className="eyebrow">Kind Words</p>
+          <h2 className="reviews__heading display">What the neighbourhood says.</h2>
+          <p className="reviews__lede lede">
+            Every box leaves the kitchen warm and comes back as a message on the phone. A few of the ones we kept.
+          </p>
+        </Reveal>
 
-      <div className="reviews__grid">
-        <Reveal className="review review--feature">
+        <Reveal className="review review--feature stagger">
           <span className="review__quote-mark" aria-hidden="true">
             &ldquo;
           </span>
           <Stars rating={FEATURED.rating} />
           <p className="review__text">{FEATURED.quote}</p>
-          <p className="review__name">{FEATURED.name}</p>
-          <p className="review__meta">{FEATURED.meta}</p>
+          <div className="review__by">
+            <p className="review__name">{FEATURED.name}</p>
+            <p className="review__meta">{FEATURED.meta}</p>
+          </div>
         </Reveal>
 
-        {REVIEWS.map((review) => (
-          <Reveal key={review.name} className="review">
-            <Stars rating={review.rating} />
-            <p className="review__text">{review.quote}</p>
-            <p className="review__name">{review.name}</p>
-            <p className="review__meta">{review.meta}</p>
-          </Reveal>
-        ))}
+        <Reveal className="reviews__grid stagger">
+          {REVIEWS.map((review) => (
+            <article key={review.name} className="review">
+              <Stars rating={review.rating} />
+              <p className="review__text">{review.quote}</p>
+              <div className="review__by">
+                <p className="review__name">{review.name}</p>
+                <p className="review__meta">{review.meta}</p>
+              </div>
+            </article>
+          ))}
+        </Reveal>
       </div>
     </section>
   );
