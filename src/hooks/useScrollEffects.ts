@@ -31,11 +31,11 @@ export function useNavScroll(navRef: RefObject<HTMLElement | null>) {
       const nav = navRef.current;
       if (nav) {
         if (y > 60) {
-          nav.style.background = "rgba(249,247,238,0.94)";
-          nav.style.boxShadow = "0 12px 40px rgba(61,59,48,0.18)";
+          nav.style.background = "rgba(253,246,244,0.94)";
+          nav.style.boxShadow = "0 12px 40px rgba(68,48,37,0.18)";
         } else {
-          nav.style.background = "rgba(249,247,238,0.82)";
-          nav.style.boxShadow = "0 10px 34px rgba(61,59,48,0.12)";
+          nav.style.background = "rgba(253,246,244,0.82)";
+          nav.style.boxShadow = "0 10px 34px rgba(68,48,37,0.12)";
         }
       }
     };

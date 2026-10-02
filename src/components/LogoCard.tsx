@@ -20,8 +20,8 @@ export function LogoCard({ src, className = "" }: LogoCardProps) {
       <svg viewBox="0 0 420 300" role="img" aria-label="Bakesbymom — eggless custom cakes, established by Monica">
         <defs>
           <pattern id="logoStripes" width="84" height="300" patternUnits="userSpaceOnUse">
-            <rect width="42" height="300" fill="#a7261d" />
-            <rect x="42" width="42" height="300" fill="#c1392d" />
+            <rect width="42" height="300" fill="#443025" />
+            <rect x="42" width="42" height="300" fill="#7f5836" />
           </pattern>
           {/* upper half-circle, drawn left to right */}
           <path id="logoArcTop" d="M210,180 m-142,0 a142,142 0 0,1 284,0" />
@@ -32,33 +32,33 @@ export function LogoCard({ src, className = "" }: LogoCardProps) {
         <rect width="420" height="300" fill="url(#logoStripes)" />
 
         {/* tulip */}
-        <g stroke="#f9f7ee" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <g stroke="#fdf6f4" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M210,40 c-10,5 -13,14 -9,22 c2,5 6,8 9,12 c3,-4 7,-7 9,-12 c4,-8 1,-17 -9,-22z" />
           <path d="M210,74 v26" />
           <path d="M210,96 c-9,-2 -14,-8 -15,-15 c8,0 13,5 15,15z" />
           <path d="M210,96 c9,-2 14,-8 15,-15 c-8,0 -13,5 -15,15z" />
         </g>
 
-        <text className="logo-card__arc" fill="#f9f7ee" textAnchor="middle">
+        <text className="logo-card__arc" fill="#fdf6f4" textAnchor="middle">
           <textPath href="#logoArcTop" startOffset="30%">EST. BY</textPath>
         </text>
-        <text className="logo-card__arc" fill="#f9f7ee" textAnchor="middle">
+        <text className="logo-card__arc" fill="#fdf6f4" textAnchor="middle">
           <textPath href="#logoArcTop" startOffset="70%">MONICA</textPath>
         </text>
 
-        <text className="logo-card__word" x="210" y="182" textAnchor="middle" fill="#f9f7ee">
+        <text className="logo-card__word" x="210" y="182" textAnchor="middle" fill="#fdf6f4">
           bakesbymom
         </text>
 
-        <text className="logo-card__arc" fill="#f9f7ee" textAnchor="middle">
+        <text className="logo-card__arc" fill="#fdf6f4" textAnchor="middle">
           <textPath href="#logoArcBottom" startOffset="50%">EGGLESS CUSTOM CAKES</textPath>
         </text>
 
-        <g fill="#f9f7ee">
-          <rect x="24" y="278" width="16" height="16" rx="4.6" fill="none" stroke="#f9f7ee" strokeWidth="1.6" />
-          <circle cx="32" cy="286" r="4" fill="none" stroke="#f9f7ee" strokeWidth="1.6" />
+        <g fill="#fdf6f4">
+          <rect x="24" y="278" width="16" height="16" rx="4.6" fill="none" stroke="#fdf6f4" strokeWidth="1.6" />
+          <circle cx="32" cy="286" r="4" fill="none" stroke="#fdf6f4" strokeWidth="1.6" />
           <text className="logo-card__meta" x="48" y="291">@BAKESBYMOM</text>
-          <circle cx="292" cy="286" r="8" fill="none" stroke="#f9f7ee" strokeWidth="1.6" />
+          <circle cx="292" cy="286" r="8" fill="none" stroke="#fdf6f4" strokeWidth="1.6" />
           <path d="M288.5,282.5 c0,5.5 3.5,9 8.5,8.5 l-0.8,-2.6 -2.6,-0.9 -1,0.9 c-1.6,-0.9 -2.6,-1.9 -3.4,-3.4 l0.9,-1 -0.9,-2.6z" />
           <text className="logo-card__meta" x="308" y="291">7206552667</text>
         </g>
