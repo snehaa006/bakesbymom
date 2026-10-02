@@ -4,8 +4,8 @@ import { isApiConfigured } from "../lib/api";
 import { Nav } from "./Nav";
 import { CategoryRow } from "./CategoryRow";
 
-/** Band tints, cycled so neighbouring categories never share a background. */
-const TONES = ["misty", "cream", "rose", "ivory"] as const;
+/** Tinted band, plain band — the reference alternates its rows the same way. */
+const TONES = ["tint", "plain"] as const;
 
 export function Catalog() {
   const [categories, setCategories] = useState<CategoryWithCakes[]>([]);
@@ -59,6 +59,7 @@ export function Catalog() {
             key={category.id}
             category={category}
             tone={TONES[index % TONES.length]}
+            eager={index === 0}
           />
         ))}
       </main>
