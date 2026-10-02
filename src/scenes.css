@@ -771,7 +771,7 @@
   height: calc(var(--u) * 2);
   transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(47, 33, 25, 0.3), transparent 68%);
+  background: radial-gradient(ellipse at center, rgba(10, 10, 10, 0.3), transparent 68%);
   filter: blur(4px);
 }
 
@@ -828,7 +828,7 @@
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.24em;
-  color: var(--aloewood);
+  color: var(--gray-text);
   font-weight: 600;
 }
 
@@ -836,14 +836,14 @@
   font-family: "Zilla Slab", serif;
   font-size: 1.24rem;
   font-weight: 700;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   margin: 4px 0 6px;
 }
 
 .flow__caption {
   font-size: 0.78rem;
   line-height: 1.5;
-  color: var(--aloewood-deep);
+  color: var(--gray-dark);
   margin: 0;
 }
 
@@ -876,11 +876,11 @@
 }
 
 .flow__arrow-shaft {
-  stroke: rgba(170, 127, 102, 0.85);
+  stroke: rgba(140, 140, 140, 0.85);
 }
 
 .flow__arrow-head {
-  stroke: var(--sakura);
+  stroke: var(--ink);
 }
 
 .flow__stage:nth-child(3) + .flow__arrow {

@@ -3,30 +3,22 @@
 :root {
   color-scheme: light;
 
-  /* Five colours run the whole site, taken straight off the palette card:
-     Dark Chocolate, Aloewood, Milk Tea, Sakura and Misty Rose. They read as one
-     ramp — the pinks are the page's ground, the browns its type and buttons —
-     with Sakura as the bloom on top. The few in-between steps are mixes of their
-     neighbours, so nothing on the page is off the card. */
+  /* Two colours run the whole site: light gray and white. Every surface is
+     one of them — the gray is the page, the white its cards and panels — and
+     everything drawn on top is plain near-black ink with a few neutral grays
+     for secondary text and hairlines, so nothing on the page carries a hue. */
+  --light-gray: #f0f0f0;
+  --white: #ffffff;
 
-  /* Ground: the palest blush up to Misty Rose and Sakura. */
-  --misty-50: #fdf6f4;
-  --misty-100: #f9e7e3;
-  /* The card prints this one as F2CF2A, a slip for the pale pink it shows. */
-  --misty-rose: #f2cfca;
-  --misty-300: #eab9b2;
-  --sakura: #ec9c9d;
+  /* Ink and its grays, for type, icons, buttons and lines. */
+  --ink: #111111;
+  --ink-deep: #0a0a0a;
+  --gray-dark: #333333;
+  --gray-text: #555555;
+  --gray-mid: #8c8c8c;
+  --gray-line: #d4d4d4;
 
-  /* Type and buttons: Milk Tea down to Dark Chocolate. */
-  --milk-tea-light: #c9a593;
-  --milk-tea: #aa7f66;
-  --aloewood: #7f5836;
-  --aloewood-deep: #614330;
-  --dark-chocolate: #443025;
-  --chocolate-deep: #2f2119;
-  --chocolate-ink: #21170f;
-
-  --hairline: rgba(68, 48, 37, 0.14);
+  --hairline: rgba(17, 17, 17, 0.14);
 
   /* The fixed nav pill floats over every page, so each one starts this far
      down. It shrinks with the pill: on the narrow layout the links move into a
@@ -53,11 +45,11 @@ body {
 }
 
 body {
-  color: var(--chocolate-deep);
+  color: var(--ink-deep);
   font-family: "Inter", sans-serif;
   font-weight: 400;
   overflow-x: hidden;
-  background: var(--misty-100);
+  background: var(--light-gray);
 }
 
 *,
@@ -85,21 +77,21 @@ li {
   overflow-wrap: break-word;
 }
 
-/* Sakura, with a hair of transparency: Safari washes an opaque selection
-   colour towards white before painting it, and leaves a translucent one alone —
-   so this reads as the true Sakura in every browser. */
+/* Ink, with a hair of transparency: Safari washes an opaque selection colour
+   towards white before painting it, and leaves a translucent one alone — so
+   this reads as true ink in every browser. */
 ::selection {
-  background: rgba(236, 156, 157, 0.99);
-  color: var(--dark-chocolate);
+  background: rgba(17, 17, 17, 0.99);
+  color: var(--white);
 }
 
 a {
-  color: var(--dark-chocolate);
+  color: var(--ink);
   text-decoration: none;
 }
 
 a:hover {
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 ::-webkit-scrollbar {
@@ -209,7 +201,7 @@ a:hover {
   }
 }
 
-/* A pale Misty Rose flare bursts with it and settles into a soft halo. */
+/* A pale flare bursts with it and settles into a soft halo. */
 @keyframes badgeFlare {
   0% {
     opacity: 0;
@@ -261,26 +253,9 @@ a:hover {
   /* clip (not hidden) so position: sticky still works inside the page */
   overflow-x: clip;
   overflow-y: visible;
-  /* Pale blush and deeper Misty Rose alternate the way the hero band does —
-     pale through products and ritual, deepening across showcase to a rose crest
-     under order, where the chocolate panel and logo card sit on it, then pale again through reviews, closing a shade deeper under
-     the footer. The stops track the sections: hero 0–16, about 16–33,
-     products 33–46, ritual 46–60, showcase 60–74, order 74–84, reviews 84–98.
-     The about band paints its own chocolate, so the pale run is stretched under it to
-     carry products and ritual. It holds flat through the hero so the wave meets
-     it without a seam. */
-  background: linear-gradient(
-    180deg,
-    var(--misty-100) 0%,
-    var(--misty-100) 22%,
-    var(--misty-rose) 48%,
-    var(--misty-rose) 70%,
-    var(--misty-300) 79%,
-    var(--misty-rose) 85%,
-    var(--misty-100) 89%,
-    var(--misty-100) 95%,
-    var(--misty-rose) 100%
-  );
+  /* The whole page sits on the light gray; white is kept for the cards, panels
+     and bands laid on top of it. */
+  background: var(--light-gray);
 }
 
 .flour-layer {
@@ -295,8 +270,8 @@ a:hover {
   position: absolute;
   top: 0;
   border-radius: 50%;
-  background: rgba(253, 246, 244, 0.5);
-  box-shadow: 0 0 7px rgba(249, 231, 227, 0.38);
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 7px rgba(240, 240, 240, 0.38);
   /* Softened to a haze so it never reads as a scatter of hard dots on the page. */
   filter: blur(1px);
   animation-name: flour;
@@ -310,8 +285,8 @@ a:hover {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(60% 45% at 50% 8%, rgba(253, 246, 244, 0.55), transparent 70%),
-    radial-gradient(52% 40% at 88% 92%, rgba(127, 88, 54, 0.08), transparent 70%);
+    radial-gradient(60% 45% at 50% 8%, rgba(255, 255, 255, 0.55), transparent 70%),
+    radial-gradient(52% 40% at 88% 92%, rgba(85, 85, 85, 0.08), transparent 70%);
 }
 
 /* ---------------------------------- nav ---------------------------------- */
@@ -325,10 +300,10 @@ a:hover {
   width: min(1180px, calc(100% - 48px));
   border-radius: 9999px;
   padding: 14px 30px;
-  background: rgba(253, 246, 244, 0.82);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(68, 48, 37, 0.2);
-  box-shadow: 0 10px 34px rgba(68, 48, 37, 0.12);
+  border: 1px solid rgba(17, 17, 17, 0.2);
+  box-shadow: 0 10px 34px rgba(17, 17, 17, 0.12);
   transition:
     background 0.5s ease,
     box-shadow 0.5s ease;
@@ -343,7 +318,7 @@ a:hover {
 .nav__logo {
   font-family: "Satisfy", cursive;
   font-size: 1.85rem;
-  color: var(--chocolate-deep);
+  color: var(--ink-deep);
   line-height: 1;
 }
 
@@ -360,21 +335,21 @@ a:hover {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.24em;
-  color: var(--chocolate-deep);
+  color: var(--ink-deep);
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .nav__link:hover {
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
-/* Worn by every page that isn't the landing. Those pages scroll blush and cream
+/* Worn by every page that isn't the landing. Those pages scroll gray and white
    bands underneath the pill, so it carries its own weight instead of leaning on
    the scroll handler the landing page runs. */
 .nav--page {
-  background: rgba(253, 246, 244, 0.92);
-  box-shadow: 0 12px 38px rgba(68, 48, 37, 0.14);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 38px rgba(17, 17, 17, 0.14);
 }
 
 /* The burger only exists on the narrow layout, where the links move into a
@@ -399,7 +374,7 @@ a:hover {
   width: 22px;
   height: 2px;
   border-radius: 2px;
-  background: var(--chocolate-deep);
+  background: var(--ink-deep);
   transition:
     transform 0.28s cubic-bezier(0.2, 0.7, 0.3, 1),
     opacity 0.2s ease;
@@ -431,15 +406,15 @@ main {
   margin: 0;
   border-radius: 26px;
   overflow: hidden;
-  background: rgba(249, 231, 227, 0.66);
-  border: 1px dashed rgba(68, 48, 37, 0.3);
-  box-shadow: 0 20px 46px rgba(68, 48, 37, 0.12);
+  background: rgba(240, 240, 240, 0.66);
+  border: 1px dashed rgba(17, 17, 17, 0.3);
+  box-shadow: 0 20px 46px rgba(17, 17, 17, 0.12);
   aspect-ratio: 4 / 3;
 }
 
 .photo-slot--filled {
   border-style: solid;
-  border-color: rgba(68, 48, 37, 0.16);
+  border-color: rgba(17, 17, 17, 0.16);
 }
 
 .photo-slot--tall {
@@ -468,7 +443,7 @@ main {
 .photo-slot--cutout.photo-slot--filled {
   border: 0;
   background: transparent;
-  filter: drop-shadow(0 26px 40px rgba(68, 48, 37, 0.24));
+  filter: drop-shadow(0 26px 40px rgba(17, 17, 17, 0.24));
 }
 
 .photo-slot--cutout .photo-slot__img {
@@ -479,7 +454,7 @@ main {
   aspect-ratio: 4 / 5;
   max-height: 74vh;
   border-radius: 8px 30px 30px 8px;
-  box-shadow: 0 34px 74px rgba(68, 48, 37, 0.22);
+  box-shadow: 0 34px 74px rgba(17, 17, 17, 0.22);
 }
 
 .photo-slot__img {
@@ -499,13 +474,13 @@ main {
   gap: 10px;
   padding: 24px;
   text-align: center;
-  background: linear-gradient(150deg, rgba(253, 246, 244, 0.8), rgba(236, 156, 157, 0.18));
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.8), rgba(17, 17, 17, 0.18));
 }
 
 .photo-slot__mark {
   width: 38px;
   height: 30px;
-  border: 1.6px solid rgba(68, 48, 37, 0.45);
+  border: 1.6px solid rgba(17, 17, 17, 0.45);
   border-radius: 8px;
   position: relative;
 }
@@ -515,7 +490,7 @@ main {
   position: absolute;
   inset: 6px;
   border-radius: 50%;
-  border: 1.6px solid rgba(68, 48, 37, 0.4);
+  border: 1.6px solid rgba(17, 17, 17, 0.4);
 }
 
 .photo-slot__label {
@@ -523,13 +498,13 @@ main {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .photo-slot__hint {
   font-size: 0.68rem;
   letter-spacing: 0.06em;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 /* ---------------------------------- hero ---------------------------------- */
@@ -545,11 +520,11 @@ main {
      the band would run under the URL bar until the user scrolls. */
   min-height: 100svh;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--misty-100) 0%, var(--misty-rose) 34%, var(--misty-300) 72%);
+  background: var(--white);
 }
 
-/* The pale wave sits high in the band, so the copy starts on the deeper rose
-   half and the button lands on the pale half — as in the reference. */
+/* The gray wave sits high in the white band, so the copy starts on the white
+   half and the button lands on the gray, which runs on into the page. */
 .hero__wave {
   position: absolute;
   right: 0;
@@ -599,7 +574,7 @@ main {
   font-size: clamp(2.6rem, 5.2vw, 4.6rem);
   line-height: 1.04;
   font-weight: 700;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   margin: 0 0 26px;
 }
 
@@ -607,13 +582,13 @@ main {
   font-family: "Satisfy", cursive;
   font-style: normal;
   font-weight: 400;
-  color: var(--chocolate-deep);
+  color: var(--ink-deep);
 }
 
 .hero__subtitle {
   font-size: 1.02rem;
   line-height: 1.75;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   margin: 0 0 36px;
   max-width: 520px;
 }
@@ -624,26 +599,26 @@ main {
   gap: 18px;
   padding: 17px 32px;
   border-radius: 14px;
-  background: var(--dark-chocolate);
-  color: var(--misty-50);
+  background: var(--ink);
+  color: var(--white);
   font-size: 0.95rem;
   font-weight: 600;
-  box-shadow: 0 16px 34px rgba(47, 33, 25, 0.24);
+  box-shadow: 0 16px 34px rgba(10, 10, 10, 0.24);
   transition:
     transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
     background 0.35s ease;
 }
 
 .hero__cta:hover {
-  background: var(--aloewood);
-  color: var(--misty-50);
+  background: var(--gray-text);
+  color: var(--white);
   transform: translateY(-3px);
 }
 
 .hero__cta-divider {
   width: 1px;
   height: 22px;
-  background: rgba(253, 246, 244, 0.45);
+  background: rgba(255, 255, 255, 0.45);
 }
 
 /* ---------------------------------- rotating badge ---------------------------------- */
@@ -667,11 +642,11 @@ main {
   font-family: "Satisfy", cursive;
   font-size: 22px;
   letter-spacing: 0.02em;
-  fill: var(--dark-chocolate);
-  /* The ring rides over every section, so it carries its own pale blush
+  fill: var(--ink);
+  /* The ring rides over every section, so it carries its own pale
      halo — that halo is what the badge is read as, light side first. */
   paint-order: stroke fill;
-  stroke: rgba(249, 231, 227, 0.95);
+  stroke: rgba(240, 240, 240, 0.95);
   stroke-width: 2.6;
   stroke-linejoin: round;
 }
@@ -684,8 +659,8 @@ main {
   justify-content: center;
   border-radius: 50%;
   overflow: hidden;
-  background: rgba(249, 231, 227, 0.7);
-  border: 1px dashed rgba(68, 48, 37, 0.32);
+  background: rgba(240, 240, 240, 0.7);
+  border: 1px dashed rgba(17, 17, 17, 0.32);
 }
 
 /* With a cut-out photo in the middle, the dashed placeholder ring and its pale
@@ -701,7 +676,7 @@ main {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 6px 12px rgba(47, 33, 25, 0.28));
+  filter: drop-shadow(0 6px 12px rgba(10, 10, 10, 0.28));
 }
 
 .spin-badge__slot {
@@ -709,7 +684,7 @@ main {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 /* Pinned to the viewport, so it rides along for the whole page - scrolling down
@@ -730,7 +705,7 @@ main {
   transform: translateY(120px) scale(0.42) rotate(-34deg);
 }
 
-/* The blush burst it arrives out of; it stays as a soft halo behind the tart.
+/* The pale burst it arrives out of; it stays as a soft halo behind the tart.
    First in the box, so the ring and the photo always paint over it. */
 .spin-badge--float::before {
   content: "";
@@ -741,9 +716,9 @@ main {
   opacity: 0;
   background: radial-gradient(
     circle,
-    rgba(234, 185, 178, 0.72) 0%,
-    rgba(242, 207, 202, 0.34) 46%,
-    rgba(253, 246, 244, 0) 72%
+    rgba(240, 240, 240, 0.72) 0%,
+    rgba(240, 240, 240, 0.34) 46%,
+    rgba(255, 255, 255, 0) 72%
   );
 }
 
@@ -846,10 +821,10 @@ main {
   left: -14%;
   width: clamp(320px, 40vw, 600px);
   aspect-ratio: 1.4 / 1;
-  background: var(--misty-rose);
+  background: var(--white);
   border-radius: 58% 42% 46% 54% / 60% 40% 60% 40%;
   transform: rotate(6deg);
-  opacity: 0.42;
+  opacity: 0.7;
   z-index: 0;
   pointer-events: none;
 }
@@ -880,9 +855,9 @@ main {
   aspect-ratio: 1.06 / 1;
   padding: clamp(30px, 4vw, 56px);
   justify-content: center;
-  background: var(--dark-chocolate);
+  background: var(--white);
   border-radius: 62% 38% 52% 48% / 48% 60% 40% 52%;
-  box-shadow: 0 26px 60px rgba(47, 33, 25, 0.24);
+  box-shadow: 0 26px 60px rgba(10, 10, 10, 0.1);
 }
 
 .order__title {
@@ -890,7 +865,7 @@ main {
   font-size: clamp(2.1rem, 4vw, 3.4rem);
   line-height: 1.05;
   font-weight: 700;
-  color: var(--misty-50);
+  color: var(--ink);
   margin: 0;
 }
 
@@ -898,14 +873,14 @@ main {
   font-size: 0.86rem;
   font-weight: 600;
   line-height: 1.5;
-  color: var(--misty-50);
-  border-bottom: 1px solid rgba(253, 246, 244, 0.55);
+  color: var(--ink);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.4);
   padding-bottom: 4px;
 }
 
 .order__link:hover {
-  color: var(--misty-100);
-  border-bottom-color: var(--misty-100);
+  color: var(--gray-text);
+  border-bottom-color: var(--gray-text);
 }
 
 .order__logo {
@@ -917,7 +892,7 @@ main {
 .logo-card {
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 30px 64px rgba(47, 33, 25, 0.26);
+  box-shadow: 0 30px 64px rgba(10, 10, 10, 0.12);
 }
 
 .logo-card svg,
@@ -964,23 +939,23 @@ main {
   pointer-events: none;
 }
 
-.products__blob--misty {
+.products__blob--left {
   top: 4%;
   left: -20%;
   width: clamp(360px, 46vw, 680px);
   aspect-ratio: 1.5 / 1;
-  background: var(--misty-300);
+  background: var(--white);
   border-radius: 64% 36% 52% 48% / 62% 38% 62% 38%;
   transform: rotate(-9deg);
   opacity: 0.55;
 }
 
-.products__blob--sakura {
+.products__blob--right {
   right: -16%;
   bottom: -8%;
   width: clamp(330px, 42vw, 620px);
   aspect-ratio: 1.3 / 1;
-  background: var(--sakura);
+  background: var(--white);
   border-radius: 42% 58% 64% 36% / 54% 40% 60% 46%;
   transform: rotate(7deg);
   opacity: 0.4;
@@ -1005,7 +980,7 @@ main {
   font-weight: 600;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .products__heading {
@@ -1014,7 +989,7 @@ main {
   font-size: clamp(2.4rem, 5.6vw, 4.2rem);
   font-weight: 700;
   line-height: 1.05;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .products__body {
@@ -1022,7 +997,7 @@ main {
   margin: 14px auto 0;
   font-size: 0.95rem;
   line-height: 1.7;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 /* The View more rule sits centred; the arrows ride the right edge beside it. */
@@ -1040,15 +1015,15 @@ main {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   padding-bottom: 6px;
-  border-bottom: 1.5px solid var(--dark-chocolate);
+  border-bottom: 1.5px solid var(--ink);
   transition: color 0.25s ease, border-color 0.25s ease;
 }
 
 .products__more:hover {
-  color: var(--aloewood);
-  border-color: var(--aloewood);
+  color: var(--gray-text);
+  border-color: var(--gray-text);
 }
 
 .products__arrows {
@@ -1066,14 +1041,14 @@ main {
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: var(--dark-chocolate);
-  color: var(--misty-100);
+  background: var(--ink);
+  color: var(--light-gray);
   cursor: pointer;
   transition: background 0.25s ease, transform 0.25s ease;
 }
 
 .products__arrow:hover {
-  background: var(--aloewood);
+  background: var(--gray-text);
   transform: scale(1.06);
 }
 
@@ -1118,7 +1093,7 @@ main {
 .product-card {
   flex: 0 0 auto;
   width: clamp(210px, 22vw, 300px);
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .product-card__photo {
@@ -1126,8 +1101,8 @@ main {
   overflow: hidden;
   aspect-ratio: 1 / 1;
   border-radius: 22px;
-  background: var(--misty-100);
-  box-shadow: 0 16px 36px rgba(68, 48, 37, 0.14);
+  background: var(--light-gray);
+  box-shadow: 0 16px 36px rgba(17, 17, 17, 0.14);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -1141,7 +1116,7 @@ main {
 
 .product-card:hover .product-card__photo {
   transform: translateY(-6px);
-  box-shadow: 0 22px 44px rgba(68, 48, 37, 0.22);
+  box-shadow: 0 22px 44px rgba(17, 17, 17, 0.22);
 }
 
 .product-card:hover .product-card__photo img {
@@ -1154,28 +1129,27 @@ main {
   font-size: clamp(1.05rem, 1.6vw, 1.35rem);
   font-weight: 600;
   line-height: 1.25;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   transition: color 0.25s ease;
 }
 
 .product-card:hover .product-card__name {
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 /* ---------------------------------- about ---------------------------------- */
 
-/* A full-bleed Dark Chocolate band that breaks the pale run of the page, set
-   the way the palette card sets its top swatch — Sakura type on chocolate. The
-   story and one outlined call to action sit on the left, the timeline hung off
-   a hairline rail on the right. No photos — the type carries it. */
+/* A full-bleed white band that breaks the gray run of the page: the story and
+   one outlined call to action on the left, the timeline hung off a hairline
+   rail on the right. No photos — the type carries it. */
 .about {
   position: relative;
   z-index: 5;
   scroll-margin-top: 118px;
   width: 100%;
   padding: clamp(72px, 9vw, 126px) clamp(20px, 5vw, 60px) clamp(80px, 10vw, 136px);
-  background: var(--dark-chocolate);
-  color: var(--misty-rose);
+  background: var(--white);
+  color: var(--ink);
 }
 
 .about__inner {
@@ -1195,7 +1169,7 @@ main {
   line-height: 1.7;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--misty-rose);
+  color: var(--gray-text);
 }
 
 .about__heading {
@@ -1206,7 +1180,7 @@ main {
   font-weight: 400;
   line-height: 1.04;
   letter-spacing: -0.01em;
-  color: var(--sakura);
+  color: var(--ink);
 }
 
 .about__body {
@@ -1214,7 +1188,7 @@ main {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.75;
-  color: rgba(242, 207, 202, 0.92);
+  color: var(--gray-text);
 }
 
 .about__body + .about__body {
@@ -1230,12 +1204,12 @@ main {
   min-width: min(344px, 100%);
   margin-top: clamp(38px, 5vw, 62px);
   padding: 18px 24px;
-  border: 1px solid rgba(236, 156, 157, 0.6);
+  border: 1px solid var(--ink);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--misty-rose);
+  color: var(--ink);
   transition:
     background 0.35s ease,
     border-color 0.35s ease,
@@ -1243,9 +1217,9 @@ main {
 }
 
 .about__cta:hover {
-  background: var(--sakura);
-  border-color: var(--sakura);
-  color: var(--dark-chocolate);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
 }
 
 .about__cta-arrow {
@@ -1287,7 +1261,7 @@ main {
   bottom: calc(-1 * (var(--rail-gap) + var(--rail-dot-top) + var(--rail-dot) / 2));
   width: 1px;
   transform: translateX(-50%);
-  background: rgba(236, 156, 157, 0.3);
+  background: var(--gray-line);
 }
 
 .about__step:last-child::before {
@@ -1301,7 +1275,7 @@ main {
   width: var(--rail-dot);
   height: var(--rail-dot);
   border-radius: 50%;
-  background: var(--sakura);
+  background: var(--ink);
 }
 
 .about__step-title {
@@ -1311,14 +1285,14 @@ main {
   line-height: 1.2;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--sakura);
+  color: var(--ink);
 }
 
 .about__step-text {
   margin: 0;
   font-size: 0.88rem;
   line-height: 1.72;
-  color: rgba(242, 207, 202, 0.9);
+  color: var(--gray-text);
 }
 
 .baker-3d {
@@ -1341,13 +1315,13 @@ main {
 .baker-3d::before {
   top: 11%;
   left: 18%;
-  background: radial-gradient(circle, rgba(236, 156, 157, 0.3), rgba(236, 156, 157, 0));
+  background: radial-gradient(circle, rgba(17, 17, 17, 0.3), rgba(17, 17, 17, 0));
 }
 
 .baker-3d::after {
   right: 14%;
   bottom: 3%;
-  background: radial-gradient(circle, rgba(201, 165, 147, 0.26), rgba(201, 165, 147, 0));
+  background: radial-gradient(circle, rgba(212, 212, 212, 0.26), rgba(212, 212, 212, 0));
 }
 
 .baker-3d__canvas {
@@ -1362,10 +1336,10 @@ main {
   right: 20px;
   bottom: 18px;
   padding: 9px 13px;
-  border: 1px solid rgba(68, 48, 37, 0.12);
+  border: 1px solid rgba(17, 17, 17, 0.12);
   border-radius: 999px;
-  background: rgba(253, 246, 244, 0.48);
-  color: var(--chocolate-deep);
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--ink-deep);
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -1403,13 +1377,13 @@ main {
 .aunty-3d::before {
   top: 14%;
   left: 12%;
-  background: radial-gradient(circle, rgba(236, 156, 157, 0.32), rgba(236, 156, 157, 0));
+  background: radial-gradient(circle, rgba(17, 17, 17, 0.32), rgba(17, 17, 17, 0));
 }
 
 .aunty-3d::after {
   right: 8%;
   bottom: 6%;
-  background: radial-gradient(circle, rgba(201, 165, 147, 0.28), rgba(201, 165, 147, 0));
+  background: radial-gradient(circle, rgba(212, 212, 212, 0.28), rgba(212, 212, 212, 0));
 }
 
 .aunty-3d__canvas {
@@ -1424,10 +1398,10 @@ main {
   right: 50%;
   bottom: 50%;
   padding: 9px 13px;
-  border: 1px solid rgba(68, 48, 37, 0.12);
+  border: 1px solid rgba(17, 17, 17, 0.12);
   border-radius: 999px;
-  background: rgba(253, 246, 244, 0.48);
-  color: var(--chocolate-deep);
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--ink-deep);
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -1452,13 +1426,13 @@ main {
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.32em;
-  color: rgba(47, 33, 25, 0.5);
+  color: rgba(10, 10, 10, 0.5);
 }
 
 .scroll-cue__track {
   width: 22px;
   height: 34px;
-  border: 1.5px solid rgba(47, 33, 25, 0.4);
+  border: 1.5px solid rgba(10, 10, 10, 0.4);
   border-radius: 12px;
   position: relative;
 }
@@ -1470,7 +1444,7 @@ main {
   width: 3px;
   height: 6px;
   border-radius: 3px;
-  background: var(--dark-chocolate);
+  background: var(--ink);
   transform: translateX(-50%);
   animation: scrollDot 1.8s ease-in-out infinite;
 }
@@ -1481,7 +1455,7 @@ main {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.26em;
-  color: var(--aloewood);
+  color: var(--gray-text);
   font-weight: 600;
   margin: 0 0 22px;
 }
@@ -1493,7 +1467,7 @@ main {
 .chapter-body {
   font-size: 0.98rem;
   line-height: 1.75;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   margin: 0;
 }
 
@@ -1516,13 +1490,13 @@ main {
   font-family: "Satisfy", cursive;
   font-size: clamp(2.2rem, 4.4vw, 3.4rem);
   line-height: 1.16;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   font-weight: 400;
 }
 
 /* ---------------------------------- reviews ---------------------------------- */
 
-/* Social proof after the ritual: one chocolate card carrying a
+/* Social proof after the ritual: one large card carrying a
    single voice, and four pale cards around it. */
 .reviews {
   position: relative;
@@ -1543,7 +1517,7 @@ main {
   font-family: "Satisfy", cursive;
   font-size: clamp(2.2rem, 4.4vw, 3.4rem);
   line-height: 1.16;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   font-weight: 400;
 }
 
@@ -1559,11 +1533,11 @@ main {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: var(--misty-50);
+  background: var(--white);
   border: 1px solid var(--hairline);
   border-radius: 26px;
   padding: 30px 28px;
-  box-shadow: 0 26px 60px rgba(68, 48, 37, 0.1);
+  box-shadow: 0 26px 60px rgba(17, 17, 17, 0.1);
   transition:
     transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.5s ease;
@@ -1571,16 +1545,15 @@ main {
 
 .review:hover {
   transform: translateY(-8px);
-  box-shadow: 0 40px 80px rgba(68, 48, 37, 0.18);
+  box-shadow: 0 40px 80px rgba(17, 17, 17, 0.18);
 }
 
-/* The lead card: chocolate ground, pale type, and it takes two of the three columns
+/* The lead card: a white card with larger type, and it takes two of the three columns
    so the row still closes with a regular card beside it. */
 .review--feature {
   grid-column: span 2;
-  background: linear-gradient(140deg, var(--dark-chocolate) 0%, var(--chocolate-deep) 100%);
-  border-color: rgba(249, 231, 227, 0.18);
-  color: var(--misty-100);
+  background: var(--white);
+  color: var(--ink);
   overflow: hidden;
 }
 
@@ -1592,21 +1565,21 @@ main {
   font-family: "Playfair Display", serif;
   font-size: 11rem;
   line-height: 1;
-  color: rgba(236, 156, 157, 0.2);
+  color: rgba(17, 17, 17, 0.07);
   pointer-events: none;
 }
 
 .review__stars {
   display: inline-flex;
   gap: 4px;
-  color: var(--sakura);
+  color: var(--ink);
 }
 
 .review__text {
   position: relative;
   font-size: 0.98rem;
   line-height: 1.7;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   margin: 0;
 }
 
@@ -1614,31 +1587,27 @@ main {
   font-family: "Zilla Slab", serif;
   font-size: clamp(1.2rem, 2.1vw, 1.62rem);
   line-height: 1.45;
-  color: var(--misty-100);
+  color: var(--ink);
 }
 
 .review__name {
   font-family: "Zilla Slab", serif;
   font-size: 1.06rem;
   font-weight: 700;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   margin: auto 0 0;
-}
-
-.review--feature .review__name {
-  color: var(--sakura);
 }
 
 .review__meta {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--aloewood);
+  color: var(--gray-text);
   margin: 0;
 }
 
 .review--feature .review__meta {
-  color: var(--misty-rose);
+  color: var(--gray-text);
 }
 
 /* ---------------------------------- site footer ---------------------------------- */
@@ -1656,7 +1625,7 @@ main {
 
 .site-footer__copyright {
   font-size: 0.74rem;
-  color: var(--aloewood);
+  color: var(--gray-text);
   margin: 0;
 }
 
@@ -1664,8 +1633,8 @@ main {
   font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  color: var(--dark-chocolate);
-  border: 1px solid rgba(68, 48, 37, 0.28);
+  color: var(--ink);
+  border: 1px solid rgba(17, 17, 17, 0.28);
   border-radius: 9999px;
   padding: 6px 16px;
   transition:
@@ -1675,22 +1644,22 @@ main {
 }
 
 .site-footer__admin:hover {
-  color: var(--aloewood);
-  border-color: rgba(68, 48, 37, 0.55);
-  background: rgba(253, 246, 244, 0.6);
+  color: var(--gray-text);
+  border-color: rgba(17, 17, 17, 0.55);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 
 .nav__link--cta {
   padding: 7px 18px;
   border-radius: 9999px;
-  background: var(--dark-chocolate);
-  color: var(--misty-100) !important;
+  background: var(--ink);
+  color: var(--light-gray) !important;
   letter-spacing: 0.16em;
 }
 
 .nav__link--cta:hover {
-  background: var(--aloewood);
+  background: var(--gray-text);
   color: #fff !important;
 }
 
@@ -1937,20 +1906,20 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--misty-50);
+  background: var(--white);
   /* The panel is transparent to clicks the instant it starts dissolving. */
   pointer-events: none;
   animation: introPanel 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* A Misty Rose flare that swells behind the wordmark as it comes forward. */
+/* A pale flare that swells behind the wordmark as it comes forward. */
 .intro::after {
   content: "";
   position: absolute;
   width: 46vmin;
   height: 46vmin;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(242, 207, 202, 0.95), rgba(242, 207, 202, 0) 68%);
+  background: radial-gradient(circle, rgba(240, 240, 240, 0.95), rgba(240, 240, 240, 0) 68%);
   animation: introGlow 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
@@ -1968,7 +1937,7 @@ main {
   font-family: "Satisfy", cursive;
   font-size: clamp(2.6rem, 7vw, 4.6rem);
   line-height: 1;
-  color: var(--chocolate-deep);
+  color: var(--ink-deep);
 }
 
 /* The rule and the tagline hold with the wordmark through the swell and leave
@@ -1989,7 +1958,7 @@ main {
 .intro__rule {
   width: 62px;
   height: 1px;
-  background: rgba(47, 33, 25, 0.4);
+  background: rgba(10, 10, 10, 0.4);
   animation: introSupport 3s ease forwards;
 }
 
@@ -1997,7 +1966,7 @@ main {
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.34em;
-  color: rgba(47, 33, 25, 0.7);
+  color: rgba(10, 10, 10, 0.7);
   white-space: nowrap;
   animation: introSupport 3s ease forwards;
 }
@@ -2012,7 +1981,7 @@ main {
 
 /* The gateway to the catalog: the three pillars on the left, sixteen real cake
    covers on the right. It sits on the page gradient as an ivory panel rather
-   than its own full-width band, so the blush run underneath survives. */
+   than its own full-width band, so the gray run underneath survives. */
 .showcase {
   position: relative;
   z-index: 5;
@@ -2029,9 +1998,9 @@ main {
   align-items: center;
   padding: clamp(32px, 4.4vw, 68px) clamp(26px, 4vw, 62px);
   border-radius: 34px;
-  background: linear-gradient(165deg, #fffaf8 0%, var(--misty-50) 58%, var(--misty-100) 100%);
+  background: var(--white);
   border: 1px solid var(--hairline);
-  box-shadow: 0 30px 70px rgba(68, 48, 37, 0.12);
+  box-shadow: 0 30px 70px rgba(17, 17, 17, 0.12);
 }
 
 .showcase__heading {
@@ -2041,14 +2010,14 @@ main {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-weight: 500;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   margin: 0 0 26px;
 }
 
 .showcase__body {
   font-size: 1rem;
   line-height: 1.85;
-  color: var(--aloewood);
+  color: var(--gray-text);
   margin: 0 0 34px;
   max-width: 46ch;
 }
@@ -2056,11 +2025,11 @@ main {
 .showcase__cta {
   display: inline-block;
   padding: 15px 40px;
-  border: 1px solid var(--aloewood);
+  border: 1px solid var(--gray-text);
   border-radius: 4px;
   font-size: 0.86rem;
   letter-spacing: 0.1em;
-  color: var(--aloewood);
+  color: var(--gray-text);
   background: transparent;
   transition:
     background 0.35s ease,
@@ -2069,8 +2038,8 @@ main {
 }
 
 .showcase__cta:hover {
-  background: var(--aloewood);
-  color: var(--misty-50);
+  background: var(--gray-text);
+  color: var(--white);
   transform: translateY(-2px);
 }
 
@@ -2086,7 +2055,7 @@ main {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 4px;
-  background: var(--misty-rose);
+  background: var(--light-gray);
 }
 
 .showcase__tile img {
@@ -2161,7 +2130,7 @@ main {
   border-radius: 9999px;
   padding: 0;
   background: transparent;
-  color: var(--misty-100);
+  color: var(--light-gray);
   font-family: "Inter", sans-serif;
   font-size: 0.74rem;
   font-weight: 600;
@@ -2181,7 +2150,7 @@ main {
    blink every few seconds so the button feels like it is listening. */
 .cake-bot {
   display: block;
-  filter: drop-shadow(0 12px 22px rgba(47, 33, 25, 0.28));
+  filter: drop-shadow(0 12px 22px rgba(10, 10, 10, 0.28));
   animation: cake-bot-bob 3.4s ease-in-out infinite;
 }
 
@@ -2301,15 +2270,15 @@ main {
   width: 46px;
   height: 46px;
   padding: 0;
-  background: var(--dark-chocolate);
-  box-shadow: 0 14px 34px rgba(33, 23, 15, 0.34);
+  background: var(--ink);
+  box-shadow: 0 14px 34px rgba(10, 10, 10, 0.34);
   font-size: 1.5rem;
   line-height: 1;
   letter-spacing: 0;
 }
 
 .chat-launch--open:hover {
-  background: var(--aloewood);
+  background: var(--gray-text);
 }
 
 .chat {
@@ -2323,9 +2292,9 @@ main {
   flex-direction: column;
   border-radius: 22px;
   overflow: hidden;
-  background: var(--misty-50);
-  border: 1px solid rgba(47, 33, 25, 0.18);
-  box-shadow: 0 26px 60px rgba(47, 33, 25, 0.3);
+  background: var(--white);
+  border: 1px solid rgba(10, 10, 10, 0.18);
+  box-shadow: 0 26px 60px rgba(10, 10, 10, 0.3);
   opacity: 0;
   visibility: hidden;
   transform: translateY(14px) scale(0.98);
@@ -2347,8 +2316,9 @@ main {
   justify-content: space-between;
   gap: 12px;
   padding: 16px 18px;
-  background: linear-gradient(120deg, var(--dark-chocolate), var(--chocolate-deep));
-  color: var(--misty-100);
+  background: var(--light-gray);
+  border-bottom: 1px solid var(--hairline);
+  color: var(--ink);
 }
 
 .chat__title {
@@ -2390,7 +2360,7 @@ main {
 }
 
 .chat__scroll::-webkit-scrollbar-thumb {
-  background: rgba(47, 33, 25, 0.22);
+  background: rgba(10, 10, 10, 0.22);
   border-radius: 9999px;
 }
 
@@ -2410,10 +2380,10 @@ main {
   padding: 11px 14px;
   border-radius: 16px;
   background: #fff;
-  border: 1px solid rgba(47, 33, 25, 0.12);
+  border: 1px solid rgba(10, 10, 10, 0.12);
   font-size: 0.88rem;
   line-height: 1.6;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .chat__bubble p {
@@ -2425,9 +2395,9 @@ main {
 }
 
 .chat__msg--you .chat__bubble {
-  background: var(--misty-100);
-  border-color: rgba(47, 33, 25, 0.16);
-  color: var(--chocolate-ink);
+  background: var(--light-gray);
+  border-color: rgba(10, 10, 10, 0.16);
+  color: var(--ink-deep);
 }
 
 .chat__cakes {
@@ -2444,7 +2414,7 @@ main {
   padding: 8px;
   border-radius: 14px;
   background: #fff;
-  border: 1px solid rgba(47, 33, 25, 0.12);
+  border: 1px solid rgba(10, 10, 10, 0.12);
   color: inherit;
   transition:
     border-color 0.25s ease,
@@ -2452,7 +2422,7 @@ main {
 }
 
 .chat__cake:hover {
-  border-color: var(--sakura);
+  border-color: var(--ink);
   color: inherit;
   transform: translateX(2px);
 }
@@ -2463,7 +2433,7 @@ main {
   height: 48px;
   border-radius: 10px;
   overflow: hidden;
-  background: var(--misty-rose);
+  background: var(--light-gray);
 }
 
 .chat__cake-photo img {
@@ -2483,13 +2453,13 @@ main {
 .chat__cake-name {
   font-size: 0.86rem;
   font-weight: 600;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   line-height: 1.25;
 }
 
 .chat__cake-meta {
   font-size: 0.7rem;
-  color: var(--aloewood);
+  color: var(--gray-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2502,13 +2472,13 @@ main {
 }
 
 .chat__chip {
-  border: 1px solid rgba(47, 33, 25, 0.26);
+  border: 1px solid rgba(10, 10, 10, 0.26);
   background: transparent;
   border-radius: 9999px;
   padding: 7px 13px;
   font-family: inherit;
   font-size: 0.74rem;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   cursor: pointer;
   transition:
     background 0.25s ease,
@@ -2516,32 +2486,32 @@ main {
 }
 
 .chat__chip:hover {
-  background: var(--dark-chocolate);
-  color: var(--misty-100);
+  background: var(--ink);
+  color: var(--light-gray);
 }
 
 .chat__form {
   display: flex;
   gap: 8px;
   padding: 12px;
-  border-top: 1px solid rgba(47, 33, 25, 0.12);
-  background: var(--misty-100);
+  border-top: 1px solid rgba(10, 10, 10, 0.12);
+  background: var(--light-gray);
 }
 
 .chat__input {
   flex: 1;
   min-width: 0;
-  border: 1px solid rgba(47, 33, 25, 0.2);
+  border: 1px solid rgba(10, 10, 10, 0.2);
   border-radius: 9999px;
   padding: 11px 16px;
   font-family: inherit;
   font-size: 0.86rem;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   background: #fff;
 }
 
 .chat__input:focus {
-  outline: 2px solid rgba(68, 48, 37, 0.35);
+  outline: 2px solid rgba(17, 17, 17, 0.35);
   outline-offset: 1px;
 }
 
@@ -2549,8 +2519,8 @@ main {
   border: none;
   border-radius: 9999px;
   padding: 0 18px;
-  background: var(--dark-chocolate);
-  color: var(--misty-100);
+  background: var(--ink);
+  color: var(--light-gray);
   font-family: inherit;
   font-size: 0.78rem;
   font-weight: 600;
@@ -2564,7 +2534,7 @@ main {
 }
 
 .chat__send:hover:not(:disabled) {
-  background: var(--aloewood);
+  background: var(--gray-text);
 }
 
 /* ---------------------------------- order builder ---------------------------------- */
@@ -2575,8 +2545,8 @@ main {
   padding: 7px 14px;
   border: none;
   border-radius: 999px;
-  background: var(--misty-100);
-  color: var(--chocolate-deep);
+  background: var(--light-gray);
+  color: var(--ink-deep);
   font-family: "Inter", sans-serif;
   font-size: 0.66rem;
   font-weight: 600;
@@ -2605,10 +2575,10 @@ main {
 .chat__cake-order {
   flex: 0 0 auto;
   padding: 0 11px;
-  border: 1px solid rgba(47, 33, 25, 0.2);
+  border: 1px solid rgba(10, 10, 10, 0.2);
   border-radius: 14px;
-  background: var(--misty-100);
-  color: var(--dark-chocolate);
+  background: var(--light-gray);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.6rem;
   font-weight: 600;
@@ -2619,8 +2589,8 @@ main {
 }
 
 .chat__cake-order:hover {
-  background: var(--dark-chocolate);
-  color: var(--misty-50);
+  background: var(--ink);
+  color: var(--white);
 }
 
 .builder {
@@ -2641,7 +2611,7 @@ main {
   padding: 0;
   border: none;
   background: none;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
@@ -2649,25 +2619,25 @@ main {
 }
 
 .builder__back:hover {
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .builder__count {
   margin-left: auto;
   font-size: 0.64rem;
   letter-spacing: 0.06em;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .builder__progress {
   height: 3px;
-  background: rgba(47, 33, 25, 0.12);
+  background: rgba(10, 10, 10, 0.12);
 }
 
 .builder__progress span {
   display: block;
   height: 100%;
-  background: var(--dark-chocolate);
+  background: var(--ink);
   transition: width 0.3s ease;
 }
 
@@ -2687,7 +2657,7 @@ main {
 
 .builder__scroll::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background: rgba(47, 33, 25, 0.22);
+  background: rgba(10, 10, 10, 0.22);
 }
 
 .builder__q {
@@ -2695,14 +2665,14 @@ main {
   font-family: "Zilla Slab", serif;
   font-size: 1.16rem;
   font-weight: 700;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .builder__hint {
   margin: 0;
   font-size: 0.7rem;
   line-height: 1.55;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .builder__opts {
@@ -2713,10 +2683,10 @@ main {
 
 .builder__opt {
   padding: 8px 13px;
-  border: 1px solid rgba(47, 33, 25, 0.2);
+  border: 1px solid rgba(10, 10, 10, 0.2);
   border-radius: 999px;
-  background: var(--misty-100);
-  color: var(--dark-chocolate);
+  background: var(--light-gray);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.72rem;
   line-height: 1.3;
@@ -2726,13 +2696,13 @@ main {
 }
 
 .builder__opt:hover {
-  border-color: var(--dark-chocolate);
+  border-color: var(--ink);
 }
 
 .builder__opt.is-on {
-  background: var(--dark-chocolate);
-  border-color: var(--dark-chocolate);
-  color: var(--misty-50);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
 }
 
 .builder__cakes {
@@ -2746,9 +2716,9 @@ main {
   align-items: center;
   gap: 10px;
   padding: 7px;
-  border: 1px solid rgba(47, 33, 25, 0.16);
+  border: 1px solid rgba(10, 10, 10, 0.16);
   border-radius: 14px;
-  background: var(--misty-100);
+  background: var(--light-gray);
   text-align: left;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease;
@@ -2756,7 +2726,7 @@ main {
 
 .builder__cake:hover,
 .builder__cake.is-on {
-  border-color: var(--dark-chocolate);
+  border-color: var(--ink);
   background: #fff;
 }
 
@@ -2766,7 +2736,7 @@ main {
   height: 44px;
   overflow: hidden;
   border-radius: 10px;
-  background: var(--misty-100);
+  background: var(--light-gray);
 }
 
 .builder__cake-photo img {
@@ -2787,12 +2757,12 @@ main {
   font-family: "Zilla Slab", serif;
   font-size: 0.86rem;
   font-weight: 600;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .builder__cake-meta {
   font-size: 0.66rem;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .builder__field {
@@ -2807,7 +2777,7 @@ main {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .builder__field input,
@@ -2815,10 +2785,10 @@ main {
 .builder__message {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid rgba(47, 33, 25, 0.2);
+  border: 1px solid rgba(10, 10, 10, 0.2);
   border-radius: 12px;
   background: #fff;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.78rem;
   line-height: 1.5;
@@ -2829,17 +2799,17 @@ main {
 .builder__field textarea:focus,
 .builder__message:focus {
   outline: none;
-  border-color: var(--dark-chocolate);
+  border-color: var(--ink);
 }
 
 .builder__price {
   margin: 0;
   font-size: 0.76rem;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .builder__price strong {
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .builder__file input {
@@ -2849,10 +2819,10 @@ main {
 .builder__file {
   display: inline-block;
   padding: 9px 14px;
-  border: 1px dashed rgba(47, 33, 25, 0.4);
+  border: 1px dashed rgba(10, 10, 10, 0.4);
   border-radius: 12px;
-  background: var(--misty-100);
-  color: var(--dark-chocolate);
+  background: var(--light-gray);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
@@ -2875,14 +2845,14 @@ main {
   height: 58px;
   object-fit: cover;
   border-radius: 10px;
-  border: 1px solid rgba(47, 33, 25, 0.16);
+  border: 1px solid rgba(10, 10, 10, 0.16);
 }
 
 .builder__ref button {
   padding: 0;
   border: none;
   background: none;
-  color: var(--aloewood);
+  color: var(--gray-text);
   font-family: "Inter", sans-serif;
   font-size: 0.7rem;
   text-decoration: underline;
@@ -2903,7 +2873,7 @@ main {
 .builder__send {
   padding: 11px 18px;
   border-radius: 999px;
-  background: var(--aloewood);
+  background: var(--gray-text);
   color: #fff;
   font-family: "Inter", sans-serif;
   font-size: 0.72rem;
@@ -2914,7 +2884,7 @@ main {
 }
 
 .builder__send:hover {
-  background: var(--aloewood-deep);
+  background: var(--gray-dark);
   color: #fff;
   transform: translateY(-1px);
 }
@@ -2924,15 +2894,15 @@ main {
   justify-content: space-between;
   gap: 8px;
   padding: 10px 14px 14px;
-  border-top: 1px solid rgba(47, 33, 25, 0.12);
+  border-top: 1px solid rgba(10, 10, 10, 0.12);
 }
 
 .builder__ghost {
   padding: 10px 16px;
-  border: 1px solid rgba(47, 33, 25, 0.24);
+  border: 1px solid rgba(10, 10, 10, 0.24);
   border-radius: 999px;
   background: transparent;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
@@ -2941,8 +2911,8 @@ main {
 }
 
 .builder__ghost:hover:not(:disabled) {
-  background: var(--dark-chocolate);
-  color: var(--misty-50);
+  background: var(--ink);
+  color: var(--white);
 }
 
 .builder__ghost:disabled {
@@ -2954,8 +2924,8 @@ main {
   padding: 10px 20px;
   border: none;
   border-radius: 999px;
-  background: var(--dark-chocolate);
-  color: var(--misty-50);
+  background: var(--ink);
+  color: var(--white);
   font-family: "Inter", sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
@@ -2964,7 +2934,7 @@ main {
 }
 
 .builder__next:hover {
-  background: var(--aloewood);
+  background: var(--gray-text);
 }
 
 /* On a phone the panel takes the screen rather than floating over a sliver. */
@@ -3044,9 +3014,9 @@ main {
   width: min(440px, calc(100vw - 32px));
   padding: 18px 20px 14px;
   border-radius: 18px;
-  background: var(--misty-50);
-  border: 1px solid rgba(47, 33, 25, 0.16);
-  box-shadow: 0 24px 52px rgba(47, 33, 25, 0.22);
+  background: var(--white);
+  border: 1px solid rgba(10, 10, 10, 0.16);
+  box-shadow: 0 24px 52px rgba(10, 10, 10, 0.22);
   opacity: 0;
   visibility: hidden;
   transform: translate(-50%, -8px);
@@ -3084,23 +3054,23 @@ main {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   transition: background 0.18s ease, color 0.18s ease;
 }
 
 .nav__menu-link:hover {
-  background: var(--misty-rose);
-  color: var(--aloewood);
+  background: var(--light-gray);
+  color: var(--gray-text);
 }
 
 .nav__menu-note {
   margin: 12px 0 0;
   padding-top: 10px;
-  border-top: 1px solid rgba(47, 33, 25, 0.12);
+  border-top: 1px solid rgba(10, 10, 10, 0.12);
   font-size: 0.64rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--aloewood);
+  color: var(--gray-text);
   text-align: center;
 }
 
@@ -3119,11 +3089,11 @@ main {
   margin: 0;
   padding: 12px 14px;
   border-radius: 12px;
-  background: rgba(127, 88, 54, 0.08);
-  border: 1px solid rgba(127, 88, 54, 0.2);
+  background: rgba(85, 85, 85, 0.08);
+  border: 1px solid rgba(85, 85, 85, 0.2);
   font-size: 0.72rem;
   line-height: 1.55;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 /* ---------------------------------- shelf page ---------------------------------- */
@@ -3137,7 +3107,7 @@ main {
 .shop__crumbs {
   margin: 0 0 14px;
   font-size: 0.72rem;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .shop__crumbs span {
@@ -3145,7 +3115,7 @@ main {
 }
 
 .shop__crumbs strong {
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .shop__heading {
@@ -3153,7 +3123,7 @@ main {
   font-family: "Zilla Slab", serif;
   font-size: clamp(2.1rem, 4.6vw, 3.4rem);
   font-weight: 700;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .shop__blurb {
@@ -3161,7 +3131,7 @@ main {
   margin: 10px 0 0;
   font-size: 0.9rem;
   line-height: 1.7;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .shop {
@@ -3191,7 +3161,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .shop__filter-list,
@@ -3204,21 +3174,21 @@ main {
   gap: 8px;
   font-size: 0.78rem;
   line-height: 1.5;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .shop__nav a {
   display: block;
   padding: 3px 0 3px 12px;
   border-left: 2px solid transparent;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   transition: color 0.18s ease, border-color 0.18s ease;
 }
 
 .shop__nav a:hover,
 .shop__nav a.is-on {
-  color: var(--dark-chocolate);
-  border-left-color: var(--dark-chocolate);
+  color: var(--ink);
+  border-left-color: var(--ink);
   font-weight: 600;
 }
 
@@ -3226,7 +3196,7 @@ main {
   margin: 10px 0 0;
   font-size: 0.68rem;
   line-height: 1.5;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .shop__grid {
@@ -3241,20 +3211,20 @@ main {
   flex-direction: column;
   border-radius: 18px;
   overflow: hidden;
-  background: var(--misty-50);
-  border: 1px solid rgba(47, 33, 25, 0.12);
+  background: var(--white);
+  border: 1px solid rgba(10, 10, 10, 0.12);
   transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .shop-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(47, 33, 25, 0.3);
-  box-shadow: 0 18px 38px rgba(68, 48, 37, 0.16);
+  border-color: rgba(10, 10, 10, 0.3);
+  box-shadow: 0 18px 38px rgba(17, 17, 17, 0.16);
 }
 
 .shop-card__photo {
   aspect-ratio: 1 / 1;
-  background: var(--misty-100);
+  background: var(--light-gray);
 }
 
 .shop-card__photo img,
@@ -3282,14 +3252,14 @@ main {
   font-family: "Zilla Slab", serif;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .shop-card__blurb {
   margin: 0;
   font-size: 0.74rem;
   line-height: 1.55;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .shop-card__cta {
@@ -3299,7 +3269,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 /* ---------------------------------- one variety ---------------------------------- */
@@ -3327,8 +3297,8 @@ main {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 22px;
-  background: var(--misty-100);
-  border: 1px solid rgba(47, 33, 25, 0.12);
+  background: var(--light-gray);
+  border: 1px solid rgba(10, 10, 10, 0.12);
 }
 
 .item__photo img,
@@ -3354,7 +3324,7 @@ main {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .item__name {
@@ -3363,14 +3333,14 @@ main {
   font-size: clamp(1.8rem, 3.6vw, 2.6rem);
   font-weight: 700;
   line-height: 1.1;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .item__price {
   margin: 0;
   font-size: 0.82rem;
   font-style: italic;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .item__field {
@@ -3398,7 +3368,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .item__opts {
@@ -3409,10 +3379,10 @@ main {
 
 .item__opt {
   padding: 9px 14px;
-  border: 1px solid rgba(47, 33, 25, 0.22);
+  border: 1px solid rgba(10, 10, 10, 0.22);
   border-radius: 999px;
-  background: var(--misty-50);
-  color: var(--dark-chocolate);
+  background: var(--white);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.74rem;
   cursor: pointer;
@@ -3420,13 +3390,13 @@ main {
 }
 
 .item__opt:hover {
-  border-color: var(--dark-chocolate);
+  border-color: var(--ink);
 }
 
 .item__opt.is-on {
-  background: var(--dark-chocolate);
-  border-color: var(--dark-chocolate);
-  color: var(--misty-50);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
 }
 
 .item__qty {
@@ -3434,10 +3404,10 @@ main {
   align-items: center;
   gap: 2px;
   align-self: flex-start;
-  border: 1px solid rgba(47, 33, 25, 0.22);
+  border: 1px solid rgba(10, 10, 10, 0.22);
   border-radius: 999px;
   overflow: hidden;
-  background: var(--misty-50);
+  background: var(--white);
 }
 
 .item__qty button {
@@ -3445,14 +3415,14 @@ main {
   height: 42px;
   border: none;
   background: none;
-  color: var(--dark-chocolate);
+  color: var(--ink);
   font-size: 1.15rem;
   cursor: pointer;
   transition: background 0.18s ease;
 }
 
 .item__qty button:hover:not(:disabled) {
-  background: var(--misty-rose);
+  background: var(--light-gray);
 }
 
 .item__qty button:disabled {
@@ -3464,19 +3434,19 @@ main {
   width: 72px;
   height: 42px;
   border: none;
-  border-left: 1px solid rgba(47, 33, 25, 0.14);
-  border-right: 1px solid rgba(47, 33, 25, 0.14);
+  border-left: 1px solid rgba(10, 10, 10, 0.14);
+  border-right: 1px solid rgba(10, 10, 10, 0.14);
   background: none;
   text-align: center;
   font-family: "Inter", sans-serif;
   font-size: 0.86rem;
   font-weight: 600;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .item__qty input:focus {
   outline: none;
-  background: var(--misty-100);
+  background: var(--light-gray);
 }
 
 .item__field input[type="date"],
@@ -3486,10 +3456,10 @@ main {
 .item__sub select {
   width: 100%;
   padding: 11px 13px;
-  border: 1px solid rgba(47, 33, 25, 0.2);
+  border: 1px solid rgba(10, 10, 10, 0.2);
   border-radius: 12px;
-  background: var(--misty-50);
-  color: var(--dark-chocolate);
+  background: var(--white);
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 0.8rem;
   resize: vertical;
@@ -3499,14 +3469,14 @@ main {
 .item__sub input:focus,
 .item__sub select:focus {
   outline: none;
-  border-color: var(--dark-chocolate);
+  border-color: var(--ink);
 }
 
 .item__hint {
   margin: 0;
   font-size: 0.72rem;
   line-height: 1.55;
-  color: var(--aloewood);
+  color: var(--gray-text);
 }
 
 .item__order {
@@ -3514,7 +3484,7 @@ main {
   margin-top: 4px;
   padding: 14px 28px;
   border-radius: 999px;
-  background: var(--aloewood);
+  background: var(--gray-text);
   color: #fff;
   font-family: "Inter", sans-serif;
   font-size: 0.76rem;
@@ -3525,7 +3495,7 @@ main {
 }
 
 .item__order:hover {
-  background: var(--aloewood-deep);
+  background: var(--gray-dark);
   color: #fff;
   transform: translateY(-1px);
 }
@@ -3545,7 +3515,7 @@ main {
   border: none;
   border-bottom: 2px solid transparent;
   background: none;
-  color: var(--aloewood);
+  color: var(--gray-text);
   font-family: "Inter", sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
@@ -3556,12 +3526,12 @@ main {
 }
 
 .item__tab:hover {
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .item__tab.is-on {
-  color: var(--dark-chocolate);
-  border-bottom-color: var(--dark-chocolate);
+  color: var(--ink);
+  border-bottom-color: var(--ink);
 }
 
 .item__tab-body {
@@ -3569,7 +3539,7 @@ main {
   max-width: 720px;
   font-size: 0.86rem;
   line-height: 1.75;
-  color: var(--dark-chocolate);
+  color: var(--ink);
 }
 
 .item__tab-body p {
@@ -3657,9 +3627,9 @@ main {
     overscroll-behavior: contain;
     padding: 8px;
     border-radius: 22px;
-    background: var(--misty-50);
-    border: 1px solid rgba(68, 48, 37, 0.2);
-    box-shadow: 0 18px 44px rgba(68, 48, 37, 0.18);
+    background: var(--white);
+    border: 1px solid rgba(17, 17, 17, 0.2);
+    box-shadow: 0 18px 44px rgba(17, 17, 17, 0.18);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -3732,7 +3702,7 @@ main {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
     padding-left: 12px;
-    border-left: 1px solid rgba(47, 33, 25, 0.16);
+    border-left: 1px solid rgba(10, 10, 10, 0.16);
     margin-left: 14px;
   }
 
