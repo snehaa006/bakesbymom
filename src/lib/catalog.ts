@@ -117,11 +117,40 @@ export function deleteCake(id: string) {
 }
 
 // Photos ---------------------------------------------------------------------
+/** Longest edge a stored photo keeps — plenty for the cake page's hero shot. */
+const MAX_PHOTO_EDGE = 1600;
+
+/**
+ * Phone photos arrive as multi-megabyte PNGs, and every one of those bytes is
+ * then paid again by each visitor. Redraw anything big as a WebP no wider than
+ * MAX_PHOTO_EDGE before it goes up; small files and GIFs (which may animate)
+ * are sent as they are, and so is anything the browser cannot re-encode.
+ */
+async function shrinkPhoto(file: File): Promise<File> {
+  if (file.type === "image/gif" || file.size < 300 * 1024) return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, MAX_PHOTO_EDGE / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, "image/webp", 0.85),
+    );
+    if (!blob || blob.type !== "image/webp" || blob.size >= file.size) return file;
+    return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".webp", { type: "image/webp" });
+  } catch {
+    return file;
+  }
+}
+
 /** Upload an image to R2 and return the URL it is served from. */
 export async function uploadPhoto(cakeId: string, file: File): Promise<string> {
   const form = new FormData();
   form.append("cakeId", cakeId);
-  form.append("file", file);
+  form.append("file", await shrinkPhoto(file));
   const { url } = await apiUpload<{ url: string }>("/photos", form);
   return url;
 }

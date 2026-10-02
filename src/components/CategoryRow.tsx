@@ -1,29 +1,43 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { CategoryWithCakes } from "../lib/catalog";
-import { formatPrice } from "../lib/format";
-import { resolvePhotoUrl } from "../lib/api";
-import { ArrowIcon } from "./icons";
+import { resolveThumbUrl } from "../lib/api";
 
-/** The strip under each photo, in the slot the reference uses for a pickup rule. */
-function sizeLabel(weightKg: number): string {
-  if (!weightKg) return "MADE TO ORDER";
-  if (weightKg >= 2) return `${weightKg} KG · TIERED`;
-  if (weightKg < 1) return `${weightKg} KG · SMALL`;
-  return `${weightKg} KG · SERVES 8–10`;
+/** The plain chevron the reference puts in its round carousel buttons. */
+function Chevron({ flip = false }: { flip?: boolean }) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      style={flip ? { transform: "scaleX(-1)" } : undefined}
+    >
+      <path d="M9 5l7 7-7 7" />
+    </svg>
+  );
 }
 
 interface CategoryRowProps {
   category: CategoryWithCakes;
-  /** Rotates the band tint so no two neighbouring categories share a colour. */
+  /** Alternates the band between the tinted and the plain ground. */
   tone: string;
+  /** The first band is on screen at load, so its photos skip lazy-loading. */
+  eager?: boolean;
 }
 
 /**
- * One category as a band: its name centred above the row, a View more toggle,
- * arrows on the right, and the cakes running off the edge of the screen.
+ * One category as a band, laid out the way Magnolia Bakery sets its "Treats
+ * for any Occasion" and "Our Products" rows: a big centred heading, a line of
+ * copy, an underlined VIEW MORE, round arrows parked on the right in line with
+ * it, and a row of tall photo tiles with just the name underneath.
  */
-export function CategoryRow({ category, tone }: CategoryRowProps) {
+export function CategoryRow({ category, tone, eager = false }: CategoryRowProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [expanded, setExpanded] = useState(false);
   const [atStart, setAtStart] = useState(true);
@@ -51,17 +65,16 @@ export function CategoryRow({ category, tone }: CategoryRowProps) {
   function scrollBy(direction: 1 | -1) {
     const track = trackRef.current;
     if (!track) return;
-    // One card plus its gap, so a click always lands the next card in place.
-    const card = track.querySelector<HTMLElement>(".cake-card");
-    const step = card ? card.offsetWidth + 24 : track.clientWidth * 0.8;
+    // One tile plus its gap, so a click always lands the next tile in place.
+    const tile = track.querySelector<HTMLElement>(".cake-tile");
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    const step = tile ? tile.offsetWidth + gap : track.clientWidth * 0.8;
     track.scrollBy({ left: step * direction, behavior: "smooth" });
   }
 
   const cakes = category.cakes;
-  // The arrows belong to every real shelf, greyed out at whichever end the row
-  // is already against — on a narrow window even two cakes need them.
-  const showArrows = cakes.length > 1 && !expanded;
-  // The grid toggle only earns its place when there is something off-screen to
+  const showArrows = overflows && !expanded;
+  // VIEW MORE only earns its place when there is something off-screen to
   // reveal, or something expanded to fold back up.
   const showMore = overflows || expanded;
 
@@ -72,39 +85,41 @@ export function CategoryRow({ category, tone }: CategoryRowProps) {
           <h2 className="band__title">{category.name}</h2>
           {category.description && <p className="band__desc">{category.description}</p>}
 
-          {showMore && (
-            <button
-              type="button"
-              className="band__more"
-              onClick={() => setExpanded((v) => !v)}
-              aria-expanded={expanded}
-            >
-              {expanded ? "Show less" : "View more"}
-            </button>
-          )}
+          <div className="band__controls">
+            {showMore && (
+              <button
+                type="button"
+                className="band__more"
+                onClick={() => setExpanded((v) => !v)}
+                aria-expanded={expanded}
+              >
+                {expanded ? "Show less" : "View more"}
+              </button>
+            )}
 
-          {showArrows && (
-            <div className="band__arrows">
-              <button
-                type="button"
-                className="band__arrow band__arrow--prev"
-                onClick={() => scrollBy(-1)}
-                disabled={atStart}
-                aria-label={`Previous ${category.name} cakes`}
-              >
-                <ArrowIcon size={17} />
-              </button>
-              <button
-                type="button"
-                className="band__arrow"
-                onClick={() => scrollBy(1)}
-                disabled={atEnd}
-                aria-label={`More ${category.name} cakes`}
-              >
-                <ArrowIcon size={17} />
-              </button>
-            </div>
-          )}
+            {showArrows && (
+              <div className="band__arrows">
+                <button
+                  type="button"
+                  className="band__arrow"
+                  onClick={() => scrollBy(-1)}
+                  disabled={atStart}
+                  aria-label={`Previous ${category.name} cakes`}
+                >
+                  <Chevron flip />
+                </button>
+                <button
+                  type="button"
+                  className="band__arrow"
+                  onClick={() => scrollBy(1)}
+                  disabled={atEnd}
+                  aria-label={`More ${category.name} cakes`}
+                >
+                  <Chevron />
+                </button>
+              </div>
+            )}
+          </div>
         </header>
 
         {cakes.length === 0 ? (
@@ -117,21 +132,24 @@ export function CategoryRow({ category, tone }: CategoryRowProps) {
               expanded ? "band__track--grid" : overflows ? "" : "band__track--fits"
             }`.trim()}
           >
-            {cakes.map((cake) => (
-              <Link key={cake.id} to={`/catalog/${cake.id}`} className="cake-card">
-                <div className="cake-card__photo">
+            {cakes.map((cake, index) => (
+              <Link key={cake.id} to={`/catalog/${cake.id}`} className="cake-tile">
+                <div className="cake-tile__photo">
                   {cake.cover_url ? (
-                    <img src={resolvePhotoUrl(cake.cover_url)} alt={cake.name} loading="lazy" />
+                    <img
+                      src={resolveThumbUrl(cake.cover_url)}
+                      alt={cake.name}
+                      width={500}
+                      height={600}
+                      decoding="async"
+                      loading={eager && index < 5 ? "eager" : "lazy"}
+                      {...(eager && index < 5 ? { fetchpriority: "high" } : {})}
+                    />
                   ) : (
-                    <div className="cake-card__placeholder">Photo coming soon</div>
+                    <div className="cake-tile__placeholder">Photo coming soon</div>
                   )}
                 </div>
-                <div className="cake-card__tag">{sizeLabel(cake.weight_kg)}</div>
-                <div className="cake-card__body">
-                  <h3 className="cake-card__title">{cake.name}</h3>
-                  {cake.description && <p className="cake-card__desc">{cake.description}</p>}
-                  <p className="cake-card__price">Starting at {formatPrice(cake.fixed_price)}</p>
-                </div>
+                <h3 className="cake-tile__title">{cake.name}</h3>
               </Link>
             ))}
           </div>

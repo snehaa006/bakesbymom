@@ -4,6 +4,8 @@
  * bucket; the browser never talks to either directly.
  */
 
+import { THUMBNAILED } from "./thumbs";
+
 // Same-origin "/api" is right when the SPA is served by the Worker itself.
 // Set VITE_API_BASE_URL only when the frontend is hosted elsewhere and has to
 // reach the Worker cross-origin (see .env.example).
@@ -105,4 +107,15 @@ export function resolvePhotoUrl(url: string): string {
   if (/^(https?:)?\/\//i.test(url) || url.startsWith("data:")) return url;
   const path = url.startsWith("/api/") ? url.slice("/api".length) : url;
   return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+/**
+ * The small 500 × 600 WebP a shelf tile shows, when scripts/make-thumbs.mjs has
+ * built one for this photo — a few dozen KB instead of the 1–2 MB phone PNG in
+ * R2. Anything without a thumbnail yet falls back to the full photo.
+ */
+export function resolveThumbUrl(url: string): string {
+  const name = url.slice(url.lastIndexOf("/") + 1);
+  if (THUMBNAILED.has(name)) return `/photos/thumbs/${name.replace(/\.[^.]+$/, "")}.webp`;
+  return resolvePhotoUrl(url);
 }
