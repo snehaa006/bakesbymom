@@ -6,7 +6,6 @@ import { About } from "./components/About";
 import { Products } from "./components/Products";
 import { Ritual } from "./components/Ritual";
 import { Showcase } from "./components/Showcase";
-import { HowToOrder } from "./components/HowToOrder";
 import { RotatingBadge } from "./components/RotatingBadge";
 import { Reviews } from "./components/Reviews";
 import { Footer } from "./components/Footer";
@@ -43,7 +42,6 @@ export function Landing() {
         <About />
         <Ritual />
         <Reviews />
-        <HowToOrder />
       </main>
 
       <Footer />
