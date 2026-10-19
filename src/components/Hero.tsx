@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
 import { AuntyScene } from "./AuntyScene";
 import { ArrowIcon } from "./icons";
@@ -27,10 +26,15 @@ export function Hero() {
             A home bakery in Panipat baking cakes, brownies, cookies, cupcakes and breads — fresh to order.
           </p>
           <div className="hero__actions">
-            <Link to="/catalog" className="btn hero__cta">
+            <a
+              href="https://www.instagram.com/bakesbymom_/"
+              target="_blank"
+              rel="noreferrer"
+              className="btn hero__cta"
+            >
               <span>See this week's bakes</span>
               <ArrowIcon size={17} />
-            </Link>
+            </a>
           </div>
         </Reveal>
 
